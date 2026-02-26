@@ -9,7 +9,7 @@ export type TSubscription = {
   gamemasters: Pick<TUser, 'id'>[];
 };
 
-export type TSucRegAccFB = {
+export type TSucAuthFB = {
   user: TUser;
   accessToken: string;
 };

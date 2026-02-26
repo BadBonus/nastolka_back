@@ -5,24 +5,28 @@ import {
   BadRequestException
 } from '@nestjs/common';
 import { PrismaService } from './../../src/prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto, LoginDto } from './dto/register.dto';
-import type { TSucRegAccFB } from './../shared/types';
+import type { TSucAuthFB } from '@/shared/types';
 import type { User } from '@pGenTypes';
 import { Prisma } from '@pGen/client';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import slugify from 'slugify';
+import {WEEK_IN_MS} from "@/utils/vars";
+
+type TSucAuthFBWithRefresh = TSucAuthFB & { refreshToken: string };
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private configService: ConfigService
   ) {}
 
-  async login(dto: LoginDto) {
-    // 1. Ищем аккаунт через наш составной индекс provider_idx
+  async login(dto: LoginDto): Promise<TSucAuthFBWithRefresh> {
     const account = await this.prisma.account.findUnique({
       where: {
         provider_idx: {
@@ -30,29 +34,48 @@ export class AuthService {
           providerAccountId: dto.email,
         },
       },
-      include: { user: true }, // Подтягиваем данные юзера
+      include: { user: true },
     });
 
     if (!account || !account.passwordHash) {
       throw new UnauthorizedException('Неверный логин или пароль');
     }
 
-    // 2. Проверяем пароль
-    const isPasswordValid = await bcrypt.compare(
-      dto.password,
+    const isPasswordValid = await argon2.verify(
       account.passwordHash,
+      dto.password,
     );
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Неверный логин или пароль');
     }
 
-    // 3. Возвращаем пользователя (без пароля)
-    const userWithoutPassword = account.user;
-    return userWithoutPassword;
+    const user = account.user;
+
+    return await this.prisma.$transaction(async (tx) => {
+      const {accessToken, refreshToken} = await this.generateTokens(user.id, user.email);
+
+      await tx.session.create({
+        data: {
+          userId: user.id,
+          refreshToken: refreshToken,
+          expiresAt: new Date(Date.now() + WEEK_IN_MS), 
+        },
+      });
+      
+      return {
+        user: {
+          id: user.id,
+          nickname: user.nickname,
+          email: user.email,
+        },
+        accessToken,
+        refreshToken, // Контроллер заберет его и положит в куки
+      } as TSucAuthFBWithRefresh;
+    }) as TSucAuthFBWithRefresh;
   }
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto): Promise<TSucAuthFBWithRefresh> {
     const { email, password, nickname } = dto;
 
     try {
@@ -82,18 +105,13 @@ export class AuthService {
           },
         });
 
-        const accessToken = await this.jwtService.signAsync({ sub: newUser.id });
-        const refreshToken = await this.jwtService.signAsync(
-          { sub: newUser.id },
-          { expiresIn: '7d' }, // Например, 7 дней для refresh
-        );
+        const {accessToken, refreshToken} = await this.generateTokens(newUser.id, email);
 
-        // 6. Сохраняем сессию
         await tx.session.create({
           data: {
             userId: newUser.id,
             refreshToken: refreshToken,
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Совпадает с expiresIn
+            expiresAt: new Date(Date.now() + WEEK_IN_MS),
           },
         });
 
@@ -102,6 +120,7 @@ export class AuthService {
             id: newUser.id,
             nickname: newUser.nickname,
             email: newUser.email,
+            slug: newUser.slug,
           },
           accessToken,
           refreshToken, // Возвращаем для контроллера, чтобы он поставил куку
@@ -133,4 +152,15 @@ export class AuthService {
     const maxNumber = Math.max(...usedNumbers, 0);
     return `${baseSlug}-${maxNumber + 1}`;
   }
+
+  private async generateTokens(userId: number, email: string) {
+  const payload = { sub: userId, email };
+  
+  const [accessToken, refreshToken] = await Promise.all([
+    this.jwtService.signAsync(payload, { expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRES_IN') }),
+    this.jwtService.signAsync({ sub: userId }, { expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRES_IN') }),
+  ]);
+
+  return { accessToken, refreshToken };
+}
 }
