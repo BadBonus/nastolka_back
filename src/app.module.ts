@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { DrizzleModule } from '@/drizzle/drizzle.module';
-import { AuthModule } from '@/auth/auth.module';
+import { AuthModule } from './auth/auth.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [DrizzleModule, AuthModule],
+  imports: [AuthModule, PrismaModule],
 })
 export class AppModule {}

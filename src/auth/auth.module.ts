@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import {PrismaService} from '../prisma/prisma.service';
 
 const AVERAGE_EXPIRATION_TIME = '15m';
 
@@ -14,7 +15,7 @@ const AVERAGE_EXPIRATION_TIME = '15m';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, PrismaService],
   exports: [AuthService],
 })
 export class AuthModule {}

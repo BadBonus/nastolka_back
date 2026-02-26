@@ -12,22 +12,22 @@ export class AppController {
   }
 }
 
-@Controller('cats')
-export class CatsController {
-  @Get()
-  findAll(@Req() request: Request): string {
-    console.log(request);
-    return 'This action returns all cats';
-  }
+// @Controller('cats')
+// export class CatsController {
+//   @Get()
+//   findAll(@Req() request: Request): string {
+//     console.log(request);
+//     return 'This action returns all cats';
+//   }
 
-  @Get('meow')
-  mew(): string {
-    return 'meowmeowmeowmeow';
-  }
+//   @Get('meow')
+//   mew(): string {
+//     return 'meowmeowmeowmeow';
+//   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
-    console.log(id);
-    return `This action returns a #${id} cat`;
-  }
-}
+//   @Get(':id')
+//   findOne(@Param('id') id: string): string {
+//     console.log(id);
+//     return `This action returns a #${id} cat`;
+//   }
+// }

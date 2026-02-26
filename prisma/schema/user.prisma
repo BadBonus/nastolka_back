@@ -1,0 +1,26 @@
+model User {
+  id           Int       @id @default(autoincrement())
+  fullName     String?   @map("full_name")
+  nickname     String
+  email        String    @unique
+  description  String?
+  birthdate    DateTime?
+  slug         String    @unique @db.VarChar(256)
+  avatar       String?   @map("avatar_url")
+  sub          Json      @default("{\"events\": [], \"gamemasters\": []}")
+  timezone     String?   @default("UTC") @db.VarChar(100)
+  soclinks     Json?
+  gameHistory  Json      @default("[]")
+  accounts     Account[] 
+  sessions     Session[]
+  @@map("users")
+}
+
+enum ESocLinks {
+  VK
+  TELEGRAM
+  DISCORD
+  INSTAGRAM
+  X
+  REDDIT
+}

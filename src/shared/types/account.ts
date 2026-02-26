@@ -1,4 +1,15 @@
+import type { TUser } from './index';
 export enum EAccProviders {
-  emeail = 'email',
+  email = 'email',
   google = 'google',
 }
+
+export type TSubscription = {
+  events: Pick<TUser, 'id'>[];
+  gamemasters: Pick<TUser, 'id'>[];
+};
+
+export type TSucRegAccFB = {
+  user: TUser;
+  accessToken: string;
+};

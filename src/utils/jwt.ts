@@ -6,10 +6,7 @@ export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
   async generateAccessToken(userId: number) {
-    return this.jwtService.signAsync(
-      { userId },
-      { expiresIn: '15m' },
-    );
+    return this.jwtService.signAsync({ userId }, { expiresIn: '15m' });
   }
 
   // Генерируем Refresh Token
@@ -22,7 +19,7 @@ export class AuthService {
     try {
       const payload = await this.jwtService.verifyAsync(token);
       return payload as { userId: number };
-    } catch (err:) {
+    } catch (err) {
       // Вместо null в NestJS принято выбрасывать исключения,
       // но если тебе удобнее null — оставляем так
       return null;
