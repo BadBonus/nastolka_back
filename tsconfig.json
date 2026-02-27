@@ -27,7 +27,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@pGenTypes": ["src/shared/prisma/generated/browser.ts"],
-      "@pGen/*": ["src/shared/prisma/generated/*"]
+      "@pGen/*": ["src/shared/prisma/generated/*"],
+      "@shared/*": ["src/shared/*"]
     }
   }
 }
