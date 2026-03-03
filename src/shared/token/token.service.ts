@@ -6,17 +6,34 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TokenService {
-  constructor(private readonly jwtService: JwtService, private configService: ConfigService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   async generateAccessToken(userId: number): Promise<string> {
-    return this.jwtService.signAsync({ userId }, { expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRES_IN') });
+    return this.jwtService.signAsync(
+      { userId },
+      {
+        secret: this.configService.getOrThrow<string>('JWT_SECRET'),
+        expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRES_IN'),
+      },
+    );
   }
 
   async generateRefreshToken(userId: number): Promise<string> {
-    return this.jwtService.signAsync({ userId }, { expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRES_IN') });
+    return this.jwtService.signAsync(
+      { userId },
+      {
+        secret: this.configService.getOrThrow<string>('JWT_SECRET'),
+        expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRES_IN'),
+      },
+    );
   }
 
-  async generateTokens(userId: number): Promise<{ accessToken: string; refreshToken: string }> {
+  async generateTokens(
+    userId: number,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     return await Promise.all([
       this.generateAccessToken(userId),
       this.generateRefreshToken(userId),
@@ -25,14 +42,18 @@ export class TokenService {
 
   async verifyToken(token: string) {
     try {
-      return await this.jwtService.verifyAsync(token) as { userId: number };
+      const fb = await this.jwtService.verifyAsync(token, {
+        secret: this.configService.getOrThrow<string>('JWT_SECRET'),
+      });
+      return fb as { userId: number };
     } catch (err: unknown) {
+      if (err instanceof TokenExpiredError)
+        throw new UnauthorizedException('Срок действия токена истек');
 
-    if (err instanceof TokenExpiredError) throw new UnauthorizedException('Срок действия токена истек');
-    
-    if (err instanceof JsonWebTokenError) throw new UnauthorizedException('Невалидный токен');
+      if (err instanceof JsonWebTokenError)
+        throw new UnauthorizedException('Невалидный токен');
 
-    throw new UnauthorizedException('Ошибка при проверке токена');
+      throw new UnauthorizedException('Ошибка при проверке токена');
     }
   }
 }

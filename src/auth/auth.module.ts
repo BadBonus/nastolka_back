@@ -4,21 +4,31 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TokenModule } from '@/shared/token/token.module';
 import { SessionModule } from '@/shared/session/session.module';
-
-const AVERAGE_EXPIRATION_TIME = '15m';
-
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TokenService } from '@/shared/token/token.service';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard';
+import { JwtStrategy } from './jwt/jwt.strategy';
 @Module({
   imports: [
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET || 'fallback_secret',
-      signOptions: { expiresIn: AVERAGE_EXPIRATION_TIME },
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: configService.getOrThrow<string>(
+            'ACCESS_TOKEN_EXPIRES_IN',
+          ) as any,
+        },
+      }),
     }),
     TokenModule,
-    SessionModule
+    SessionModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
-  exports: [AuthService],
+  providers: [AuthService, TokenService, JwtStrategy, JwtAuthGuard],
+  exports: [AuthService, JwtAuthGuard],
 })
 export class AuthModule {}
