@@ -13,6 +13,7 @@ model User {
   gameHistory  Json      @default("[]")
   accounts     Account[] 
   sessions     Session[]
+  isVerified   Boolean   @default(false) @map("is_verified")
   @@map("users")
 }
 

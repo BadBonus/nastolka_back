@@ -46,6 +46,7 @@ export type UserMinAggregateOutputType = {
   slug: string | null
   avatar: string | null
   timezone: string | null
+  isVerified: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type UserMaxAggregateOutputType = {
   slug: string | null
   avatar: string | null
   timezone: string | null
+  isVerified: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -73,6 +75,7 @@ export type UserCountAggregateOutputType = {
   timezone: number
   soclinks: number
   gameHistory: number
+  isVerified: number
   _all: number
 }
 
@@ -95,6 +98,7 @@ export type UserMinAggregateInputType = {
   slug?: true
   avatar?: true
   timezone?: true
+  isVerified?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -107,6 +111,7 @@ export type UserMaxAggregateInputType = {
   slug?: true
   avatar?: true
   timezone?: true
+  isVerified?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -122,6 +127,7 @@ export type UserCountAggregateInputType = {
   timezone?: true
   soclinks?: true
   gameHistory?: true
+  isVerified?: true
   _all?: true
 }
 
@@ -224,6 +230,7 @@ export type UserGroupByOutputType = {
   timezone: string | null
   soclinks:unknown | null
   gameHistory:unknown
+  isVerified: boolean
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -262,6 +269,7 @@ export type UserWhereInput = {
   timezone?: Prisma.StringNullableFilter<"User"> | string | null
   soclinks?: Prisma.JsonNullableFilter<"User">
   gameHistory?: Prisma.JsonFilter<"User">
+  isVerified?: Prisma.BoolFilter<"User"> | boolean
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
 }
@@ -279,6 +287,7 @@ export type UserOrderByWithRelationInput = {
   timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
 }
@@ -299,6 +308,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   timezone?: Prisma.StringNullableFilter<"User"> | string | null
   soclinks?: Prisma.JsonNullableFilter<"User">
   gameHistory?: Prisma.JsonFilter<"User">
+  isVerified?: Prisma.BoolFilter<"User"> | boolean
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
 }, "id" | "email" | "slug">
@@ -316,6 +326,7 @@ export type UserOrderByWithAggregationInput = {
   timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -339,6 +350,7 @@ export type UserScalarWhereWithAggregatesInput = {
   timezone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   soclinks?: Prisma.JsonNullableWithAggregatesFilter<"User">
   gameHistory?: Prisma.JsonWithAggregatesFilter<"User">
+  isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
@@ -353,6 +365,7 @@ export type UserCreateInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
@@ -370,6 +383,7 @@ export type UserUncheckedCreateInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -386,6 +400,7 @@ export type UserUpdateInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
@@ -403,6 +418,7 @@ export type UserUncheckedUpdateInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -420,6 +436,7 @@ export type UserCreateManyInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
@@ -434,6 +451,7 @@ export type UserUpdateManyMutationInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -449,6 +467,7 @@ export type UserUncheckedUpdateManyInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserScalarRelationFilter = {
@@ -469,6 +488,7 @@ export type UserCountOrderByAggregateInput = {
   timezone?: Prisma.SortOrder
   soclinks?: Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -485,6 +505,7 @@ export type UserMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -497,6 +518,7 @@ export type UserMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -535,6 +557,10 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type UserCreateWithoutAccountsInput = {
   fullName?: string | null
   nickname: string
@@ -547,6 +573,7 @@ export type UserCreateWithoutAccountsInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -563,6 +590,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -594,6 +622,7 @@ export type UserUpdateWithoutAccountsInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -610,6 +639,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -625,6 +655,7 @@ export type UserCreateWithoutSessionsInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
 }
 
@@ -641,6 +672,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: boolean
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -672,6 +704,7 @@ export type UserUpdateWithoutSessionsInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
 }
 
@@ -688,6 +721,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -744,6 +778,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  isVerified?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -762,6 +797,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  isVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -777,6 +813,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  isVerified?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -792,9 +829,10 @@ export type UserSelectScalar = {
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  isVerified?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "nickname" | "email" | "description" | "birthdate" | "slug" | "avatar" | "sub" | "timezone" | "soclinks" | "gameHistory", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "nickname" | "email" | "description" | "birthdate" | "slug" | "avatar" | "sub" | "timezone" | "soclinks" | "gameHistory" | "isVerified", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -822,6 +860,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     timezone: string | null
     soclinks:unknown | null
     gameHistory:unknown
+    isVerified: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1259,6 +1298,7 @@ export interface UserFieldRefs {
   readonly timezone: Prisma.FieldRef<"User", 'String'>
   readonly soclinks: Prisma.FieldRef<"User", 'Json'>
   readonly gameHistory: Prisma.FieldRef<"User", 'Json'>
+  readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 

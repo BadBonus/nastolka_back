@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto } from './dto/register.dto';
+import { LoginDto, RegisterDto, VerifyEmailDto } from './dto/auth.dto';
 import { WEEK_IN_MS } from '@/utils/vars';
 import type { TSucAuthFB } from '@/shared/types';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
@@ -47,9 +47,26 @@ export class AuthController {
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     await this.authService.register(dto);
-
-    // NOTE: тут еще додумать логику регистрации, с последующей механикой подтверждения почты и т.д.
     return { message: 'Регистрация прошла успешно' };
+  }
+
+  @Post('verify-email')
+  async verifyEmail(
+    @Body() dto: VerifyEmailDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    // Получаем токены из сервиса
+    const { accessToken, refreshToken } =
+      await this.authService.verifyEmail(dto);
+
+    // Устанавливаем Refresh Token в защищенную куку
+    res.cookie(REFRESH_TOKEN_NAME, refreshToken, {
+      maxAge: WEEK_IN_MS,
+      ...COOKIE_OPTIONS,
+    });
+
+    // Возвращаем Access Token фронтенду
+    return { accessToken };
   }
 
   @UseGuards(JwtAuthGuard)

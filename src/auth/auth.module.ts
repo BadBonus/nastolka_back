@@ -7,6 +7,7 @@ import { SessionModule } from '@/shared/session/session.module';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokenService } from '@/shared/token/token.service';
+import { MailService } from '@/auth/mail/mail.service';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { JwtStrategy } from './jwt/jwt.strategy';
 @Module({
@@ -28,7 +29,13 @@ import { JwtStrategy } from './jwt/jwt.strategy';
     SessionModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, TokenService, JwtStrategy, JwtAuthGuard],
+  providers: [
+    AuthService,
+    TokenService,
+    JwtStrategy,
+    JwtAuthGuard,
+    MailService,
+  ],
   exports: [AuthService, JwtAuthGuard],
 })
 export class AuthModule {}

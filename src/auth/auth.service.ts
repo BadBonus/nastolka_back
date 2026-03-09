@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { SessionService } from '@/shared/session/session.service';
-import { RegisterDto, LoginDto } from './dto/register.dto';
+import { MailService } from '@/auth/mail/mail.service';
+import { RegisterDto, LoginDto, VerifyEmailDto } from './dto/auth.dto';
 import { Prisma } from '@pGen/client';
 import type { User } from '@pGenTypes';
 import * as argon2 from 'argon2';
@@ -18,6 +19,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private sessionService: SessionService,
+    private mailService: MailService,
   ) {}
 
   async login(
@@ -85,14 +87,13 @@ export class AuthService {
     return await this.sessionService.refreshTokens(oldRefreshToken);
   }
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto): Promise<string> {
     const { email, password, nickname } = dto;
 
     try {
       return await this.prisma.$transaction(
         async (tx: Prisma.TransactionClient) => {
           const existingUser = await tx.user.findUnique({ where: { email } });
-
           if (existingUser) {
             throw new ConflictException(
               'Пользователь с таким email уже существует',
@@ -101,6 +102,7 @@ export class AuthService {
 
           const passwordHash = await argon2.hash(password);
           const slug = await this.generateUniqueSlug(nickname);
+
           const newUser = await tx.user.create({
             data: {
               nickname,
@@ -118,20 +120,68 @@ export class AuthService {
             },
           });
 
-          await this.sessionService.createSession(
-            {
-              id: newUser.id,
-              email: newUser.email,
-              nickname: newUser.nickname,
-            },
-            tx,
-          );
+          const code = Math.floor(100000 + Math.random() * 900000).toString();
+          const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 минут
+
+          await tx.verificationCode.upsert({
+            where: { email: newUser.email },
+            update: { code, expiresAt },
+            create: { email: newUser.email, code, expiresAt },
+          });
+
+          await this.mailService.sendVerificationCode(newUser.email, code);
+          return 'Код подтверждения отправлен на почту';
         },
       );
     } catch (error) {
       if (error instanceof ConflictException) throw error;
+      console.error(error);
       throw new BadRequestException('Ошибка регистрации. Попробуйте позже.');
     }
+  }
+
+  async verifyEmail(dto: VerifyEmailDto) {
+    const { email, code } = dto;
+
+    const verification = await this.prisma.verificationCode.findUnique({
+      where: { email },
+    });
+
+    if (!verification || verification.code !== code) {
+      throw new BadRequestException('Неверный код подтверждения');
+    }
+
+    if (new Date() > verification.expiresAt) {
+      throw new BadRequestException(
+        'Срок действия кода истек. Запросите новый.',
+      );
+    }
+
+    return await this.prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { email },
+        data: { isVerified: true },
+      });
+
+      await tx.verificationCode.delete({
+        where: { email },
+      });
+
+      const user = await tx.user.findUnique({ where: { email } });
+
+      if (!user) {
+        throw new BadRequestException('Пользователь не был найден');
+      }
+
+      return await this.sessionService.createSession(
+        {
+          id: user.id,
+          email: user.email,
+          nickname: user.nickname,
+        },
+        tx,
+      );
+    });
   }
 
   async deleteUser(userId: number) {
