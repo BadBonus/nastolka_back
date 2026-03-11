@@ -7,3 +7,14 @@ model VerificationCode {
   lastSentAt DateTime @default(now()) @map("last_sent_at") @db.Timestamptz()
   @@map("verification_codes")
 }
+
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int      @unique
+  expiresAt DateTime @db.Timestamptz()
+  createdAt DateTime @default(now()) @db.Timestamptz()
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}

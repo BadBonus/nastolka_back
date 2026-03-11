@@ -29,3 +29,16 @@ export class VerifyEmailDto {
   @Length(6, 6, { message: 'Код должен состоять из 6 символов' })
   code!: string;
 }
+
+export class ResetPasswordRequestDto {
+  @IsEmail({}, { message: 'Некорректный формат email' })
+  email!: string;
+}
+
+export class ResetPasswordDto {
+  @IsString()
+  token!: string;
+
+  @MinLength(8, { message: 'Пароль должен быть не менее 8 символов' })
+  newPassword!: string;
+}

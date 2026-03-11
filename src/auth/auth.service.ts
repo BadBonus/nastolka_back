@@ -8,11 +8,17 @@ import {
 import { PrismaService } from '@/prisma/prisma.service';
 import { SessionService } from '@/shared/session/session.service';
 import { MailService } from '@/auth/mail/mail.service';
-import { RegisterDto, LoginDto, VerifyEmailDto } from './dto/auth.dto';
+import {
+  RegisterDto,
+  LoginDto,
+  VerifyEmailDto,
+  ResetPasswordDto,
+} from './dto/auth.dto';
 import { Prisma } from '@pGen/client';
 import type { User } from '@pGenTypes';
 import * as argon2 from 'argon2';
 import slugify from 'slugify';
+import { randomBytes } from 'node:crypto';
 
 @Injectable()
 export class AuthService {
@@ -213,5 +219,72 @@ export class AuthService {
 
     const maxNumber = Math.max(...usedNumbers, 0);
     return `${baseSlug}-${maxNumber + 1}`;
+  }
+
+  async resetPasswordRequest(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      return {
+        message: 'Если email существует в системе, письмо будет отправлено',
+      };
+    }
+
+    const token = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 час
+
+    await this.prisma.passwordResetToken.upsert({
+      where: { userId: user.id },
+      update: { token, expiresAt },
+      create: { userId: user.id, token, expiresAt },
+    });
+
+    await this.mailService.sendPasswordResetLink(email, token);
+
+    return { message: 'Инструкции по сбросу пароля отправлены на почту' };
+  }
+
+  async validateResetToken(token: string) {
+    const resetToken = await this.prisma.passwordResetToken.findUnique({
+      where: { token },
+    });
+
+    if (!resetToken || new Date() > resetToken.expiresAt) {
+      throw new BadRequestException('Ссылка устарела или недействительна');
+    }
+
+    return { valid: true };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const { token, newPassword } = dto;
+
+    const resetToken = await this.prisma.passwordResetToken.findUnique({
+      where: { token },
+      include: { user: true },
+    });
+
+    if (!resetToken || new Date() > resetToken.expiresAt) {
+      throw new BadRequestException('Ссылка недействительна');
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      const passwordHash = await argon2.hash(newPassword);
+
+      await tx.account.updateMany({
+        where: { userId: resetToken.userId },
+        data: { passwordHash },
+      });
+
+      await tx.passwordResetToken.delete({
+        where: { token },
+      });
+
+      await tx.session.deleteMany({
+        where: { userId: resetToken.userId },
+      });
+    });
+
+    return { message: 'Пароль успешно изменен' };
   }
 }

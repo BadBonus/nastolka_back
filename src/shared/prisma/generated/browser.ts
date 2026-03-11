@@ -37,3 +37,8 @@ export type User = Prisma.UserModel
  * 
  */
 export type VerificationCode = Prisma.VerificationCodeModel
+/**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel

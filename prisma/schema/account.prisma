@@ -12,6 +12,6 @@ model Account {
   passwordHash      String?  @map("password_hash")
   createdAt         DateTime @default(now()) @map("created_at")
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  @@unique([provider, providerAccountId], name: "provider_idx")
+  @@unique([provider, providerAccountId, userId], name: "provider_idx")
   @@map("accounts")
 }

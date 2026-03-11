@@ -8,10 +8,17 @@ import {
   Req,
   UseGuards,
   UnauthorizedException,
+  Query,
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto, VerifyEmailDto } from './dto/auth.dto';
+import {
+  LoginDto,
+  RegisterDto,
+  VerifyEmailDto,
+  ResetPasswordRequestDto,
+  ResetPasswordDto,
+} from './dto/auth.dto';
 import { WEEK_IN_MS } from '@/utils/vars';
 import type { TSucAuthFB } from '@/shared/types';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
@@ -55,17 +62,14 @@ export class AuthController {
     @Body() dto: VerifyEmailDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    // Получаем токены из сервиса
     const { accessToken, refreshToken } =
       await this.authService.verifyEmail(dto);
 
-    // Устанавливаем Refresh Token в защищенную куку
     res.cookie(REFRESH_TOKEN_NAME, refreshToken, {
       maxAge: WEEK_IN_MS,
       ...COOKIE_OPTIONS,
     });
 
-    // Возвращаем Access Token фронтенду
     return { accessToken };
   }
 
@@ -124,5 +128,20 @@ export class AuthController {
       res.clearCookie(REFRESH_TOKEN_NAME, { ...COOKIE_OPTIONS, path: '/' });
       throw new UnauthorizedException('Session expired');
     }
+  }
+
+  @Post('reset-password/request')
+  async resetPasswordRequest(@Body() dto: ResetPasswordRequestDto) {
+    return await this.authService.resetPasswordRequest(dto.email);
+  }
+
+  @Get('reset-password/validate')
+  async validateToken(@Query('token') token: string) {
+    return await this.authService.validateResetToken(token);
+  }
+
+  @Post('reset-password/confirm')
+  async confirmReset(@Body() dto: ResetPasswordDto) {
+    return await this.authService.resetPassword(dto);
   }
 }
