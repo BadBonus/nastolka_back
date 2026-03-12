@@ -1,4 +1,4 @@
-import type { TUser } from './index';
+import { TUser } from './index';
 export enum EAccProviders {
   email = 'email',
   google = 'google',
