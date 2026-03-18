@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -23,7 +23,24 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
 
   const port = process.env.PORT || 3000;
-  app.useGlobalPipes(new ValidationPipe());
+
+  // терь только
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: (errors) => {
+        const messages = errors.map((error) => {
+          return Object.values(error.constraints || {}).join(', ');
+        });
+
+        return new BadRequestException({
+          statusCode: 400,
+          message: messages.join('; '),
+          error: 'Bad Request',
+        });
+      },
+      stopAtFirstError: false,
+    }),
+  );
   app.use(cookieParser());
   SwaggerModule.setup('api/docs', app, document);
   await app.listen(port);
