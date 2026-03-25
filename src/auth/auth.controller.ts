@@ -9,12 +9,15 @@ import {
   UseGuards,
   UnauthorizedException,
   Query,
+  HttpCode,
 } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import {
   ApiTags,
   ApiCreatedResponse,
   ApiOperation,
   ApiResponse,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import type { Response, Request } from 'express';
 import { AuthService } from './auth.service';
@@ -26,7 +29,7 @@ import {
   ResetPasswordDto,
 } from './dto/auth.dto';
 import { WEEK_IN_MS } from '@/utils/vars';
-import { LoginResponse } from './auth.controller.response';
+import { LoginResponse, User } from './auth.controller.response';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { REFRESH_TOKEN_NAME } from './utils';
 
@@ -57,7 +60,7 @@ export class AuthController {
     });
 
     return {
-      user: result.user,
+      user: plainToInstance(User, result.user),
       accessToken: result.accessToken,
     };
   }
@@ -65,7 +68,6 @@ export class AuthController {
   @Post('register')
   async register(@Body() dto: RegisterDto) {
     await this.authService.register(dto);
-    return { message: 'Регистрация прошла успешно' };
   }
 
   @Post('verify-email')
@@ -86,6 +88,10 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
+  @ApiOkResponse({
+    description: 'Получения текущих д-х юзера',
+    type: User,
+  })
   async getMe(@Req() req: { user: { id: number } }) {
     return await this.authService.me(req.user.id);
   }
@@ -99,7 +105,7 @@ export class AuthController {
     const userId = req.user.id;
     await this.authService.deleteUser(userId);
     res.clearCookie(REFRESH_TOKEN_NAME);
-    return { message: 'Ваш аккаунт был успешно удален' };
+    return true;
   }
 
   @UseGuards(JwtAuthGuard)
@@ -118,10 +124,24 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @HttpCode(200)
+  @ApiOkResponse({
+    description: 'Обновленный access token',
+    schema: {
+      type: 'object',
+      required: ['accessToken'],
+      properties: {
+        accessToken: {
+          type: 'string',
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
+  })
   async refreshTokens(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ) {
+  ): Promise<{ accessToken: string }> {
     const oldRefreshToken = req.cookies[REFRESH_TOKEN_NAME];
     if (!oldRefreshToken) {
       throw new UnauthorizedException('Refresh token not found');

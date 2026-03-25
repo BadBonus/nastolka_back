@@ -1,4 +1,5 @@
 import { IsEmail, IsString, MinLength, Length } from 'class-validator';
+import { Match } from '@/utils/decorators/match.decorator';
 
 export class RegisterDto {
   @IsEmail({}, { message: 'Укажите корректный email' })
@@ -7,6 +8,9 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   password!: string;
+
+  @Match('password', { message: 'Пароли должны быть идентичны' })
+  confirmPassword!: string;
 
   @IsString()
   nickname!: string;

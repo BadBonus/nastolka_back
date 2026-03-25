@@ -1,6 +1,10 @@
 import 'dotenv/config';
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import {
+  ValidationPipe,
+  BadRequestException,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -24,7 +28,9 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
 
-  // терь только
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  // терь error будет чисто стринг
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {

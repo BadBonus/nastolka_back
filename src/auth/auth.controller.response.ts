@@ -1,9 +1,11 @@
 import { TSucAuthFB, TUser } from '@/shared/types';
+import { Exclude, Expose } from 'class-transformer';
 
-class User implements TUser {
-  nickname!: string;
-  email!: string;
-  id!: number;
+@Exclude()
+export class User implements TUser {
+  @Expose() id!: number;
+  @Expose() nickname!: string;
+  @Expose() email!: string;
 }
 
 export class LoginResponse {
