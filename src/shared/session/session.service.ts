@@ -35,9 +35,11 @@ export class SessionService {
   }
 
   async findSession(refreshToken: string) {
-    return await this.prisma.session.findUnique({
+    const ses = await this.prisma.session.findUnique({
       where: { refreshToken },
     });
+
+    return ses;
   }
 
   async deleteSession(refreshToken: string) {
@@ -55,6 +57,7 @@ export class SessionService {
   async verifySession(oldRefreshToken: string) {
     await this.tokenService.verifyToken(oldRefreshToken);
     const savedSession = await this.findSession(oldRefreshToken);
+    console.log('sss', savedSession);
 
     if (!savedSession) {
       throw new UnauthorizedException('Сессия не найдена');
@@ -65,32 +68,39 @@ export class SessionService {
     }
   }
 
-  async refreshTokens(
-    oldRefreshToken: string,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
-    await this.verifySession(oldRefreshToken);
+  async refreshTokens(oldRefreshToken: string) {
+    await this.tokenService.verifyToken(oldRefreshToken);
 
     try {
       return await this.prisma.$transaction(async (tx) => {
+        const allSessions = await tx.session.findMany({
+          select: { refreshToken: true },
+        });
+        console.log('Ищем токен:', oldRefreshToken);
+
         const deletedSession = await tx.session.delete({
           where: { refreshToken: oldRefreshToken },
         });
 
-        const { accessToken, refreshToken } =
+        const { accessToken, refreshToken: newRefreshToken } =
           await this.tokenService.generateTokens(deletedSession.userId);
 
         await tx.session.create({
           data: {
             userId: deletedSession.userId,
-            refreshToken: refreshToken,
+            refreshToken: newRefreshToken,
             expiresAt: new Date(Date.now() + WEEK_IN_MS),
           },
         });
 
-        return { accessToken, refreshToken };
+        return {
+          accessToken,
+          refreshToken: newRefreshToken,
+          userId: deletedSession.userId,
+        };
       });
     } catch (error) {
-      throw new UnauthorizedException('Сессия более не активна');
+      throw new UnauthorizedException('Сессия недействительна или истекла');
     }
   }
 }

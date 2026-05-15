@@ -29,14 +29,18 @@ import {
   ResetPasswordDto,
 } from './dto/auth.dto';
 import { WEEK_IN_MS } from '@/utils/vars';
+import type { TUser } from '@shared/types';
 import { LoginResponse, User } from './auth.controller.response';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { REFRESH_TOKEN_NAME } from './utils';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: true,
+  secure: isProduction, //В продашкене используем лишь https-соеденения
   sameSite: 'lax',
+  path: '/',
 } as const;
 
 @ApiTags('Auth')
@@ -116,7 +120,6 @@ export class AuthController {
     if (refreshToken) await this.authService.logout(refreshToken);
 
     res.clearCookie(REFRESH_TOKEN_NAME, {
-      path: '/',
       ...COOKIE_OPTIONS,
     });
 
@@ -126,35 +129,36 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(200)
   @ApiOkResponse({
-    description: 'Обновленный access token',
-    schema: {
-      type: 'object',
-      required: ['accessToken'],
-      properties: {
-        accessToken: {
-          type: 'string',
-          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-        },
-      },
-    },
+    description: 'Обновление сессии и получение данных пользователя',
+    type: LoginResponse,
   })
-  async refreshTokens(
+  async refreshToken(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; user: TUser }> {
     const oldRefreshToken = req.cookies[REFRESH_TOKEN_NAME];
-    if (!oldRefreshToken) {
+
+    if (!oldRefreshToken)
       throw new UnauthorizedException('Refresh token not found');
-    }
 
     try {
-      const { accessToken, refreshToken } =
+      const { accessToken, refreshToken, user } =
         await this.authService.refreshTokens(oldRefreshToken);
+
+      console.log('COOKIE SET, headers:', res.getHeaders());
+      console.log(accessToken, refreshToken, user);
+
       res.cookie(REFRESH_TOKEN_NAME, refreshToken, {
         maxAge: WEEK_IN_MS,
         ...COOKIE_OPTIONS,
       });
-      return { accessToken };
+
+      res.cookie(REFRESH_TOKEN_NAME, refreshToken, {
+        maxAge: WEEK_IN_MS,
+        ...COOKIE_OPTIONS,
+      });
+
+      return { accessToken, user };
     } catch (error) {
       res.clearCookie(REFRESH_TOKEN_NAME, { ...COOKIE_OPTIONS, path: '/' });
       throw new UnauthorizedException('Session expired');

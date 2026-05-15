@@ -42,6 +42,7 @@ export class TokenService {
 
   async verifyToken(token: string) {
     try {
+      console.log('token', token);
       const fb = await this.jwtService.verifyAsync(token, {
         secret: this.configService.getOrThrow<string>('JWT_SECRET'),
       });

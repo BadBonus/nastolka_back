@@ -16,6 +16,7 @@ import {
 } from './dto/auth.dto';
 import { Prisma } from '@pGen/client';
 import type { User } from '@pGenTypes';
+import type { TUser } from '@shared/types';
 import * as argon2 from 'argon2';
 import slugify from 'slugify';
 import { randomBytes } from 'node:crypto';
@@ -87,10 +88,27 @@ export class AuthService {
     return user;
   }
 
-  async refreshTokens(
-    oldRefreshToken: string,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
-    return await this.sessionService.refreshTokens(oldRefreshToken);
+  async refreshTokens(oldRefreshToken: string): Promise<{
+    accessToken: string;
+    refreshToken: string;
+    user: TUser;
+  }> {
+    const { accessToken, refreshToken, userId } =
+      await this.sessionService.refreshTokens(oldRefreshToken);
+    const user = (await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        nickname: true,
+      },
+    })) as TUser;
+
+    return {
+      accessToken,
+      refreshToken,
+      user,
+    };
   }
 
   async register(dto: RegisterDto): Promise<string> {

@@ -11,12 +11,6 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.enableCors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  });
-
   const config = new DocumentBuilder()
     .setTitle('Nastolka API')
     .setDescription('Документация бэкенда')
@@ -48,6 +42,10 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
+  app.enableCors({
+    origin: 'http://localhost:3000', // FIXME: не забудь в будущем настроить корректные корсы
+    credentials: true,
+  });
   SwaggerModule.setup('api/docs', app, document);
   await app.listen(port);
   console.log(`🚀 Server is running on: http://localhost:${port}`);
