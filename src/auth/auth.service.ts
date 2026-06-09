@@ -67,8 +67,18 @@ export class AuthService {
     return { user: account.user, accessToken, refreshToken };
   }
 
-  async logout(refreshToken: string) {
-    await this.sessionService.deleteSession(refreshToken);
+  async logout(userId: number, refreshToken: string) {
+    const session = await this.prisma.session.findUnique({
+      where: { refreshToken },
+    });
+
+    if (!session || session.userId !== userId) {
+      throw new UnauthorizedException('Invalid session');
+    }
+
+    await this.prisma.session.delete({
+      where: { refreshToken },
+    });
   }
 
   async me(userId: number) {

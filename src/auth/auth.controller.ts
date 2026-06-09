@@ -18,6 +18,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiOkResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import type { Response, Request } from 'express';
 import { AuthService } from './auth.service';
@@ -91,16 +92,21 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Get('me')
   @ApiOkResponse({
-    description: 'Получения текущих д-х юзера',
+    description: 'Получения ограниченных минимальных данных юзера',
     type: User,
   })
   async getMe(@Req() req: { user: { id: number } }) {
-    return await this.authService.me(req.user.id);
+    console.log('тыц');
+    console.log(req.user);
+    const me = await this.authService.me(req.user.id);
+    return me;
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Delete('me')
   async selfDelete(
     @Req() req: { user: { id: number } },
@@ -112,16 +118,22 @@ export class AuthController {
     return true;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  async logout(
+    @Req() req: Request & { user: { id: number } },
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const refreshToken = req.cookies[REFRESH_TOKEN_NAME];
 
-    if (refreshToken) await this.authService.logout(refreshToken);
+    if (!refreshToken) {
+      throw new UnauthorizedException('Refresh token not found');
+    }
 
-    res.clearCookie(REFRESH_TOKEN_NAME, {
-      ...COOKIE_OPTIONS,
-    });
+    await this.authService.logout(req.user.id, refreshToken);
+
+    res.clearCookie(REFRESH_TOKEN_NAME, COOKIE_OPTIONS);
 
     return { message: 'Успешный выход' };
   }
