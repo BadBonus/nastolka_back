@@ -23,7 +23,10 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
 } from '@nestjs/swagger';
-import { User } from './profile.controller.response';
+import {
+  ProfileUserMe,
+  ProfileUserWithId,
+} from './profile.controller.response';
 import { HttpStatus } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common';
 
@@ -38,6 +41,7 @@ export class ProfileController {
   @Get(':id')
   @ApiOkResponse({
     description: 'Получения данных пользователя по id',
+    type: ProfileUserWithId,
   })
   async findOne(
     @Param(
@@ -52,15 +56,15 @@ export class ProfileController {
       where: { id },
       select: {
         id: true,
-        fullName: true,
         nickname: true,
+        email: true,
+        fullName: true,
         description: true,
+        slug: true,
         avatar: true,
         timezone: true,
-        slug: true,
-        birthdate: true,
         soclinks: true,
-        // НЕ возвращаем: email, sub, gameHistory, isVerified, etc.
+        gameHistory: true,
       },
     });
 
@@ -76,12 +80,26 @@ export class ProfileController {
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Получения данных текущего авторизованного пользователя',
-    type: User,
+    type: ProfileUserMe,
   })
   async getMyProfile(@Req() req: { user: { id: number } }) {
     const { id } = req.user;
     return await this.prisma.user.findUnique({
       where: { id: id },
+      select: {
+        id: true,
+        nickname: true,
+        email: true,
+        fullName: true,
+        description: true,
+        birthdate: true,
+        slug: true,
+        avatar: true,
+        timezone: true,
+        soclinks: true,
+        gameHistory: true,
+        isVerified: true,
+      },
     });
   }
 
