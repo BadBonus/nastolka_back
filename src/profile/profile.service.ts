@@ -8,10 +8,14 @@ import {
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/prisma/prisma.service';
+import { UploadsService } from '../uploads/uploads.service';
 
 @Injectable()
 export class ProfileService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly uploadsService: UploadsService,
+  ) {}
   create(createProfileDto: CreateProfileDto) {
     return 'This action adds a new profile';
   }
@@ -20,10 +24,25 @@ export class ProfileService {
     return `This action returns a #${id} profile`;
   }
 
-  async updateProfile(userId: number, dto: UpdateProfileDto) {
+  async updateProfile(
+    userId: number,
+    dto: UpdateProfileDto,
+    file?: Express.Multer.File,
+  ) {
+    const { ...updateData } = dto;
+    const dataToUpdate: Record<string, any> = { ...updateData };
+    if (file && file.buffer) {
+      const buffer = await this.uploadsService.optimizeImage(file.buffer);
+      const avatar = await this.uploadsService.saveToDisk(
+        buffer,
+        'png',
+        process.env.PATH_UPLOADED_AVATARS,
+      );
+      dataToUpdate.avatar = avatar.fileName;
+    }
     return this.prisma.user.update({
       where: { id: userId },
-      data: dto,
+      data: dataToUpdate,
     });
   }
 

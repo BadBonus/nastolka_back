@@ -9,6 +9,8 @@ import {
   Req,
   UnauthorizedException,
   NotFoundException,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ProfileService } from './profile.service';
@@ -22,6 +24,8 @@ import {
   ApiResponse,
   ApiBearerAuth,
   ApiOkResponse,
+  ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import {
   ProfileUserMe,
@@ -29,6 +33,7 @@ import {
 } from './profile.controller.response';
 import { HttpStatus } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Profile')
 @Controller('profile')
@@ -103,19 +108,17 @@ export class ProfileController {
     });
   }
 
+  // FIXME: добавить блок логики на проверку прав модификации профиля (админы могут менять чужие профили, юзеры только свои)
+
   @Patch(':id')
-  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
   @UseGuards(JwtAuthGuard)
-  update(
-    @Param(
-      'id',
-      new ParseIntPipe({
-        errorHttpStatusCode: HttpStatus.BAD_REQUEST,
-      }),
-    )
-    id: number,
+  @UseInterceptors(FileInterceptor('avatar'))
+  async update(
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateProfileDto: UpdateProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.profileService.updateProfile(id, updateProfileDto);
+    return await this.profileService.updateProfile(id, updateProfileDto, file);
   }
 }

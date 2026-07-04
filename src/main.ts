@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { static as static_ } from 'express';
 import {
   ValidationPipe,
   BadRequestException,
@@ -42,6 +43,8 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
+  app.use('/uploads', static_('uploads'));
+
   app.enableCors({
     origin: 'http://localhost:3000', // FIXME: не забудь в будущем настроить корректные корсы
     credentials: true,

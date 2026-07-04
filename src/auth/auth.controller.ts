@@ -99,8 +99,6 @@ export class AuthController {
     type: User,
   })
   async getMe(@Req() req: { user: { id: number } }) {
-    console.log('тыц');
-    console.log(req.user);
     const me = await this.authService.me(req.user.id);
     return me;
   }

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsString,
@@ -17,9 +18,8 @@ export class UpdateProfileDto {
   @IsOptional()
   description?: string;
 
-  @IsString()
   @IsOptional()
-  avatar?: string;
+  avatar?: unknown;
 
   @IsDateString()
   @IsOptional()

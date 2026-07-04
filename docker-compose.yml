@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   db:
@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
       POSTGRES_DB: ${DB_NAME:-my_db}
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -18,7 +18,19 @@ services:
     image: adminer
     restart: always
     ports:
-      - "8080:8080"
+      - '8080:8080'
+
+  imgproxy:
+    image: ghcr.io/imgproxy/imgproxy:latest
+    ports:
+      - '8079:8080'
+    environment:
+      IMGPROXY_ALLOW_INSECURE_URLS: 'true'
+      IMGPROXY_ALLOW_LOCALHOST_SOURCES: 'true'
+      IMGPROXY_ALLOW_LOCAL_NETWORKS: 'true'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    restart: always
 
 volumes:
   postgres_data:
