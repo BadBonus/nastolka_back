@@ -23,7 +23,7 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "noImplicitReturns": true,
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "multer"],
     "paths": {
       "@/*": ["src/*"],
       "@pGenTypes": ["src/shared/prisma/generated/browser.ts"],

@@ -34,6 +34,7 @@ import {
 import { HttpStatus } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageDimensionsPipe, ImageValidationPipe } from '@/common/pipes';
 
 @ApiTags('Profile')
 @Controller('profile')
@@ -117,7 +118,11 @@ export class ProfileController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProfileDto: UpdateProfileDto,
-    @UploadedFile() file?: Express.Multer.File,
+    @UploadedFile(
+      new ImageValidationPipe(),
+      new ImageDimensionsPipe([[256, 256]]),
+    )
+    file?: Express.Multer.File,
   ) {
     return await this.profileService.updateProfile(id, updateProfileDto, file);
   }
