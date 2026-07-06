@@ -8,7 +8,7 @@ import {
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { UploadsService } from '../uploads/uploads.service';
+import { UploadsService } from '../common/modules/uploads/uploads.service';
 
 @Injectable()
 export class ProfileService {
