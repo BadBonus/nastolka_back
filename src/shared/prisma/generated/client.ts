@@ -43,6 +43,21 @@ export { Prisma }
  */
 export type Account = Prisma.AccountModel
 /**
+ * Model Role
+ * 
+ */
+export type Role = Prisma.RoleModel
+/**
+ * Model Permission
+ * 
+ */
+export type Permission = Prisma.PermissionModel
+/**
+ * Model RolesOnPermissions
+ * 
+ */
+export type RolesOnPermissions = Prisma.RolesOnPermissionsModel
+/**
  * Model Session
  * 
  */

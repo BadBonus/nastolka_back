@@ -32,14 +32,26 @@ export class AuthService {
   async login(
     dto: LoginDto,
   ): Promise<{ user: User; accessToken: string; refreshToken: string }> {
-    const account = await this.prisma.account.findUnique({
+    const account = await this.prisma.account.findFirst({
       where: {
-        provider_idx: {
-          provider: 'EMAIL',
-          providerAccountId: dto.email,
+        provider: 'EMAIL',
+        providerAccountId: dto.email,
+      },
+      include: {
+        user: {
+          include: {
+            role: {
+              include: {
+                permissions: {
+                  include: {
+                    permission: true,
+                  },
+                },
+              },
+            },
+          },
         },
       },
-      include: { user: true },
     });
 
     if (!account || !account.passwordHash) {
@@ -62,9 +74,23 @@ export class AuthService {
         id: user.id,
         email: user.email,
         nickname: user.nickname,
+        role: user.role.name,
+        permissions,
       });
 
-    return { user: account.user, accessToken, refreshToken };
+    return {
+      user: {
+        id: user.id,
+        fullName: user.fullName,
+        nickname: user.nickname,
+        email: user.email,
+        avatar: user.avatar,
+        role: user.role.name,
+        permissions,
+      },
+      accessToken,
+      refreshToken,
+    };
   }
 
   async logout(userId: number, refreshToken: string) {
@@ -142,6 +168,7 @@ export class AuthService {
               nickname,
               email,
               slug,
+              roleId: 1, // сразу присваиваем роль "user" (id=1)
             },
           });
 

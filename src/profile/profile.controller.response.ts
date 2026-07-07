@@ -15,12 +15,13 @@ export class ProfileUserMe implements Omit<UserModel, 'sub'> {
   @Expose() soclinks!: Record<string, string> | null;
   @Expose() gameHistory!: Array<unknown>;
   @Expose() isVerified!: boolean;
+  @Expose() roleId!: number;
 }
 
 @Exclude()
 export class ProfileUserWithId implements Omit<
   UserModel,
-  'sub' | 'birthdate' | 'isVerified'
+  'sub' | 'birthdate' | 'isVerified' | 'roleId'
 > {
   @Expose() id!: number;
   @Expose() nickname!: string;

@@ -5,11 +5,12 @@ import path from 'path';
 import { defineConfig, env } from 'prisma/config';
 
 export default defineConfig({
-   datasource: {
+  datasource: {
     url: env('DATABASE_URL'),
   },
   schema: path.join('prisma', 'schema'),
   migrations: {
     path: 'prisma/migrations',
+    seed: 'ts-node prisma/seed.ts',
   },
 });

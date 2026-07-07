@@ -345,6 +345,7 @@ export type AccountUncheckedUpdateManyInput = {
 export type AccountProvider_idxCompoundUniqueInput = {
   provider: $Enums.EAccProviders
   providerAccountId: string
+  userId: number
 }
 
 export type AccountCountOrderByAggregateInput = {

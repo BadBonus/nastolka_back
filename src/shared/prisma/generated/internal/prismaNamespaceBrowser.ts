@@ -52,6 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Account: 'Account',
+  Role: 'Role',
+  Permission: 'Permission',
+  RolesOnPermissions: 'RolesOnPermissions',
   Session: 'Session',
   User: 'User',
   VerificationCode: 'VerificationCode',
@@ -86,6 +89,30 @@ export const AccountScalarFieldEnum = {
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
+export const RoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
+
+
+export const PermissionScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug'
+} as const
+
+export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
+
+
+export const RolesOnPermissionsScalarFieldEnum = {
+  roleId: 'roleId',
+  permissionId: 'permissionId'
+} as const
+
+export type RolesOnPermissionsScalarFieldEnum = (typeof RolesOnPermissionsScalarFieldEnum)[keyof typeof RolesOnPermissionsScalarFieldEnum]
+
+
 export const SessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -98,19 +125,20 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 
 
 export const UserScalarFieldEnum = {
-  id: 'id',
   fullName: 'fullName',
   nickname: 'nickname',
   email: 'email',
+  roleId: 'roleId',
   description: 'description',
   birthdate: 'birthdate',
   slug: 'slug',
   avatar: 'avatar',
-  sub: 'sub',
   timezone: 'timezone',
+  isVerified: 'isVerified',
+  id: 'id',
+  sub: 'sub',
   soclinks: 'soclinks',
-  gameHistory: 'gameHistory',
-  isVerified: 'isVerified'
+  gameHistory: 'gameHistory'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

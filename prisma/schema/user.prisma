@@ -1,19 +1,21 @@
 model User {
+  fullName           String?             @map("full_name")
+  nickname           String
+  email              String              @unique
+  roleId             Int                @map("role_id")
+  role   Role @relation(fields: [roleId], references: [id])
+  description        String?
+  birthdate          DateTime?
+  slug               String              @unique @db.VarChar(256)
+  avatar             String?             @map("avatar_url")
+  timezone           String?             @default("UTC") @db.VarChar(100)
+  isVerified         Boolean             @default(false) @map("is_verified")
   id           Int       @id @default(autoincrement())
-  fullName     String?   @map("full_name")
-  nickname     String
-  email        String    @unique
-  description  String?
-  birthdate    DateTime?
-  slug         String    @unique @db.VarChar(256)
-  avatar       String?   @map("avatar_url")
   sub          Json      @default("{\"events\": [], \"gamemasters\": []}")
-  timezone     String?   @default("UTC") @db.VarChar(100)
   soclinks     Json?
   gameHistory  Json      @default("[]")
   accounts     Account[] 
   sessions     Session[]
-  isVerified   Boolean   @default(false) @map("is_verified")
   passwordResetToken PasswordResetToken?
   @@map("users")
 }
