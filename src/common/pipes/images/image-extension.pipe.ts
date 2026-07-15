@@ -16,8 +16,16 @@ export class ImageValidationPipe implements PipeTransform {
    * @returns Модифицированный или исходный объект файла для передачи в контроллер
    * @throws {BadRequestException} Генерирует ошибку 400 при отсутствии файла или несовпадении сигнатур
    */
+
+  /**
+   * @param {boolean} isOptional Если true, отсутствие файла не приводит к ошибке.
+   */
+  constructor(private readonly isOptional = false) {}
+
   transform(file: Express.Multer.File) {
     if (!file || !file.buffer) {
+      if (this.isOptional) return file;
+
       throw new BadRequestException('Файл отсутствует');
     }
 

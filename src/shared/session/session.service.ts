@@ -6,7 +6,11 @@ import type { TSucAuthFB } from '@shared/types';
 import { Prisma } from '@pGen/browser';
 
 type TSucAuthFBWithRefresh = TSucAuthFB & { refreshToken: string };
-type TUserPayload = { id: number; email: string; nickname: string };
+type TUserPayload = {
+  id: number;
+  email: string;
+  nickname: string;
+};
 
 @Injectable()
 export class SessionService {

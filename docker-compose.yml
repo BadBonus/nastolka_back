@@ -29,7 +29,7 @@ services:
       IMGPROXY_ALLOW_LOCALHOST_SOURCES: 'true'
       IMGPROXY_ALLOW_LOCAL_NETWORKS: 'true'
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - '${IMAGE_BASE_URL}:host-gateway'
     restart: always
 
 volumes:

@@ -45,7 +45,10 @@ export class ImageDimensionsPipe implements PipeTransform {
   /**
    * @param allowedOptions Массив разрешенных конфигураций размеров или диапазонов
    */
-  constructor(private readonly allowedOptions: ImageDimensionOption[]) {}
+  constructor(
+    private readonly allowedOptions: ImageDimensionOption[],
+    private readonly isOptional = false,
+  ) {}
 
   /**
    * Выполняет извлечение метаданных изображения и их валидацию против заданных правил
@@ -55,7 +58,9 @@ export class ImageDimensionsPipe implements PipeTransform {
    */
   async transform(file?: Express.Multer.File) {
     if (!file) {
-      return file;
+      if (this.isOptional) return file;
+
+      throw new BadRequestException('Файл отсутствует');
     }
 
     try {

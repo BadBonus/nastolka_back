@@ -98,9 +98,9 @@ export class AuthController {
     description: 'Получения ограниченных минимальных данных юзера',
     type: User,
   })
-  async getMe(@Req() req: { user: { id: number } }) {
-    const me = await this.authService.me(req.user.id);
-    return me;
+  async getMe(@Req() req: any) {
+    const userId = req.user.userId;
+    return await this.authService.me(userId);
   }
 
   @UseGuards(JwtAuthGuard)

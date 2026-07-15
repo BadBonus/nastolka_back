@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   BadRequestException,
   NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { SessionService } from '@/shared/session/session.service';
@@ -74,20 +75,10 @@ export class AuthService {
         id: user.id,
         email: user.email,
         nickname: user.nickname,
-        role: user.role.name,
-        permissions,
       });
 
     return {
-      user: {
-        id: user.id,
-        fullName: user.fullName,
-        nickname: user.nickname,
-        email: user.email,
-        avatar: user.avatar,
-        role: user.role.name,
-        permissions,
-      },
+      user,
       accessToken,
       refreshToken,
     };
@@ -160,6 +151,17 @@ export class AuthService {
             );
           }
 
+          // Поиск роли по системному имени
+          const defaultRole = await tx.role.findUnique({
+            where: { name: process.env.DEFAULT_USER_ROLE },
+          });
+
+          if (!defaultRole) {
+            throw new InternalServerErrorException(
+              'Роль по умолчанию не найдена в базе данных',
+            );
+          }
+
           const passwordHash = await argon2.hash(password);
           const slug = await this.generateUniqueSlug(nickname);
 
@@ -168,7 +170,7 @@ export class AuthService {
               nickname,
               email,
               slug,
-              roleId: 1, // сразу присваиваем роль "user" (id=1)
+              roleId: defaultRole.id, // сразу присваиваем роль "user
             },
           });
 

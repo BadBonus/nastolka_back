@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../src/shared/prisma/generated/client';
-import { AppPermission } from '../src/shared/permissions.enum';
+import { AppPermission } from '../src/common/enums/permissions.enum';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
