@@ -136,8 +136,6 @@ export class ProfileController {
     );
   }
 
-  // FIXME: добавить блок логики на проверку прав модификации профиля (админы могут менять чужие профили, юзеры только свои)
-
   @Patch(':id')
   @ApiConsumes('multipart/form-data')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
