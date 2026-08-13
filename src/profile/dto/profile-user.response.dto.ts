@@ -1,5 +1,20 @@
 import type { UserModel } from '@/shared/prisma/generated/models';
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class ScheduleIntervalEntity {
+  @ApiProperty({ description: 'День недели (1-7)', example: 1 })
+  @Expose()
+  dayOfWeek!: number;
+
+  @ApiProperty({ description: 'Время начала', example: 8 })
+  @Expose()
+  startTime!: number;
+
+  @ApiProperty({ description: 'Время окончания', example: 12 })
+  @Expose()
+  endTime!: number;
+}
 
 @Exclude()
 export class ProfileUserMe implements Omit<UserModel, 'sub'> {
@@ -16,6 +31,13 @@ export class ProfileUserMe implements Omit<UserModel, 'sub'> {
   @Expose() gameHistory!: Array<unknown>;
   @Expose() isVerified!: boolean;
   @Expose() roleId!: number;
+  @ApiProperty({
+    type: () => [ScheduleIntervalEntity],
+    description: 'Интервалы доступности пользователя',
+  })
+  @Type(() => ScheduleIntervalEntity)
+  @Expose()
+  schedules!: ScheduleIntervalEntity[];
 }
 
 @Exclude()

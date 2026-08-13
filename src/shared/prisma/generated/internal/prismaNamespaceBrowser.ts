@@ -56,7 +56,10 @@ export const ModelName = {
   Permission: 'Permission',
   RolesOnPermissions: 'RolesOnPermissions',
   Session: 'Session',
+  SupportTicket: 'SupportTicket',
+  SupportMessage: 'SupportMessage',
   User: 'User',
+  UserSchedule: 'UserSchedule',
   VerificationCode: 'VerificationCode',
   PasswordResetToken: 'PasswordResetToken'
 } as const
@@ -124,6 +127,28 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const SupportTicketScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
+export const SupportMessageScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type SupportMessageScalarFieldEnum = (typeof SupportMessageScalarFieldEnum)[keyof typeof SupportMessageScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   fullName: 'fullName',
   nickname: 'nickname',
@@ -142,6 +167,17 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime'
+} as const
+
+export type UserScheduleScalarFieldEnum = (typeof UserScheduleScalarFieldEnum)[keyof typeof UserScheduleScalarFieldEnum]
 
 
 export const VerificationCodeScalarFieldEnum = {

@@ -31,7 +31,9 @@ import {
 } from './dto/auth.dto';
 import { WEEK_IN_MS } from '@/utils/vars';
 import type { TUser } from '@shared/types';
-import { LoginResponse, User } from './auth.controller.response';
+import { LoginResponse } from './dto/login-response.dto';
+import { User } from './entities/user.entity';
+
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { REFRESH_TOKEN_NAME } from './utils';
 

@@ -33,7 +33,7 @@ import {
 import {
   ProfileUserMe,
   ProfileUserWithId,
-} from './profile.controller.response';
+} from './dto/profile-user.response.dto';
 import { HttpStatus } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -49,17 +49,18 @@ export class ProfileController {
     private prisma: PrismaService,
   ) {}
 
-  @Get('/')
+  @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Получения данных текущего авторизованного пользователя',
     type: ProfileUserMe,
   })
-  async getMyProfile(@Req() req: { user: { id: number } }) {
-    const { id } = req.user;
+  async getMyProfile(@Req() req: { user: { userId: number } }) {
+    const { userId } = req.user;
+
     return await this.prisma.user.findUnique({
-      where: { id: id },
+      where: { id: userId },
       select: {
         id: true,
         nickname: true,
@@ -73,6 +74,7 @@ export class ProfileController {
         soclinks: true,
         gameHistory: true,
         isVerified: true,
+        schedules: true,
       },
     });
   }
@@ -116,11 +118,12 @@ export class ProfileController {
 
   @Patch('me')
   @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: UpdateProfileDto })
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   async updateMe(
     @Req() req: any,
-    @Body() updateProfileDto: UpdateProfileDto,
+    @Body() dto: UpdateProfileDto,
     @UploadedFile(
       new ImageValidationPipe(true),
       new ImageDimensionsPipe([PROFILE_AVATAR_SIZE], true),
@@ -128,12 +131,7 @@ export class ProfileController {
     file?: Express.Multer.File,
   ) {
     const userId = req.user.userId;
-
-    return await this.profileService.updateProfile(
-      userId,
-      updateProfileDto,
-      file,
-    );
+    return await this.profileService.updateProfile(userId, dto, file);
   }
 
   @Patch(':id')
@@ -143,13 +141,13 @@ export class ProfileController {
   @UseInterceptors(FileInterceptor('avatar'))
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateProfileDto: UpdateProfileDto,
+    @Body() dto: UpdateProfileDto,
     @UploadedFile(
       new ImageValidationPipe(true),
       new ImageDimensionsPipe([PROFILE_AVATAR_SIZE], true),
     )
     file?: Express.Multer.File,
   ) {
-    return await this.profileService.updateProfile(id, updateProfileDto, file);
+    return await this.profileService.updateProfile(id, dto, file);
   }
 }

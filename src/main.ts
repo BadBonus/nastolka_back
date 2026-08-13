@@ -9,6 +9,7 @@ import {
 import cookieParser from 'cookie-parser';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -44,6 +45,7 @@ async function bootstrap() {
   );
   app.use(cookieParser());
   app.use('/uploads', static_('uploads'));
+  app.useWebSocketAdapter(new WsAdapter(app));
 
   app.enableCors({
     origin: 'http://localhost:3000', // FIXME: не забудь в будущем настроить корректные корсы

@@ -17,8 +17,21 @@ model User {
   accounts     Account[] 
   sessions     Session[]
   passwordResetToken PasswordResetToken?
+  schedules UserSchedule[]
   @@map("users")
 }
+
+model UserSchedule {
+  id        Int    @id @default(autoincrement())
+  userId    Int    @map("user_id")
+  user      User   @relation(fields: [userId], references: [id])
+  dayOfWeek Int    @map("day_of_week")
+  startTime Int    @map("start_time")
+  endTime   Int    @map("end_time")
+
+  @@map("user_schedules")
+}
+
 
 enum ESocLinks {
   VK

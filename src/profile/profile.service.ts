@@ -5,10 +5,10 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { UploadsService } from '../common/modules/uploads/uploads.service';
+import { CreateProfileDto } from './dto/create-profile.dto';
 
 @Injectable()
 export class ProfileService {

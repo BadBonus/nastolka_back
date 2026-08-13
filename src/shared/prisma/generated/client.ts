@@ -63,10 +63,25 @@ export type RolesOnPermissions = Prisma.RolesOnPermissionsModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model SupportTicket
+ * 
+ */
+export type SupportTicket = Prisma.SupportTicketModel
+/**
+ * Model SupportMessage
+ * 
+ */
+export type SupportMessage = Prisma.SupportMessageModel
+/**
  * Model User
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model UserSchedule
+ * 
+ */
+export type UserSchedule = Prisma.UserScheduleModel
 /**
  * Model VerificationCode
  * 

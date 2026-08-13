@@ -17,6 +17,15 @@ export const EAccProviders = {
 export type EAccProviders = (typeof EAccProviders)[keyof typeof EAccProviders]
 
 
+export const SupportTicketStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  CLOSED: 'CLOSED'
+} as const
+
+export type SupportTicketStatus = (typeof SupportTicketStatus)[keyof typeof SupportTicketStatus]
+
+
 export const ESocLinks = {
   VK: 'VK',
   TELEGRAM: 'TELEGRAM',
