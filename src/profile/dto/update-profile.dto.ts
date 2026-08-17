@@ -98,6 +98,9 @@ export class UpdateProfileDto {
         return value;
       }
     }
+    if (Array.isArray(value) && value.length === 0) {
+      return undefined;
+    }
     return value;
   })
   @IsOptional()
