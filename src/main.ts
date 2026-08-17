@@ -42,6 +42,12 @@ async function bootstrap() {
       },
       stopAtFirstError: false,
     }),
+
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
   );
   app.use(cookieParser());
   app.use('/uploads', static_('uploads'));
