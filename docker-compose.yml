@@ -9,6 +9,7 @@ services:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
       POSTGRES_DB: ${DB_NAME:-my_db}
+      IMGPROXY_BASE_URL: 'http://host.docker.internal:4000/uploads'
     ports:
       - '5432:5432'
     volumes:
@@ -25,9 +26,15 @@ services:
     ports:
       - '8079:8080'
     environment:
-      IMGPROXY_ALLOW_INSECURE_URLS: 'true'
+      IMGPROXY_KEY: ${IMGPROXY_KEY}
+      IMGPROXY_SALT: ${IMGPROXY_SALT}
+      IMGPROXY_INSECURE: 'false'
       IMGPROXY_ALLOW_LOCALHOST_SOURCES: 'true'
       IMGPROXY_ALLOW_LOCAL_NETWORKS: 'true'
+      IMGPROXY_BASE_URL: 'http://host.docker.internal:4000/uploads/'
+      IMGPROXY_PRESETS: ${IMGPROXY_PRESETS}
+      IMGPROXY_ONLY_PRESETS: 'true'
+
     extra_hosts:
       - '${IMAGE_BASE_URL}:host-gateway'
     restart: always

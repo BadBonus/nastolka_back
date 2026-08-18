@@ -96,3 +96,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+---Мои заметки---
+ImgProxy - пресеты
+
+Для генерации пресетов используйте imgproxy:generate-presets. Скрипт generate-presets.cjs генерит пресеты исходя из объекта presets, что там указан (по хорошему нужно объект в отдельное место перевести). Скрипт переносит значения в env, а в docker-compose IMGPROXY_PRESETS: ${IMGPROXY_PRESETS} берёт из env-переменной IMGPROXY_PRESETS строку с пресетами. Не забудьте потом "docker compose up -d" сделать, чтобы интегрировать свежи пресеты в образ imgproxy.
