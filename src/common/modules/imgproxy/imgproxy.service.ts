@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHmac } from 'crypto';
+import type { TImgproxyPreset } from '@/common/types/imgproxy-presets.ts';
 
 @Injectable()
 export class ImgproxyService implements OnModuleInit {
@@ -27,7 +28,7 @@ export class ImgproxyService implements OnModuleInit {
     this.saltBuffer = Buffer.from(saltHex, 'hex');
   }
 
-  generateSignedUrl(relativePath: string, preset: string) {
+  generateSignedUrl(relativePath: string, preset: TImgproxyPreset) {
     const normalizedPath = relativePath.replace(/\\/g, '/').replace(/^\//, '');
     const fullSourceUrl = `${this.sourceBaseUrl}/${normalizedPath}`;
     const encodedSourceUrl = Buffer.from(fullSourceUrl).toString('base64url');

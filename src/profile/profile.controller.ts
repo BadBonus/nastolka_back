@@ -59,24 +59,7 @@ export class ProfileController {
   async getMyProfile(@Req() req: { user: { userId: number } }) {
     const { userId } = req.user;
 
-    return await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        nickname: true,
-        email: true,
-        fullName: true,
-        description: true,
-        birthdate: true,
-        slug: true,
-        avatar: true,
-        timezone: true,
-        soclinks: true,
-        gameHistory: true,
-        isVerified: true,
-        schedules: true,
-      },
-    });
+    return this.profileService.findUser(userId);
   }
 
   @Get(':id')
@@ -93,21 +76,7 @@ export class ProfileController {
     )
     id: number,
   ) {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        nickname: true,
-        email: true,
-        fullName: true,
-        description: true,
-        slug: true,
-        avatar: true,
-        timezone: true,
-        soclinks: true,
-        gameHistory: true,
-      },
-    });
+    const user = await this.profileService.findUser(id);
 
     if (!user) {
       throw new NotFoundException(`Profile with id ${id} not found`);

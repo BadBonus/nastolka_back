@@ -9,6 +9,8 @@ import {
 import { PrismaService } from '@/prisma/prisma.service';
 import { SessionService } from '@/shared/session/session.service';
 import { MailService } from '@/auth/mail/mail.service';
+import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
+
 import {
   RegisterDto,
   LoginDto,
@@ -21,6 +23,7 @@ import type { TUser } from '@shared/types';
 import * as argon2 from 'argon2';
 import slugify from 'slugify';
 import { randomBytes } from 'node:crypto';
+import { buildImagePath } from '@/utils/pathToImg';
 
 @Injectable()
 export class AuthService {
@@ -28,6 +31,7 @@ export class AuthService {
     private prisma: PrismaService,
     private sessionService: SessionService,
     private mailService: MailService,
+    private imgproxyService: ImgproxyService,
   ) {}
 
   async login(
@@ -69,6 +73,13 @@ export class AuthService {
     }
 
     const user = account.user;
+
+    if (user.avatar) {
+      user.avatar = this.imgproxyService.generateSignedUrl(
+        buildImagePath('avatars') + user.avatar,
+        'avatar',
+      );
+    }
 
     const { accessToken, refreshToken } =
       await this.sessionService.createSession({

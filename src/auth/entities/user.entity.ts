@@ -6,4 +6,5 @@ export class User implements TUser {
   @Expose() id!: number;
   @Expose() nickname!: string;
   @Expose() email!: string;
+  @Expose() avatar!: string | null;
 }

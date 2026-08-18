@@ -10,6 +10,7 @@ import { TokenService } from '@/shared/token/token.service';
 import { MailService } from '@/auth/mail/mail.service';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { JwtStrategy } from './jwt/jwt.strategy';
+import { ImgproxyModule } from '@/common/modules/imgproxy/imgproxy.module';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -27,6 +28,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
     }),
     TokenModule,
     SessionModule,
+    ImgproxyModule,
   ],
   controllers: [AuthController],
   providers: [

@@ -1,9 +1,9 @@
 // Генератор пресетов для imgproxy в docker-compose.yml
-
+import type { TImgproxyPreset } from '@/common/types/imgproxy-presets.ts';
 const fs = require('node:fs');
 const path = require('node:path');
 
-const presets = {
+const presets: Record<TImgproxyPreset, string> = {
   avatar: 'resizing_type:fill/width:64/height:64/format:webp',
   profile_avatar: 'resizing_type:fill/width:200/height:200/format:webp',
 };
@@ -20,7 +20,7 @@ if (fs.existsSync(envPath)) {
 }
 
 let keyFound = false;
-const updatedLines = envLines.map((line) => {
+const updatedLines = envLines.map((line: string) => {
   if (line.trim().startsWith('IMGPROXY_PRESETS=')) {
     keyFound = true;
     return `IMGPROXY_PRESETS="${dockerString}"`;

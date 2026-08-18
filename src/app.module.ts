@@ -6,7 +6,6 @@ import { MailModule } from './auth/mail/mail.module';
 import { ProfileModule } from './profile/profile.module';
 import { UploadsModule } from './common/modules/uploads/uploads.module';
 import { SupportModule } from './support/support.module';
-import { ImgproxyModule } from './imgproxy/imgproxy.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { ImgproxyModule } from './imgproxy/imgproxy.module';
     MailModule,
     ProfileModule,
     UploadsModule,
-    ImgproxyModule,
     // SupportModule,
   ],
 })
