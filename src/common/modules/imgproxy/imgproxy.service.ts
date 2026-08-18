@@ -7,6 +7,7 @@ export class ImgproxyService implements OnModuleInit {
   private keyBuffer!: Buffer;
   private saltBuffer!: Buffer;
   private baseUrl!: string;
+  private sourceBaseUrl!: string;
 
   constructor(private configService: ConfigService) {}
 
@@ -17,13 +18,21 @@ export class ImgproxyService implements OnModuleInit {
       'IMGPROXY_BASE_URL',
       'http://localhost:8079',
     );
+    this.sourceBaseUrl = this.configService.get<string>(
+      'IMAGE_SOURCE_BASE_URL',
+      'http://host.docker.internal:4000',
+    );
 
     this.keyBuffer = Buffer.from(keyHex, 'hex');
     this.saltBuffer = Buffer.from(saltHex, 'hex');
   }
 
-  generateSignedUrl(src: string, preset: string) {
-    const path = `/pr:${preset}/plain/${src}`;
+  generateSignedUrl(relativePath: string, preset: string) {
+    const normalizedPath = relativePath.replace(/\\/g, '/').replace(/^\//, '');
+    const fullSourceUrl = `${this.sourceBaseUrl}/${normalizedPath}`;
+    const encodedSourceUrl = Buffer.from(fullSourceUrl).toString('base64url');
+
+    const path = `/${preset}/${encodedSourceUrl}`;
     const hmac = createHmac('sha256', this.keyBuffer);
 
     hmac.update(this.saltBuffer);

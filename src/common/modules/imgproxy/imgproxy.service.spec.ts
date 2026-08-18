@@ -26,6 +26,8 @@ describe('ImgproxyService', () => {
 
     service = module.get<ImgproxyService>(ImgproxyService);
     service.onModuleInit();
+
+    console.log('sourceBaseUrl =', service['sourceBaseUrl']);
   });
 
   it('should be defined', () => {
