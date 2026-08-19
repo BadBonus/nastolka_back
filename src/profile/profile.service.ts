@@ -11,6 +11,7 @@ import { UploadsService } from '../common/modules/uploads/uploads.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
 import { buildImagePath } from '@/utils/pathToImg';
+import { PATH_UPLOADED_AVATARS } from './profile.constants';
 
 @Injectable()
 export class ProfileService {
@@ -65,7 +66,7 @@ export class ProfileService {
       const avatar = await this.uploadsService.saveToDisk(
         buffer,
         'png',
-        process.env.PATH_UPLOADED_AVATARS,
+        PATH_UPLOADED_AVATARS,
       );
       dataToUpdate.avatar = avatar.fileName;
     }

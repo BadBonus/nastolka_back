@@ -36,7 +36,7 @@ export class UploadsService {
   async saveToDisk(
     buffer: Buffer,
     format: 'jpeg' | 'png' = 'jpeg',
-    pathToSave = process.env.DEFAULT_PATH_UPLOADED,
+    pathToSave = process.env.DEFAULT_PATH_UPLOADED_FOLDER,
   ): Promise<{ fileName: string; relativePath: string }> {
     if (!pathToSave) throw new Error('Путь для сохранения файла не указан');
 

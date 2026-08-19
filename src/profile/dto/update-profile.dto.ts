@@ -11,6 +11,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
+import { PROFILE_AVATAR_SIZE } from './../profile.constants';
 
 export class ScheduleIntervalDto {
   @ApiProperty({ description: 'День недели (1-7)', example: 1 })
@@ -48,7 +49,12 @@ export class UpdateProfileDto {
   @ApiPropertyOptional({
     type: 'string',
     format: 'binary',
-    description: 'Файл аватара',
+    description:
+      'Аватар пользователя, размерность ' +
+      PROFILE_AVATAR_SIZE[0] +
+      'x' +
+      PROFILE_AVATAR_SIZE[1] +
+      ' пикселей',
   })
   @IsOptional()
   avatar?: any;

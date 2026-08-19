@@ -38,8 +38,7 @@ import { HttpStatus } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageDimensionsPipe, ImageValidationPipe } from '@/common/pipes';
-
-const PROFILE_AVATAR_SIZE = [256, 256] as [number, number];
+import { PROFILE_AVATAR_SIZE } from './profile.constants';
 
 @ApiTags('Profile')
 @Controller('profile')
