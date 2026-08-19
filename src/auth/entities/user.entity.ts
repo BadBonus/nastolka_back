@@ -1,10 +1,19 @@
 import { TUser } from '@/shared/types';
 import { Exclude, Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Exclude()
 export class User implements TUser {
-  @Expose() id!: number;
-  @Expose() nickname!: string;
-  @Expose() email!: string;
-  @Expose() avatar!: string | null;
+  @ApiProperty()
+  @Expose()
+  id!: number;
+  @ApiProperty()
+  @Expose()
+  nickname!: string;
+  @ApiProperty()
+  @Expose()
+  email!: string;
+  @ApiProperty()
+  @Expose()
+  avatar!: string | null;
 }

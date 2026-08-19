@@ -59,7 +59,7 @@ export class ProfileService {
     dto: UpdateProfileDto,
     file?: Express.Multer.File,
   ) {
-    const { ...updateData } = dto;
+    const { schedules, ...updateData } = dto;
     const dataToUpdate: Record<string, any> = { ...updateData };
     if (file && file.buffer) {
       const buffer = await this.uploadsService.optimizeImage(file.buffer);
@@ -72,7 +72,17 @@ export class ProfileService {
     }
     return this.prisma.user.update({
       where: { id: userId },
-      data: dataToUpdate,
+      data: {
+        ...dataToUpdate,
+        ...(schedules && {
+          schedules: {
+            deleteMany: {},
+            createMany: {
+              data: schedules,
+            },
+          },
+        }),
+      },
     });
   }
 

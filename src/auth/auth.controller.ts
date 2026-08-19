@@ -33,7 +33,7 @@ import { WEEK_IN_MS } from '@/utils/vars';
 import type { TUser } from '@shared/types';
 import { LoginResponse } from './dto/login-response.dto';
 import { User } from './entities/user.entity';
-
+import { CurrentUser, Cookies } from '@/common/decorators/index';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
 import { REFRESH_TOKEN_NAME } from './utils';
 
@@ -122,17 +122,15 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   async logout(
-    @Req() req: Request & { user: { id: number } },
+    @CurrentUser('userId') userId: number,
+    @Cookies(REFRESH_TOKEN_NAME) refreshToken: string | undefined,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const refreshToken = req.cookies[REFRESH_TOKEN_NAME];
-
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token not found');
     }
 
-    await this.authService.logout(req.user.id, refreshToken);
-
+    await this.authService.logout(userId, refreshToken);
     res.clearCookie(REFRESH_TOKEN_NAME, COOKIE_OPTIONS);
 
     return { message: 'Успешный выход' };

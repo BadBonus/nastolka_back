@@ -100,6 +100,10 @@ export class AuthService {
       where: { refreshToken },
     });
 
+    console.log(userId);
+    console.log('МЕТКА!!!!!!!!!!!!!!');
+    console.log(session);
+
     if (!session || session.userId !== userId) {
       throw new UnauthorizedException('Invalid session');
     }
