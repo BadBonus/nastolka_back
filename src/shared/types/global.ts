@@ -13,4 +13,5 @@ export type TUser = {
   nickname: string;
   email: string;
   id: number;
+  avatar?: string | null;
 };

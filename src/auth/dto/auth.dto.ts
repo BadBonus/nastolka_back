@@ -1,5 +1,13 @@
-import { IsEmail, IsString, MinLength, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  Length,
+  IsOptional,
+} from 'class-validator';
 import { Match } from '@/utils/decorators/match.decorator';
+import { ApiProperty } from '@nestjs/swagger';
+import { optional } from 'zod';
 
 export class RegisterDto {
   @IsEmail({}, { message: 'Укажите корректный email' })
@@ -14,6 +22,11 @@ export class RegisterDto {
 
   @IsString()
   nickname!: string;
+
+  @ApiProperty({ example: 'Europe/Minsk', required: false })
+  @IsString()
+  @IsOptional()
+  timezone?: string;
 }
 
 export class LoginDto {

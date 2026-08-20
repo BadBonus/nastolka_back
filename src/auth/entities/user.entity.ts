@@ -13,7 +13,7 @@ export class User implements TUser {
   @ApiProperty()
   @Expose()
   email!: string;
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   @Expose()
   avatar!: string | null;
 }

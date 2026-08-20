@@ -100,10 +100,6 @@ export class AuthService {
       where: { refreshToken },
     });
 
-    console.log(userId);
-    console.log('МЕТКА!!!!!!!!!!!!!!');
-    console.log(session);
-
     if (!session || session.userId !== userId) {
       throw new UnauthorizedException('Invalid session');
     }
@@ -120,8 +116,16 @@ export class AuthService {
         id: true,
         email: true,
         nickname: true,
+        avatar: true,
       },
     });
+
+    if (user?.avatar) {
+      user.avatar = this.imgproxyService.generateSignedUrl(
+        buildImagePath('avatars') + user.avatar,
+        'avatar',
+      );
+    }
 
     if (!user) {
       throw new UnauthorizedException('Пользователь не найден');
@@ -137,14 +141,23 @@ export class AuthService {
   }> {
     const { accessToken, refreshToken, userId } =
       await this.sessionService.refreshTokens(oldRefreshToken);
+
     const user = (await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
         email: true,
         nickname: true,
+        avatar: true,
       },
     })) as TUser;
+
+    if (user?.avatar) {
+      user.avatar = this.imgproxyService.generateSignedUrl(
+        buildImagePath('avatars') + user.avatar,
+        'avatar',
+      );
+    }
 
     return {
       accessToken,
@@ -154,7 +167,7 @@ export class AuthService {
   }
 
   async register(dto: RegisterDto): Promise<string> {
-    const { email, password, nickname } = dto;
+    const { email, password, nickname, timezone } = dto;
 
     try {
       return await this.prisma.$transaction(
@@ -166,7 +179,6 @@ export class AuthService {
             );
           }
 
-          // Поиск роли по системному имени
           const defaultRole = await tx.role.findUnique({
             where: { name: process.env.DEFAULT_USER_ROLE },
           });
@@ -185,7 +197,8 @@ export class AuthService {
               nickname,
               email,
               slug,
-              roleId: defaultRole.id, // сразу присваиваем роль "user
+              roleId: defaultRole.id,
+              ...(timezone && { timezone }),
             },
           });
 
@@ -199,7 +212,7 @@ export class AuthService {
           });
 
           const code = Math.floor(100000 + Math.random() * 900000).toString();
-          const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 минут
+          const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
           await tx.verificationCode.upsert({
             where: { email: newUser.email },
