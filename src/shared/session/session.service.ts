@@ -7,7 +7,7 @@ import { Prisma } from '@pGen/browser';
 
 type TSucAuthFBWithRefresh = TSucAuthFB & { refreshToken: string };
 type TUserPayload = {
-  id: number;
+  id: string;
   email: string;
   nickname: string;
 };
@@ -52,7 +52,7 @@ export class SessionService {
     });
   }
 
-  async deleteAllUserSessions(userId: number) {
+  async deleteAllUserSessions(userId: string) {
     return await this.prisma.session.deleteMany({
       where: { userId },
     });

@@ -1,17 +1,17 @@
-  enum EAccProviders {
+enum EAccProviders {
   EMAIL
   GOOGLE
 }
 
-
 model Account {
-  id                Int      @id @default(autoincrement())
-  userId            Int      @map("user_id")
-  provider          EAccProviders   @default(EMAIL)
-  providerAccountId String   @map("provider_account_id")
-  passwordHash      String?  @map("password_hash")
-  createdAt         DateTime @default(now()) @map("created_at")
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String        @id @default(uuid())
+  userId            String        @map("user_id")
+  provider          EAccProviders @default(EMAIL)
+  providerAccountId String        @map("provider_account_id")
+  passwordHash      String?       @map("password_hash")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId, userId], name: "provider_idx")
   @@map("accounts")
 }

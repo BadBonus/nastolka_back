@@ -6,7 +6,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class User implements TUser {
   @ApiProperty()
   @Expose()
-  id!: number;
+  id!: string;
   @ApiProperty()
   @Expose()
   nickname!: string;

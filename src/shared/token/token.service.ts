@@ -11,7 +11,7 @@ export class TokenService {
     private configService: ConfigService,
   ) {}
 
-  async generateAccessToken(userId: number): Promise<string> {
+  async generateAccessToken(userId: string): Promise<string> {
     return this.jwtService.signAsync(
       { userId },
       {
@@ -21,7 +21,7 @@ export class TokenService {
     );
   }
 
-  async generateRefreshToken(userId: number): Promise<string> {
+  async generateRefreshToken(userId: string): Promise<string> {
     return this.jwtService.signAsync(
       { userId },
       {
@@ -32,7 +32,7 @@ export class TokenService {
   }
 
   async generateTokens(
-    userId: number,
+    userId: string,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     return await Promise.all([
       this.generateAccessToken(userId),
@@ -46,7 +46,7 @@ export class TokenService {
       const fb = await this.jwtService.verifyAsync(token, {
         secret: this.configService.getOrThrow<string>('JWT_SECRET'),
       });
-      return fb as { userId: number };
+      return fb as { userId: string };
     } catch (err: unknown) {
       if (err instanceof TokenExpiredError)
         throw new UnauthorizedException('Срок действия токена истек');

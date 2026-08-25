@@ -1,3 +1,3 @@
 export type TActiveUser = {
-  userId: number;
+  userId: string;
 };

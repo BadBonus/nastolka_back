@@ -29,32 +29,28 @@ export type AggregateUserSchedule = {
 }
 
 export type UserScheduleAvgAggregateOutputType = {
-  id: number | null
-  userId: number | null
   dayOfWeek: number | null
   startTime: number | null
   endTime: number | null
 }
 
 export type UserScheduleSumAggregateOutputType = {
-  id: number | null
-  userId: number | null
   dayOfWeek: number | null
   startTime: number | null
   endTime: number | null
 }
 
 export type UserScheduleMinAggregateOutputType = {
-  id: number | null
-  userId: number | null
+  id: string | null
+  userId: string | null
   dayOfWeek: number | null
   startTime: number | null
   endTime: number | null
 }
 
 export type UserScheduleMaxAggregateOutputType = {
-  id: number | null
-  userId: number | null
+  id: string | null
+  userId: string | null
   dayOfWeek: number | null
   startTime: number | null
   endTime: number | null
@@ -71,16 +67,12 @@ export type UserScheduleCountAggregateOutputType = {
 
 
 export type UserScheduleAvgAggregateInputType = {
-  id?: true
-  userId?: true
   dayOfWeek?: true
   startTime?: true
   endTime?: true
 }
 
 export type UserScheduleSumAggregateInputType = {
-  id?: true
-  userId?: true
   dayOfWeek?: true
   startTime?: true
   endTime?: true
@@ -198,8 +190,8 @@ export type UserScheduleGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 export type UserScheduleGroupByOutputType = {
-  id: number
-  userId: number
+  id: string
+  userId: string
   dayOfWeek: number
   startTime: number
   endTime: number
@@ -229,8 +221,8 @@ export type UserScheduleWhereInput = {
   AND?: Prisma.UserScheduleWhereInput | Prisma.UserScheduleWhereInput[]
   OR?: Prisma.UserScheduleWhereInput[]
   NOT?: Prisma.UserScheduleWhereInput | Prisma.UserScheduleWhereInput[]
-  id?: Prisma.IntFilter<"UserSchedule"> | number
-  userId?: Prisma.IntFilter<"UserSchedule"> | number
+  id?: Prisma.StringFilter<"UserSchedule"> | string
+  userId?: Prisma.StringFilter<"UserSchedule"> | string
   dayOfWeek?: Prisma.IntFilter<"UserSchedule"> | number
   startTime?: Prisma.IntFilter<"UserSchedule"> | number
   endTime?: Prisma.IntFilter<"UserSchedule"> | number
@@ -247,11 +239,11 @@ export type UserScheduleOrderByWithRelationInput = {
 }
 
 export type UserScheduleWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.UserScheduleWhereInput | Prisma.UserScheduleWhereInput[]
   OR?: Prisma.UserScheduleWhereInput[]
   NOT?: Prisma.UserScheduleWhereInput | Prisma.UserScheduleWhereInput[]
-  userId?: Prisma.IntFilter<"UserSchedule"> | number
+  userId?: Prisma.StringFilter<"UserSchedule"> | string
   dayOfWeek?: Prisma.IntFilter<"UserSchedule"> | number
   startTime?: Prisma.IntFilter<"UserSchedule"> | number
   endTime?: Prisma.IntFilter<"UserSchedule"> | number
@@ -275,14 +267,15 @@ export type UserScheduleScalarWhereWithAggregatesInput = {
   AND?: Prisma.UserScheduleScalarWhereWithAggregatesInput | Prisma.UserScheduleScalarWhereWithAggregatesInput[]
   OR?: Prisma.UserScheduleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScheduleScalarWhereWithAggregatesInput | Prisma.UserScheduleScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"UserSchedule"> | number
-  userId?: Prisma.IntWithAggregatesFilter<"UserSchedule"> | number
+  id?: Prisma.StringWithAggregatesFilter<"UserSchedule"> | string
+  userId?: Prisma.StringWithAggregatesFilter<"UserSchedule"> | string
   dayOfWeek?: Prisma.IntWithAggregatesFilter<"UserSchedule"> | number
   startTime?: Prisma.IntWithAggregatesFilter<"UserSchedule"> | number
   endTime?: Prisma.IntWithAggregatesFilter<"UserSchedule"> | number
 }
 
 export type UserScheduleCreateInput = {
+  id?: string
   dayOfWeek: number
   startTime: number
   endTime: number
@@ -290,14 +283,15 @@ export type UserScheduleCreateInput = {
 }
 
 export type UserScheduleUncheckedCreateInput = {
-  id?: number
-  userId: number
+  id?: string
+  userId: string
   dayOfWeek: number
   startTime: number
   endTime: number
 }
 
 export type UserScheduleUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
@@ -305,30 +299,31 @@ export type UserScheduleUpdateInput = {
 }
 
 export type UserScheduleUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserScheduleCreateManyInput = {
-  id?: number
-  userId: number
+  id?: string
+  userId: string
   dayOfWeek: number
   startTime: number
   endTime: number
 }
 
 export type UserScheduleUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserScheduleUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
@@ -353,8 +348,6 @@ export type UserScheduleCountOrderByAggregateInput = {
 }
 
 export type UserScheduleAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
@@ -377,8 +370,6 @@ export type UserScheduleMinOrderByAggregateInput = {
 }
 
 export type UserScheduleSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
@@ -426,14 +417,23 @@ export type UserScheduleUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.UserScheduleScalarWhereInput | Prisma.UserScheduleScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type UserScheduleCreateWithoutUserInput = {
+  id?: string
   dayOfWeek: number
   startTime: number
   endTime: number
 }
 
 export type UserScheduleUncheckedCreateWithoutUserInput = {
-  id?: number
+  id?: string
   dayOfWeek: number
   startTime: number
   endTime: number
@@ -469,35 +469,36 @@ export type UserScheduleScalarWhereInput = {
   AND?: Prisma.UserScheduleScalarWhereInput | Prisma.UserScheduleScalarWhereInput[]
   OR?: Prisma.UserScheduleScalarWhereInput[]
   NOT?: Prisma.UserScheduleScalarWhereInput | Prisma.UserScheduleScalarWhereInput[]
-  id?: Prisma.IntFilter<"UserSchedule"> | number
-  userId?: Prisma.IntFilter<"UserSchedule"> | number
+  id?: Prisma.StringFilter<"UserSchedule"> | string
+  userId?: Prisma.StringFilter<"UserSchedule"> | string
   dayOfWeek?: Prisma.IntFilter<"UserSchedule"> | number
   startTime?: Prisma.IntFilter<"UserSchedule"> | number
   endTime?: Prisma.IntFilter<"UserSchedule"> | number
 }
 
 export type UserScheduleCreateManyUserInput = {
-  id?: number
+  id?: string
   dayOfWeek: number
   startTime: number
   endTime: number
 }
 
 export type UserScheduleUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserScheduleUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserScheduleUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   dayOfWeek?: Prisma.IntFieldUpdateOperationsInput | number
   startTime?: Prisma.IntFieldUpdateOperationsInput | number
   endTime?: Prisma.IntFieldUpdateOperationsInput | number
@@ -557,8 +558,8 @@ export type $UserSchedulePayload<ExtArgs extends runtime.Types.Extensions.Intern
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    userId: number
+    id: string
+    userId: string
     dayOfWeek: number
     startTime: number
     endTime: number
@@ -986,8 +987,8 @@ export interface Prisma__UserScheduleClient<T, Null = never, ExtArgs extends run
  * Fields of the UserSchedule model
  */
 export interface UserScheduleFieldRefs {
-  readonly id: Prisma.FieldRef<"UserSchedule", 'Int'>
-  readonly userId: Prisma.FieldRef<"UserSchedule", 'Int'>
+  readonly id: Prisma.FieldRef<"UserSchedule", 'String'>
+  readonly userId: Prisma.FieldRef<"UserSchedule", 'String'>
   readonly dayOfWeek: Prisma.FieldRef<"UserSchedule", 'Int'>
   readonly startTime: Prisma.FieldRef<"UserSchedule", 'Int'>
   readonly endTime: Prisma.FieldRef<"UserSchedule", 'Int'>

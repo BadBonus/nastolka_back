@@ -34,8 +34,6 @@ import {
   ProfileUserMe,
   ProfileUserWithId,
 } from './dto/profile-user.response.dto';
-import { HttpStatus } from '@nestjs/common';
-import { ParseIntPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageDimensionsPipe, ImageValidationPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from './profile.constants';
@@ -55,7 +53,7 @@ export class ProfileController {
     description: 'Получения данных текущего авторизованного пользователя',
     type: ProfileUserMe,
   })
-  async getMyProfile(@Req() req: { user: { userId: number } }) {
+  async getMyProfile(@Req() req: { user: { userId: string } }) {
     const { userId } = req.user;
 
     return this.profileService.findUser(userId);
@@ -66,15 +64,7 @@ export class ProfileController {
     description: 'Получения данных пользователя по id',
     type: ProfileUserWithId,
   })
-  async findOne(
-    @Param(
-      'id',
-      new ParseIntPipe({
-        errorHttpStatusCode: HttpStatus.NOT_FOUND,
-      }),
-    )
-    id: number,
-  ) {
+  async findOne(@Param('id') id: string) {
     const user = await this.profileService.findUser(id);
 
     if (!user) {
@@ -108,7 +98,7 @@ export class ProfileController {
   @RequirePermissions(AppPermission.USER_EDIT)
   @UseInterceptors(FileInterceptor('avatar'))
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() dto: UpdateProfileDto,
     @UploadedFile(
       new ImageValidationPipe(true),

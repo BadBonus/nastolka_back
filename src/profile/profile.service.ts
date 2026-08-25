@@ -24,7 +24,7 @@ export class ProfileService {
     return 'This action adds a new profile';
   }
 
-  async findUser(userId: number) {
+  async findUser(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -55,7 +55,7 @@ export class ProfileService {
   }
 
   async updateProfile(
-    userId: number,
+    userId: string,
     dto: UpdateProfileDto,
     file?: Express.Multer.File,
   ) {
@@ -86,7 +86,7 @@ export class ProfileService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} profile`;
   }
 }

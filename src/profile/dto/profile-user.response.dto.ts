@@ -18,7 +18,7 @@ export class ScheduleIntervalEntity {
 
 @Exclude()
 export class ProfileUserMe implements Omit<UserModel, 'sub'> {
-  @Expose() id!: number;
+  @Expose() id!: string;
   @Expose() nickname!: string;
   @Expose() email!: string;
   @Expose() fullName!: string | null;
@@ -30,7 +30,7 @@ export class ProfileUserMe implements Omit<UserModel, 'sub'> {
   @Expose() soclinks!: Record<string, string> | null;
   @Expose() gameHistory!: Array<unknown>;
   @Expose() isVerified!: boolean;
-  @Expose() roleId!: number;
+  @Expose() roleId!: string;
   @ApiProperty({
     type: () => [ScheduleIntervalEntity],
     description: 'Интервалы доступности пользователя',
@@ -45,7 +45,7 @@ export class ProfileUserWithId implements Omit<
   UserModel,
   'sub' | 'birthdate' | 'isVerified' | 'roleId'
 > {
-  @Expose() id!: number;
+  @Expose() id!: string;
   @Expose() nickname!: string;
   @Expose() email!: string;
   @Expose() fullName!: string | null;

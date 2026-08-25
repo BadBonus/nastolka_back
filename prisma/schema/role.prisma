@@ -1,5 +1,5 @@
 model Role {
-  id          Int                  @id @default(autoincrement())
+  id          String               @id @default(uuid())
   name        String               @unique
   users       User[]
   permissions RolesOnPermissions[]
@@ -8,7 +8,7 @@ model Role {
 }
 
 model Permission {
-  id    Int                  @id @default(autoincrement())
+  id    String               @id @default(uuid())
   slug  String               @unique
   roles RolesOnPermissions[]
 
@@ -16,8 +16,8 @@ model Permission {
 }
 
 model RolesOnPermissions {
-  roleId       Int        @map("role_id")
-  permissionId Int        @map("permission_id")
+  roleId       String     @map("role_id")
+  permissionId String     @map("permission_id")
   role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 

@@ -95,7 +95,7 @@ export class AuthService {
     };
   }
 
-  async logout(userId: number, refreshToken: string) {
+  async logout(userId: string, refreshToken: string) {
     const session = await this.prisma.session.findUnique({
       where: { refreshToken },
     });
@@ -109,7 +109,7 @@ export class AuthService {
     });
   }
 
-  async me(userId: number) {
+  async me(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -275,7 +275,7 @@ export class AuthService {
     });
   }
 
-  async deleteUser(userId: number) {
+  async deleteUser(userId: string) {
     try {
       await this.prisma.user.delete({
         where: { id: userId }, //каскадное удаление сессий и аккаунтов настроено в Prisma

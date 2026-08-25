@@ -109,10 +109,10 @@ export class AuthController {
   @ApiBearerAuth()
   @Delete('me')
   async selfDelete(
-    @Req() req: { user: { id: number } },
+    @Req() req: { user: { userId: string } },
     @Res({ passthrough: true }) res: Response,
   ) {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     await this.authService.deleteUser(userId);
     res.clearCookie(REFRESH_TOKEN_NAME);
     return true;
@@ -122,7 +122,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   async logout(
-    @CurrentUser('userId') userId: number,
+    @CurrentUser('userId') userId: string,
     @Cookies(REFRESH_TOKEN_NAME) refreshToken: string | undefined,
     @Res({ passthrough: true }) res: Response,
   ) {

@@ -22,25 +22,13 @@ export type AccountModel = runtime.Types.Result.DefaultSelection<Prisma.$Account
 
 export type AggregateAccount = {
   _count: AccountCountAggregateOutputType | null
-  _avg: AccountAvgAggregateOutputType | null
-  _sum: AccountSumAggregateOutputType | null
   _min: AccountMinAggregateOutputType | null
   _max: AccountMaxAggregateOutputType | null
 }
 
-export type AccountAvgAggregateOutputType = {
-  id: number | null
-  userId: number | null
-}
-
-export type AccountSumAggregateOutputType = {
-  id: number | null
-  userId: number | null
-}
-
 export type AccountMinAggregateOutputType = {
-  id: number | null
-  userId: number | null
+  id: string | null
+  userId: string | null
   provider: $Enums.EAccProviders | null
   providerAccountId: string | null
   passwordHash: string | null
@@ -48,8 +36,8 @@ export type AccountMinAggregateOutputType = {
 }
 
 export type AccountMaxAggregateOutputType = {
-  id: number | null
-  userId: number | null
+  id: string | null
+  userId: string | null
   provider: $Enums.EAccProviders | null
   providerAccountId: string | null
   passwordHash: string | null
@@ -66,16 +54,6 @@ export type AccountCountAggregateOutputType = {
   _all: number
 }
 
-
-export type AccountAvgAggregateInputType = {
-  id?: true
-  userId?: true
-}
-
-export type AccountSumAggregateInputType = {
-  id?: true
-  userId?: true
-}
 
 export type AccountMinAggregateInputType = {
   id?: true
@@ -143,18 +121,6 @@ export type AccountAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: AccountAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: AccountSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: AccountMinAggregateInputType
@@ -185,22 +151,18 @@ export type AccountGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: AccountCountAggregateInputType | true
-  _avg?: AccountAvgAggregateInputType
-  _sum?: AccountSumAggregateInputType
   _min?: AccountMinAggregateInputType
   _max?: AccountMaxAggregateInputType
 }
 
 export type AccountGroupByOutputType = {
-  id: number
-  userId: number
+  id: string
+  userId: string
   provider: $Enums.EAccProviders
   providerAccountId: string
   passwordHash: string | null
   createdAt: Date
   _count: AccountCountAggregateOutputType | null
-  _avg: AccountAvgAggregateOutputType | null
-  _sum: AccountSumAggregateOutputType | null
   _min: AccountMinAggregateOutputType | null
   _max: AccountMaxAggregateOutputType | null
 }
@@ -224,8 +186,8 @@ export type AccountWhereInput = {
   AND?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
   OR?: Prisma.AccountWhereInput[]
   NOT?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
-  id?: Prisma.IntFilter<"Account"> | number
-  userId?: Prisma.IntFilter<"Account"> | number
+  id?: Prisma.StringFilter<"Account"> | string
+  userId?: Prisma.StringFilter<"Account"> | string
   provider?: Prisma.EnumEAccProvidersFilter<"Account"> | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFilter<"Account"> | string
   passwordHash?: Prisma.StringNullableFilter<"Account"> | string | null
@@ -244,12 +206,12 @@ export type AccountOrderByWithRelationInput = {
 }
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   provider_idx?: Prisma.AccountProvider_idxCompoundUniqueInput
   AND?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
   OR?: Prisma.AccountWhereInput[]
   NOT?: Prisma.AccountWhereInput | Prisma.AccountWhereInput[]
-  userId?: Prisma.IntFilter<"Account"> | number
+  userId?: Prisma.StringFilter<"Account"> | string
   provider?: Prisma.EnumEAccProvidersFilter<"Account"> | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFilter<"Account"> | string
   passwordHash?: Prisma.StringNullableFilter<"Account"> | string | null
@@ -265,18 +227,16 @@ export type AccountOrderByWithAggregationInput = {
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AccountCountOrderByAggregateInput
-  _avg?: Prisma.AccountAvgOrderByAggregateInput
   _max?: Prisma.AccountMaxOrderByAggregateInput
   _min?: Prisma.AccountMinOrderByAggregateInput
-  _sum?: Prisma.AccountSumOrderByAggregateInput
 }
 
 export type AccountScalarWhereWithAggregatesInput = {
   AND?: Prisma.AccountScalarWhereWithAggregatesInput | Prisma.AccountScalarWhereWithAggregatesInput[]
   OR?: Prisma.AccountScalarWhereWithAggregatesInput[]
   NOT?: Prisma.AccountScalarWhereWithAggregatesInput | Prisma.AccountScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"Account"> | number
-  userId?: Prisma.IntWithAggregatesFilter<"Account"> | number
+  id?: Prisma.StringWithAggregatesFilter<"Account"> | string
+  userId?: Prisma.StringWithAggregatesFilter<"Account"> | string
   provider?: Prisma.EnumEAccProvidersWithAggregatesFilter<"Account"> | $Enums.EAccProviders
   providerAccountId?: Prisma.StringWithAggregatesFilter<"Account"> | string
   passwordHash?: Prisma.StringNullableWithAggregatesFilter<"Account"> | string | null
@@ -284,6 +244,7 @@ export type AccountScalarWhereWithAggregatesInput = {
 }
 
 export type AccountCreateInput = {
+  id?: string
   provider?: $Enums.EAccProviders
   providerAccountId: string
   passwordHash?: string | null
@@ -292,8 +253,8 @@ export type AccountCreateInput = {
 }
 
 export type AccountUncheckedCreateInput = {
-  id?: number
-  userId: number
+  id?: string
+  userId: string
   provider?: $Enums.EAccProviders
   providerAccountId: string
   passwordHash?: string | null
@@ -301,6 +262,7 @@ export type AccountUncheckedCreateInput = {
 }
 
 export type AccountUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -309,8 +271,8 @@ export type AccountUpdateInput = {
 }
 
 export type AccountUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -318,8 +280,8 @@ export type AccountUncheckedUpdateInput = {
 }
 
 export type AccountCreateManyInput = {
-  id?: number
-  userId: number
+  id?: string
+  userId: string
   provider?: $Enums.EAccProviders
   providerAccountId: string
   passwordHash?: string | null
@@ -327,6 +289,7 @@ export type AccountCreateManyInput = {
 }
 
 export type AccountUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -334,8 +297,8 @@ export type AccountUpdateManyMutationInput = {
 }
 
 export type AccountUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -345,7 +308,7 @@ export type AccountUncheckedUpdateManyInput = {
 export type AccountProvider_idxCompoundUniqueInput = {
   provider: $Enums.EAccProviders
   providerAccountId: string
-  userId: number
+  userId: string
 }
 
 export type AccountCountOrderByAggregateInput = {
@@ -355,11 +318,6 @@ export type AccountCountOrderByAggregateInput = {
   providerAccountId?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-}
-
-export type AccountAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
 export type AccountMaxOrderByAggregateInput = {
@@ -380,11 +338,6 @@ export type AccountMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
-export type AccountSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-}
-
 export type AccountListRelationFilter = {
   every?: Prisma.AccountWhereInput
   some?: Prisma.AccountWhereInput
@@ -395,12 +348,12 @@ export type AccountOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type EnumEAccProvidersFieldUpdateOperationsInput = {
-  set?: $Enums.EAccProviders
-}
-
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type EnumEAccProvidersFieldUpdateOperationsInput = {
+  set?: $Enums.EAccProviders
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -409,14 +362,6 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type AccountCreateNestedManyWithoutUserInput = {
@@ -462,6 +407,7 @@ export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
 }
 
 export type AccountCreateWithoutUserInput = {
+  id?: string
   provider?: $Enums.EAccProviders
   providerAccountId: string
   passwordHash?: string | null
@@ -469,7 +415,7 @@ export type AccountCreateWithoutUserInput = {
 }
 
 export type AccountUncheckedCreateWithoutUserInput = {
-  id?: number
+  id?: string
   provider?: $Enums.EAccProviders
   providerAccountId: string
   passwordHash?: string | null
@@ -506,8 +452,8 @@ export type AccountScalarWhereInput = {
   AND?: Prisma.AccountScalarWhereInput | Prisma.AccountScalarWhereInput[]
   OR?: Prisma.AccountScalarWhereInput[]
   NOT?: Prisma.AccountScalarWhereInput | Prisma.AccountScalarWhereInput[]
-  id?: Prisma.IntFilter<"Account"> | number
-  userId?: Prisma.IntFilter<"Account"> | number
+  id?: Prisma.StringFilter<"Account"> | string
+  userId?: Prisma.StringFilter<"Account"> | string
   provider?: Prisma.EnumEAccProvidersFilter<"Account"> | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFilter<"Account"> | string
   passwordHash?: Prisma.StringNullableFilter<"Account"> | string | null
@@ -515,7 +461,7 @@ export type AccountScalarWhereInput = {
 }
 
 export type AccountCreateManyUserInput = {
-  id?: number
+  id?: string
   provider?: $Enums.EAccProviders
   providerAccountId: string
   passwordHash?: string | null
@@ -523,6 +469,7 @@ export type AccountCreateManyUserInput = {
 }
 
 export type AccountUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -530,7 +477,7 @@ export type AccountUpdateWithoutUserInput = {
 }
 
 export type AccountUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -538,7 +485,7 @@ export type AccountUncheckedUpdateWithoutUserInput = {
 }
 
 export type AccountUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.EnumEAccProvidersFieldUpdateOperationsInput | $Enums.EAccProviders
   providerAccountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -603,8 +550,8 @@ export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    userId: number
+    id: string
+    userId: string
     provider: $Enums.EAccProviders
     providerAccountId: string
     passwordHash: string | null
@@ -1033,8 +980,8 @@ export interface Prisma__AccountClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Account model
  */
 export interface AccountFieldRefs {
-  readonly id: Prisma.FieldRef<"Account", 'Int'>
-  readonly userId: Prisma.FieldRef<"Account", 'Int'>
+  readonly id: Prisma.FieldRef<"Account", 'String'>
+  readonly userId: Prisma.FieldRef<"Account", 'String'>
   readonly provider: Prisma.FieldRef<"Account", 'EAccProviders'>
   readonly providerAccountId: Prisma.FieldRef<"Account", 'String'>
   readonly passwordHash: Prisma.FieldRef<"Account", 'String'>

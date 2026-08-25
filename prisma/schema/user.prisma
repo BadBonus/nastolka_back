@@ -2,36 +2,37 @@ model User {
   fullName           String?             @map("full_name")
   nickname           String
   email              String              @unique
-  roleId             Int                @map("role_id")
-  role   Role @relation(fields: [roleId], references: [id])
+  roleId             String              @map("role_id")
+  role               Role                @relation(fields: [roleId], references: [id])
   description        String?
   birthdate          DateTime?
   slug               String              @unique @db.VarChar(256)
   avatar             String?             @map("avatar_url")
   timezone           String?             @default("UTC") @db.VarChar(100)
   isVerified         Boolean             @default(false) @map("is_verified")
-  id           Int       @id @default(autoincrement())
-  sub          Json      @default("{\"events\": [], \"gamemasters\": []}")
-  soclinks     Json?
-  gameHistory  Json      @default("[]")
-  accounts     Account[] 
-  sessions     Session[]
+  id                 String              @id @default(uuid())
+  sub                Json                @default("{\"events\": [], \"gamemasters\": []}")
+  soclinks           Json?
+  gameHistory        Json                @default("[]")
+  accounts           Account[]
+  sessions           Session[]
   passwordResetToken PasswordResetToken?
-  schedules UserSchedule[]
+  schedules          UserSchedule[]
+  supportTickets     SupportTicket[]
+
   @@map("users")
 }
 
 model UserSchedule {
-  id        Int    @id @default(autoincrement())
-  userId    Int    @map("user_id")
-  user      User   @relation(fields: [userId], references: [id])
+  id        String @id @default(uuid())
+  userId    String @map("user_id")
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   dayOfWeek Int    @map("day_of_week")
   startTime Int    @map("start_time")
   endTime   Int    @map("end_time")
 
   @@map("user_schedules")
 }
-
 
 enum ESocLinks {
   VK

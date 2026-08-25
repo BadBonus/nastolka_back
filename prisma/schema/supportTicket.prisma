@@ -5,19 +5,20 @@ enum SupportTicketStatus {
 }
 
 model SupportTicket {
-  id        String       @id @default(uuid())
+  id        String              @id @default(uuid())
   userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   status    SupportTicketStatus @default(OPEN)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
   messages  SupportMessage[]
 }
 
 model SupportMessage {
-  id        String   @id @default(uuid())
+  id        String        @id @default(uuid())
   ticketId  String
   senderId  String
   content   String
-  createdAt DateTime @default(now())
-  ticket    SupportTicket   @relation(fields: [ticketId], references: [id])
+  createdAt DateTime      @default(now())
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }

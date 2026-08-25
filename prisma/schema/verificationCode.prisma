@@ -1,17 +1,18 @@
 model VerificationCode {
-  id        Int      @id @default(autoincrement())
-  code      String   
-  email     String  @unique  
-  expiresAt DateTime  @db.Timestamptz()
-  createdAt DateTime  @default(now()) @db.Timestamptz()
+  id         String   @id @default(uuid())
+  code       String
+  email      String   @unique
+  expiresAt  DateTime @db.Timestamptz()
+  createdAt  DateTime @default(now()) @db.Timestamptz()
   lastSentAt DateTime @default(now()) @map("last_sent_at") @db.Timestamptz()
+
   @@map("verification_codes")
 }
 
 model PasswordResetToken {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   token     String   @unique
-  userId    Int      @unique
+  userId    String   @unique
   expiresAt DateTime @db.Timestamptz()
   createdAt DateTime @default(now()) @db.Timestamptz()
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

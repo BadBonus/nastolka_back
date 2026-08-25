@@ -22,22 +22,12 @@ export type VerificationCodeModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateVerificationCode = {
   _count: VerificationCodeCountAggregateOutputType | null
-  _avg: VerificationCodeAvgAggregateOutputType | null
-  _sum: VerificationCodeSumAggregateOutputType | null
   _min: VerificationCodeMinAggregateOutputType | null
   _max: VerificationCodeMaxAggregateOutputType | null
 }
 
-export type VerificationCodeAvgAggregateOutputType = {
-  id: number | null
-}
-
-export type VerificationCodeSumAggregateOutputType = {
-  id: number | null
-}
-
 export type VerificationCodeMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   code: string | null
   email: string | null
   expiresAt: Date | null
@@ -46,7 +36,7 @@ export type VerificationCodeMinAggregateOutputType = {
 }
 
 export type VerificationCodeMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   code: string | null
   email: string | null
   expiresAt: Date | null
@@ -64,14 +54,6 @@ export type VerificationCodeCountAggregateOutputType = {
   _all: number
 }
 
-
-export type VerificationCodeAvgAggregateInputType = {
-  id?: true
-}
-
-export type VerificationCodeSumAggregateInputType = {
-  id?: true
-}
 
 export type VerificationCodeMinAggregateInputType = {
   id?: true
@@ -139,18 +121,6 @@ export type VerificationCodeAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: VerificationCodeAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: VerificationCodeSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: VerificationCodeMinAggregateInputType
@@ -181,22 +151,18 @@ export type VerificationCodeGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: VerificationCodeCountAggregateInputType | true
-  _avg?: VerificationCodeAvgAggregateInputType
-  _sum?: VerificationCodeSumAggregateInputType
   _min?: VerificationCodeMinAggregateInputType
   _max?: VerificationCodeMaxAggregateInputType
 }
 
 export type VerificationCodeGroupByOutputType = {
-  id: number
+  id: string
   code: string
   email: string
   expiresAt: Date
   createdAt: Date
   lastSentAt: Date
   _count: VerificationCodeCountAggregateOutputType | null
-  _avg: VerificationCodeAvgAggregateOutputType | null
-  _sum: VerificationCodeSumAggregateOutputType | null
   _min: VerificationCodeMinAggregateOutputType | null
   _max: VerificationCodeMaxAggregateOutputType | null
 }
@@ -220,7 +186,7 @@ export type VerificationCodeWhereInput = {
   AND?: Prisma.VerificationCodeWhereInput | Prisma.VerificationCodeWhereInput[]
   OR?: Prisma.VerificationCodeWhereInput[]
   NOT?: Prisma.VerificationCodeWhereInput | Prisma.VerificationCodeWhereInput[]
-  id?: Prisma.IntFilter<"VerificationCode"> | number
+  id?: Prisma.StringFilter<"VerificationCode"> | string
   code?: Prisma.StringFilter<"VerificationCode"> | string
   email?: Prisma.StringFilter<"VerificationCode"> | string
   expiresAt?: Prisma.DateTimeFilter<"VerificationCode"> | Date | string
@@ -238,7 +204,7 @@ export type VerificationCodeOrderByWithRelationInput = {
 }
 
 export type VerificationCodeWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   email?: string
   AND?: Prisma.VerificationCodeWhereInput | Prisma.VerificationCodeWhereInput[]
   OR?: Prisma.VerificationCodeWhereInput[]
@@ -257,17 +223,15 @@ export type VerificationCodeOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   lastSentAt?: Prisma.SortOrder
   _count?: Prisma.VerificationCodeCountOrderByAggregateInput
-  _avg?: Prisma.VerificationCodeAvgOrderByAggregateInput
   _max?: Prisma.VerificationCodeMaxOrderByAggregateInput
   _min?: Prisma.VerificationCodeMinOrderByAggregateInput
-  _sum?: Prisma.VerificationCodeSumOrderByAggregateInput
 }
 
 export type VerificationCodeScalarWhereWithAggregatesInput = {
   AND?: Prisma.VerificationCodeScalarWhereWithAggregatesInput | Prisma.VerificationCodeScalarWhereWithAggregatesInput[]
   OR?: Prisma.VerificationCodeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.VerificationCodeScalarWhereWithAggregatesInput | Prisma.VerificationCodeScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"VerificationCode"> | number
+  id?: Prisma.StringWithAggregatesFilter<"VerificationCode"> | string
   code?: Prisma.StringWithAggregatesFilter<"VerificationCode"> | string
   email?: Prisma.StringWithAggregatesFilter<"VerificationCode"> | string
   expiresAt?: Prisma.DateTimeWithAggregatesFilter<"VerificationCode"> | Date | string
@@ -276,6 +240,7 @@ export type VerificationCodeScalarWhereWithAggregatesInput = {
 }
 
 export type VerificationCodeCreateInput = {
+  id?: string
   code: string
   email: string
   expiresAt: Date | string
@@ -284,7 +249,7 @@ export type VerificationCodeCreateInput = {
 }
 
 export type VerificationCodeUncheckedCreateInput = {
-  id?: number
+  id?: string
   code: string
   email: string
   expiresAt: Date | string
@@ -293,6 +258,7 @@ export type VerificationCodeUncheckedCreateInput = {
 }
 
 export type VerificationCodeUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -301,7 +267,7 @@ export type VerificationCodeUpdateInput = {
 }
 
 export type VerificationCodeUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -310,7 +276,7 @@ export type VerificationCodeUncheckedUpdateInput = {
 }
 
 export type VerificationCodeCreateManyInput = {
-  id?: number
+  id?: string
   code: string
   email: string
   expiresAt: Date | string
@@ -319,6 +285,7 @@ export type VerificationCodeCreateManyInput = {
 }
 
 export type VerificationCodeUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -327,7 +294,7 @@ export type VerificationCodeUpdateManyMutationInput = {
 }
 
 export type VerificationCodeUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -342,10 +309,6 @@ export type VerificationCodeCountOrderByAggregateInput = {
   expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   lastSentAt?: Prisma.SortOrder
-}
-
-export type VerificationCodeAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
 }
 
 export type VerificationCodeMaxOrderByAggregateInput = {
@@ -364,10 +327,6 @@ export type VerificationCodeMinOrderByAggregateInput = {
   expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   lastSentAt?: Prisma.SortOrder
-}
-
-export type VerificationCodeSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
 }
 
 
@@ -414,7 +373,7 @@ export type $VerificationCodePayload<ExtArgs extends runtime.Types.Extensions.In
   name: "VerificationCode"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     code: string
     email: string
     expiresAt: Date
@@ -843,7 +802,7 @@ export interface Prisma__VerificationCodeClient<T, Null = never, ExtArgs extends
  * Fields of the VerificationCode model
  */
 export interface VerificationCodeFieldRefs {
-  readonly id: Prisma.FieldRef<"VerificationCode", 'Int'>
+  readonly id: Prisma.FieldRef<"VerificationCode", 'String'>
   readonly code: Prisma.FieldRef<"VerificationCode", 'String'>
   readonly email: Prisma.FieldRef<"VerificationCode", 'String'>
   readonly expiresAt: Prisma.FieldRef<"VerificationCode", 'DateTime'>

@@ -9,6 +9,7 @@ import { WEEK_IN_MS } from '@/utils/vars';
 
 const TEST_PASSWORD = 'password_123_123';
 const TEST_EMAIL = 'test@test.com';
+const TEST_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -53,7 +54,7 @@ describe('AuthController', () => {
       const dto = { email: TEST_EMAIL, password: TEST_PASSWORD };
       const res = mockResponse();
       authService.login.mockResolvedValue({
-        user: { id: 1, email: TEST_EMAIL } as any,
+        user: { id: TEST_USER_ID, email: TEST_EMAIL } as any,
         accessToken: 'access',
         refreshToken: 'refresh',
       });
@@ -95,7 +96,7 @@ describe('AuthController', () => {
       authService.verifyEmail.mockResolvedValue({
         accessToken: 'access',
         refreshToken: 'refresh',
-        user: { id: 1, email: TEST_EMAIL } as any,
+        user: { id: TEST_USER_ID, email: TEST_EMAIL } as any,
       });
 
       const result = await controller.verifyEmail(dto, res);
@@ -112,28 +113,28 @@ describe('AuthController', () => {
 
   describe('getMe', () => {
     it('получение данных пользователя', async () => {
-      const req = mockRequest({}, { userId: 1 });
+      const req = mockRequest({}, { userId: TEST_USER_ID });
       authService.me.mockResolvedValue({
-        id: 1,
+        id: TEST_USER_ID,
         email: 'test@test.com',
       } as any);
 
       const result = await controller.getMe(req);
 
-      expect(authService.me).toHaveBeenCalledWith(1);
-      expect(result).toHaveProperty('id', 1);
+      expect(authService.me).toHaveBeenCalledWith(TEST_USER_ID);
+      expect(result).toHaveProperty('id', TEST_USER_ID);
     });
   });
 
   describe('selfDelete', () => {
     it('удаление аккаунта и очистка cookie', async () => {
-      const req = mockRequest({}, { id: 1 });
+      const req = mockRequest({}, { userId: TEST_USER_ID });
       const res = mockResponse();
       authService.deleteUser.mockResolvedValue(undefined);
 
       const result = await controller.selfDelete(req, res);
 
-      expect(authService.deleteUser).toHaveBeenCalledWith(1);
+      expect(authService.deleteUser).toHaveBeenCalledWith(TEST_USER_ID);
       expect(res.clearCookie).toHaveBeenCalledWith(REFRESH_TOKEN_NAME);
       expect(result).toBe(true);
     });
@@ -141,7 +142,7 @@ describe('AuthController', () => {
 
   describe('logout', () => {
     it('ошибка при отсутствии токена', async () => {
-      const req = mockRequest({}, { id: 1 });
+      const req = mockRequest({}, { userId: TEST_USER_ID });
       const res = mockResponse();
 
       await expect(controller.logout(req, res)).rejects.toThrow(
@@ -150,13 +151,13 @@ describe('AuthController', () => {
     });
 
     it('успешный выход и очистка cookie', async () => {
-      const req = mockRequest({ [REFRESH_TOKEN_NAME]: 'refresh' }, { id: 1 });
+      const req = mockRequest({ [REFRESH_TOKEN_NAME]: 'refresh' }, { userId: TEST_USER_ID });
       const res = mockResponse();
       authService.logout.mockResolvedValue(undefined);
 
       const result = await controller.logout(req, res);
 
-      expect(authService.logout).toHaveBeenCalledWith(1, 'refresh');
+      expect(authService.logout).toHaveBeenCalledWith(TEST_USER_ID, 'refresh');
       expect(res.clearCookie).toHaveBeenCalledWith(
         REFRESH_TOKEN_NAME,
         expect.any(Object),
@@ -192,7 +193,7 @@ describe('AuthController', () => {
     it('успешное обновление токенов', async () => {
       const req = mockRequest({ [REFRESH_TOKEN_NAME]: 'old-refresh' });
       const res = mockResponse();
-      const userData = { id: 1 } as any;
+      const userData = { id: TEST_USER_ID } as any;
 
       authService.refreshTokens.mockResolvedValue({
         accessToken: 'new-access',
