@@ -52,6 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Account: 'Account',
+  Event: 'Event',
+  EventRequest: 'EventRequest',
+  Org: 'Org',
+  EventReview: 'EventReview',
   Role: 'Role',
   Permission: 'Permission',
   RolesOnPermissions: 'RolesOnPermissions',
@@ -90,6 +94,81 @@ export const AccountScalarFieldEnum = {
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
+
+
+export const EventScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  name: 'name',
+  description: 'description',
+  addInfo: 'addInfo',
+  minUsers: 'minUsers',
+  maxUsers: 'maxUsers',
+  costValue: 'costValue',
+  costCurrency: 'costCurrency',
+  format: 'format',
+  sessionType: 'sessionType',
+  address: 'address',
+  mapUrl: 'mapUrl',
+  status: 'status',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  canceledAt: 'canceledAt',
+  cancelReason: 'cancelReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  genres: 'genres',
+  platforms: 'platforms',
+  gameSystem: 'gameSystem'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const EventRequestScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  userId: 'userId',
+  status: 'status',
+  message: 'message',
+  isAttended: 'isAttended',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventRequestScalarFieldEnum = (typeof EventRequestScalarFieldEnum)[keyof typeof EventRequestScalarFieldEnum]
+
+
+export const OrgScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  slug: 'slug',
+  nickname: 'nickname',
+  description: 'description',
+  isApproved: 'isApproved',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  avatar: 'avatar',
+  timezone: 'timezone',
+  soclinks: 'soclinks',
+  gameHistory: 'gameHistory',
+  email: 'email'
+} as const
+
+export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]
+
+
+export const EventReviewScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  userId: 'userId',
+  orgId: 'orgId',
+  comment: 'comment',
+  rates: 'rates',
+  createdAt: 'createdAt'
+} as const
+
+export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[keyof typeof EventReviewScalarFieldEnum]
 
 
 export const RoleScalarFieldEnum = {
@@ -211,19 +290,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

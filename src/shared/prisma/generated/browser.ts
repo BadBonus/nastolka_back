@@ -23,6 +23,26 @@ export * from './enums';
  */
 export type Account = Prisma.AccountModel
 /**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
+/**
+ * Model EventRequest
+ * 
+ */
+export type EventRequest = Prisma.EventRequestModel
+/**
+ * Model Org
+ * 
+ */
+export type Org = Prisma.OrgModel
+/**
+ * Model EventReview
+ * 
+ */
+export type EventReview = Prisma.EventReviewModel
+/**
  * Model Role
  * 
  */
