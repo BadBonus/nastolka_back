@@ -1,3 +1,5 @@
+import { Request } from 'express';
+import type { TActiveUser } from '@/auth/types/active-user';
 export enum ESocLinks {
   VK = 'vk',
   TELEGRAM = 'telegram',
@@ -5,6 +7,12 @@ export enum ESocLinks {
   INSTAGRAM = 'instagram',
   X = 'x',
   REDDIT = 'reddit',
+}
+
+declare global {
+  interface RequestWithUser extends Request {
+    user: TActiveUser;
+  }
 }
 
 export type TSoclinksObject = Partial<Record<ESocLinks, string | undefined>>;

@@ -100,7 +100,7 @@ export class AuthController {
     description: 'Получения ограниченных минимальных данных юзера',
     type: User,
   })
-  async getMe(@Req() req: any) {
+  async getMe(@Req() req: RequestWithUser) {
     const userId = req.user.userId;
     return await this.authService.me(userId);
   }
@@ -109,7 +109,7 @@ export class AuthController {
   @ApiBearerAuth()
   @Delete('me')
   async selfDelete(
-    @Req() req: { user: { userId: string } },
+    @Req() req: RequestWithUser,
     @Res({ passthrough: true }) res: Response,
   ) {
     const userId = req.user.userId;

@@ -12,7 +12,6 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PermissionsGuard } from '../common/guards/permissions.guard';
@@ -53,9 +52,8 @@ export class ProfileController {
     description: 'Получения данных текущего авторизованного пользователя',
     type: ProfileUserMe,
   })
-  async getMyProfile(@Req() req: { user: { userId: string } }) {
+  async getMyProfile(@Req() req: RequestWithUser) {
     const { userId } = req.user;
-
     return this.profileService.findUser(userId);
   }
 
@@ -80,7 +78,7 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   async updateMe(
-    @Req() req: any,
+    @Req() req: RequestWithUser,
     @Body() dto: UpdateProfileDto,
     @UploadedFile(
       new ImageValidationPipe(true),
