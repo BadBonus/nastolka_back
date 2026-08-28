@@ -10,6 +10,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { SessionService } from '@/shared/session/session.service';
 import { MailService } from '@/auth/mail/mail.service';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
+import { ERole } from '@/common/enums/roles.enum';
 
 import {
   RegisterDto,
@@ -180,7 +181,7 @@ export class AuthService {
           }
 
           const defaultRole = await tx.role.findUnique({
-            where: { name: process.env.DEFAULT_USER_ROLE },
+            where: { name: ERole.USER },
           });
 
           if (!defaultRole) {
