@@ -32,7 +32,7 @@ export class AuthService {
     private prisma: PrismaService,
     private sessionService: SessionService,
     private mailService: MailService,
-    private imgproxyService: ImgproxyService,
+    private readonly imgproxyService: ImgproxyService,
   ) {}
 
   async login(
@@ -46,7 +46,7 @@ export class AuthService {
       include: {
         user: {
           include: {
-            role: {
+            roles: {
               include: {
                 permissions: {
                   include: {
@@ -181,7 +181,7 @@ export class AuthService {
           }
 
           const defaultRole = await tx.role.findUnique({
-            where: { name: ERole.USER },
+            where: { slug: ERole.USER },
           });
 
           if (!defaultRole) {
@@ -198,7 +198,11 @@ export class AuthService {
               nickname,
               email,
               slug,
-              roleId: defaultRole.id,
+              roles: {
+                connect: {
+                  slug: defaultRole.slug,
+                },
+              },
               ...(timezone && { timezone }),
             },
           });
@@ -281,7 +285,13 @@ export class AuthService {
       await this.prisma.user.delete({
         where: { id: userId }, //каскадное удаление сессий и аккаунтов настроено в Prisma
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException(`Пользователь с ID ${userId} не найден`);
+        }
+      }
+      console.error(error);
       throw new NotFoundException(`Пользователь с ID ${userId} не найден`);
     }
   }
@@ -297,8 +307,11 @@ export class AuthService {
       return baseSlug;
     }
 
-    const usedNumbers = existingSlugs.map((row: any) => {
-      const parts = row.slug.split('-');
+    const usedNumbers = existingSlugs.map((row: { slug: string }) => {
+      const parts = row.slug?.split('-');
+
+      if (Array.isArray(parts) && parts.length === 1) return 0;
+
       const lastPart = parts[parts.length - 1];
       return parseInt(lastPart) || 0;
     });

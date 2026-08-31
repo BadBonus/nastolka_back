@@ -391,7 +391,7 @@ export const ModelName = {
   EventReview: 'EventReview',
   Role: 'Role',
   Permission: 'Permission',
-  RolesOnPermissions: 'RolesOnPermissions',
+  RolePermission: 'RolePermission',
   Session: 'Session',
   SupportTicket: 'SupportTicket',
   SupportMessage: 'SupportMessage',
@@ -414,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "event" | "eventRequest" | "org" | "eventReview" | "role" | "permission" | "rolesOnPermissions" | "session" | "supportTicket" | "supportMessage" | "user" | "userSchedule" | "verificationCode" | "passwordResetToken"
+    modelProps: "account" | "event" | "eventRequest" | "org" | "eventReview" | "role" | "permission" | "rolePermission" | "session" | "supportTicket" | "supportMessage" | "user" | "userSchedule" | "verificationCode" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -936,77 +936,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    RolesOnPermissions: {
-      payload: Prisma.$RolesOnPermissionsPayload<ExtArgs>
-      fields: Prisma.RolesOnPermissionsFieldRefs
+    RolePermission: {
+      payload: Prisma.$RolePermissionPayload<ExtArgs>
+      fields: Prisma.RolePermissionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.RolesOnPermissionsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload> | null
+          args: Prisma.RolePermissionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.RolesOnPermissionsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>
+          args: Prisma.RolePermissionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
         }
         findFirst: {
-          args: Prisma.RolesOnPermissionsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload> | null
+          args: Prisma.RolePermissionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.RolesOnPermissionsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>
+          args: Prisma.RolePermissionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
         }
         findMany: {
-          args: Prisma.RolesOnPermissionsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>[]
+          args: Prisma.RolePermissionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>[]
         }
         create: {
-          args: Prisma.RolesOnPermissionsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>
+          args: Prisma.RolePermissionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
         }
         createMany: {
-          args: Prisma.RolesOnPermissionsCreateManyArgs<ExtArgs>
+          args: Prisma.RolePermissionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.RolesOnPermissionsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>[]
+          args: Prisma.RolePermissionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>[]
         }
         delete: {
-          args: Prisma.RolesOnPermissionsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>
+          args: Prisma.RolePermissionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
         }
         update: {
-          args: Prisma.RolesOnPermissionsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>
+          args: Prisma.RolePermissionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
         }
         deleteMany: {
-          args: Prisma.RolesOnPermissionsDeleteManyArgs<ExtArgs>
+          args: Prisma.RolePermissionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.RolesOnPermissionsUpdateManyArgs<ExtArgs>
+          args: Prisma.RolePermissionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.RolesOnPermissionsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>[]
+          args: Prisma.RolePermissionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>[]
         }
         upsert: {
-          args: Prisma.RolesOnPermissionsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolesOnPermissionsPayload>
+          args: Prisma.RolePermissionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
         }
         aggregate: {
-          args: Prisma.RolesOnPermissionsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRolesOnPermissions>
+          args: Prisma.RolePermissionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRolePermission>
         }
         groupBy: {
-          args: Prisma.RolesOnPermissionsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RolesOnPermissionsGroupByOutputType>[]
+          args: Prisma.RolePermissionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RolePermissionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.RolesOnPermissionsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RolesOnPermissionsCountAggregateOutputType> | number
+          args: Prisma.RolePermissionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RolePermissionCountAggregateOutputType> | number
         }
       }
     }
@@ -1628,14 +1628,14 @@ export const OrgScalarFieldEnum = {
   slug: 'slug',
   nickname: 'nickname',
   description: 'description',
-  isApproved: 'isApproved',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   avatar: 'avatar',
   timezone: 'timezone',
   soclinks: 'soclinks',
   gameHistory: 'gameHistory',
-  email: 'email'
+  email: 'email',
+  isBanned: 'isBanned'
 } as const
 
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]
@@ -1656,7 +1656,9 @@ export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[key
 
 export const RoleScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  slug: 'slug',
+  description: 'description'
 } as const
 
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
@@ -1664,18 +1666,20 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 
 export const PermissionScalarFieldEnum = {
   id: 'id',
-  slug: 'slug'
+  name: 'name',
+  slug: 'slug',
+  description: 'description'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
 
 
-export const RolesOnPermissionsScalarFieldEnum = {
+export const RolePermissionScalarFieldEnum = {
   roleId: 'roleId',
   permissionId: 'permissionId'
 } as const
 
-export type RolesOnPermissionsScalarFieldEnum = (typeof RolesOnPermissionsScalarFieldEnum)[keyof typeof RolesOnPermissionsScalarFieldEnum]
+export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -1715,7 +1719,6 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   nickname: 'nickname',
   email: 'email',
-  roleId: 'roleId',
   description: 'description',
   birthdate: 'birthdate',
   slug: 'slug',
@@ -1725,7 +1728,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   sub: 'sub',
   soclinks: 'soclinks',
-  gameHistory: 'gameHistory'
+  gameHistory: 'gameHistory',
+  isBanned: 'isBanned'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2151,7 +2155,7 @@ export type GlobalOmitConfig = {
   eventReview?: Prisma.EventReviewOmit
   role?: Prisma.RoleOmit
   permission?: Prisma.PermissionOmit
-  rolesOnPermissions?: Prisma.RolesOnPermissionsOmit
+  rolePermission?: Prisma.RolePermissionOmit
   session?: Prisma.SessionOmit
   supportTicket?: Prisma.SupportTicketOmit
   supportMessage?: Prisma.SupportMessageOmit

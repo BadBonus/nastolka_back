@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "EAccProviders" AS ENUM ('EMAIL', 'GOOGLE');
+
+-- CreateEnum
 CREATE TYPE "EventStatus" AS ENUM ('PREPARE', 'ACTIVE', 'FINISHED', 'CANCELED');
 
 -- CreateEnum
@@ -24,6 +27,24 @@ CREATE TYPE "GamePlatform" AS ENUM ('Above VTT', 'Alchemy', 'Arkenforge', 'Bag o
 
 -- CreateEnum
 CREATE TYPE "KindOfRate" AS ENUM ('CREATIVITY', 'STORYTELLING', 'WIKIPEDIA_RULES', 'THEATRICALISE');
+
+-- CreateEnum
+CREATE TYPE "SupportTicketStatus" AS ENUM ('OPEN', 'IN_PROGRESS', 'CLOSED');
+
+-- CreateEnum
+CREATE TYPE "ESocLinks" AS ENUM ('VK', 'TELEGRAM', 'DISCORD', 'INSTAGRAM', 'X', 'REDDIT');
+
+-- CreateTable
+CREATE TABLE "accounts" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "provider" "EAccProviders" NOT NULL DEFAULT 'EMAIL',
+    "provider_account_id" TEXT NOT NULL,
+    "password_hash" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "events" (
@@ -73,9 +94,8 @@ CREATE TABLE "orgs" (
     "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "slug" VARCHAR(256) NOT NULL,
-    "display_name" TEXT NOT NULL,
+    "nickname" TEXT NOT NULL,
     "description" TEXT,
-    "is_approved" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "avatar_url" TEXT,
@@ -83,6 +103,7 @@ CREATE TABLE "orgs" (
     "soclinks" JSONB,
     "gameHistory" JSONB NOT NULL DEFAULT '[]',
     "email" TEXT NOT NULL,
+    "is_banned" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "orgs_pkey" PRIMARY KEY ("id")
 );
@@ -100,6 +121,121 @@ CREATE TABLE "event_reviews" (
     CONSTRAINT "event_reviews_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "roles" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "roles_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "permissions" (
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+
+    CONSTRAINT "permissions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "roles_on_permissions" (
+    "role_id" TEXT NOT NULL,
+    "permission_id" TEXT NOT NULL,
+
+    CONSTRAINT "roles_on_permissions_pkey" PRIMARY KEY ("role_id","permission_id")
+);
+
+-- CreateTable
+CREATE TABLE "sessions" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "refresh_token" TEXT NOT NULL,
+    "expires_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SupportTicket" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "status" "SupportTicketStatus" NOT NULL DEFAULT 'OPEN',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "SupportTicket_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SupportMessage" (
+    "id" TEXT NOT NULL,
+    "ticketId" TEXT NOT NULL,
+    "senderId" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "SupportMessage_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "users" (
+    "full_name" TEXT,
+    "nickname" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "role_id" TEXT NOT NULL,
+    "description" TEXT,
+    "birthdate" TIMESTAMP(3),
+    "slug" VARCHAR(256) NOT NULL,
+    "avatar_url" TEXT,
+    "timezone" VARCHAR(100) DEFAULT 'UTC',
+    "is_verified" BOOLEAN NOT NULL DEFAULT false,
+    "id" TEXT NOT NULL,
+    "sub" JSONB NOT NULL DEFAULT '{"events": [], "gamemasters": []}',
+    "soclinks" JSONB,
+    "gameHistory" JSONB NOT NULL DEFAULT '[]',
+    "is_banned" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "user_schedules" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "day_of_week" INTEGER NOT NULL,
+    "start_time" INTEGER NOT NULL,
+    "end_time" INTEGER NOT NULL,
+
+    CONSTRAINT "user_schedules_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "verification_codes" (
+    "id" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "expiresAt" TIMESTAMPTZ NOT NULL,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "last_sent_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "verification_codes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "password_reset_tokens" (
+    "id" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "expiresAt" TIMESTAMPTZ NOT NULL,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "password_reset_tokens_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "accounts_provider_provider_account_id_user_id_key" ON "accounts"("provider", "provider_account_id", "user_id");
+
 -- CreateIndex
 CREATE UNIQUE INDEX "event_requests_event_id_user_id_key" ON "event_requests"("event_id", "user_id");
 
@@ -114,6 +250,33 @@ CREATE UNIQUE INDEX "orgs_email_key" ON "orgs"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "event_reviews_event_id_user_id_key" ON "event_reviews"("event_id", "user_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "roles_name_key" ON "roles"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "permissions_slug_key" ON "permissions"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "sessions_refresh_token_key" ON "sessions"("refresh_token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_slug_key" ON "users"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "verification_codes_email_key" ON "verification_codes"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "password_reset_tokens_token_key" ON "password_reset_tokens"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "password_reset_tokens_userId_key" ON "password_reset_tokens"("userId");
+
+-- AddForeignKey
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "events" ADD CONSTRAINT "events_org_id_fkey" FOREIGN KEY ("org_id") REFERENCES "orgs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -135,3 +298,27 @@ ALTER TABLE "event_reviews" ADD CONSTRAINT "event_reviews_user_id_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "event_reviews" ADD CONSTRAINT "event_reviews_org_id_fkey" FOREIGN KEY ("org_id") REFERENCES "orgs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "roles_on_permissions" ADD CONSTRAINT "roles_on_permissions_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "roles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "roles_on_permissions" ADD CONSTRAINT "roles_on_permissions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SupportTicket" ADD CONSTRAINT "SupportTicket_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SupportMessage" ADD CONSTRAINT "SupportMessage_ticketId_fkey" FOREIGN KEY ("ticketId") REFERENCES "SupportTicket"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "users" ADD CONSTRAINT "users_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "user_schedules" ADD CONSTRAINT "user_schedules_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "password_reset_tokens" ADD CONSTRAINT "password_reset_tokens_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

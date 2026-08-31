@@ -2,8 +2,7 @@ model User {
   fullName           String?             @map("full_name")
   nickname           String
   email              String              @unique
-  roleId             String              @map("role_id")
-  role               Role                @relation(fields: [roleId], references: [id])
+  roles              Role[]
   description        String?
   birthdate          DateTime?
   slug               String              @unique @db.VarChar(256)
@@ -22,6 +21,7 @@ model User {
   org                Org?
   reviews            EventReview[]
   eventRequests      EventRequest[]
+  isBanned           Boolean             @default(false) @map("is_banned")
 
   @@map("users")
 }

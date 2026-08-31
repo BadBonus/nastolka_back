@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+
 import { PrismaClient } from './../src/shared/prisma/generated/client';
 import {
   AppPermission,
@@ -5,7 +7,6 @@ import {
 } from '../src/common/constants/permissions.constant';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
-
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 
@@ -24,7 +25,7 @@ async function main() {
     await prisma.permission.upsert({
       where: { slug },
       update: {},
-      create: { slug },
+      create: { slug, name: slug },
     });
   }
 
@@ -32,9 +33,9 @@ async function main() {
     if (!rolePermissions) continue;
 
     const role = await prisma.role.upsert({
-      where: { name: roleName },
+      where: { slug: roleName },
       update: {},
-      create: { name: roleName },
+      create: { name: roleName, slug: roleName },
     });
 
     const dbPermissions = await prisma.permission.findMany({
@@ -42,12 +43,12 @@ async function main() {
       select: { id: true },
     });
 
-    await prisma.rolesOnPermissions.deleteMany({
+    await prisma.rolePermission.deleteMany({
       where: { roleId: role.id },
     });
 
-    await prisma.rolesOnPermissions.createMany({
-      data: dbPermissions.map((p: { id: string }) => ({
+    await prisma.rolePermission.createMany({
+      data: dbPermissions.map((p) => ({
         roleId: role.id,
         permissionId: p.id,
       })),
@@ -62,4 +63,5 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect();
+    await pool.end();
   });

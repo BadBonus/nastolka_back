@@ -4,9 +4,8 @@ model Org {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   slug        String   @unique @db.VarChar(256)
-  nickname    String   @map("display_name")
+  nickname    String   @map("nickname")
   description String?
-  isApproved  Boolean  @default(false) @map("is_approved")
   
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -17,7 +16,7 @@ model Org {
   email              String              @unique
   reviews           EventReview[]
   events            Event[]
-
+  isBanned          Boolean             @default(false) @map("is_banned")
 
   @@map("orgs")
 }

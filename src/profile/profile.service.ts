@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/prisma/prisma.service';
-import { UploadsService } from '../common/modules/uploads/uploads.service';
+import { UploadsService } from '@/common/modules/uploads/uploads.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
 import { buildImagePath } from '@/utils/pathToImg';

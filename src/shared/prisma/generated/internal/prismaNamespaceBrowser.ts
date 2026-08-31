@@ -58,7 +58,7 @@ export const ModelName = {
   EventReview: 'EventReview',
   Role: 'Role',
   Permission: 'Permission',
-  RolesOnPermissions: 'RolesOnPermissions',
+  RolePermission: 'RolePermission',
   Session: 'Session',
   SupportTicket: 'SupportTicket',
   SupportMessage: 'SupportMessage',
@@ -145,14 +145,14 @@ export const OrgScalarFieldEnum = {
   slug: 'slug',
   nickname: 'nickname',
   description: 'description',
-  isApproved: 'isApproved',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   avatar: 'avatar',
   timezone: 'timezone',
   soclinks: 'soclinks',
   gameHistory: 'gameHistory',
-  email: 'email'
+  email: 'email',
+  isBanned: 'isBanned'
 } as const
 
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]
@@ -173,7 +173,9 @@ export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[key
 
 export const RoleScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  slug: 'slug',
+  description: 'description'
 } as const
 
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
@@ -181,18 +183,20 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 
 export const PermissionScalarFieldEnum = {
   id: 'id',
-  slug: 'slug'
+  name: 'name',
+  slug: 'slug',
+  description: 'description'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
 
 
-export const RolesOnPermissionsScalarFieldEnum = {
+export const RolePermissionScalarFieldEnum = {
   roleId: 'roleId',
   permissionId: 'permissionId'
 } as const
 
-export type RolesOnPermissionsScalarFieldEnum = (typeof RolesOnPermissionsScalarFieldEnum)[keyof typeof RolesOnPermissionsScalarFieldEnum]
+export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -232,7 +236,6 @@ export const UserScalarFieldEnum = {
   fullName: 'fullName',
   nickname: 'nickname',
   email: 'email',
-  roleId: 'roleId',
   description: 'description',
   birthdate: 'birthdate',
   slug: 'slug',
@@ -242,7 +245,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   sub: 'sub',
   soclinks: 'soclinks',
-  gameHistory: 'gameHistory'
+  gameHistory: 'gameHistory',
+  isBanned: 'isBanned'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

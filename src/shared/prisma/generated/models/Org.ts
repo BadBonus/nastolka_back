@@ -32,12 +32,12 @@ export type OrgMinAggregateOutputType = {
   slug: string | null
   nickname: string | null
   description: string | null
-  isApproved: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   avatar: string | null
   timezone: string | null
   email: string | null
+  isBanned: boolean | null
 }
 
 export type OrgMaxAggregateOutputType = {
@@ -46,12 +46,12 @@ export type OrgMaxAggregateOutputType = {
   slug: string | null
   nickname: string | null
   description: string | null
-  isApproved: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   avatar: string | null
   timezone: string | null
   email: string | null
+  isBanned: boolean | null
 }
 
 export type OrgCountAggregateOutputType = {
@@ -60,7 +60,6 @@ export type OrgCountAggregateOutputType = {
   slug: number
   nickname: number
   description: number
-  isApproved: number
   createdAt: number
   updatedAt: number
   avatar: number
@@ -68,6 +67,7 @@ export type OrgCountAggregateOutputType = {
   soclinks: number
   gameHistory: number
   email: number
+  isBanned: number
   _all: number
 }
 
@@ -78,12 +78,12 @@ export type OrgMinAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
-  isApproved?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
   timezone?: true
   email?: true
+  isBanned?: true
 }
 
 export type OrgMaxAggregateInputType = {
@@ -92,12 +92,12 @@ export type OrgMaxAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
-  isApproved?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
   timezone?: true
   email?: true
+  isBanned?: true
 }
 
 export type OrgCountAggregateInputType = {
@@ -106,7 +106,6 @@ export type OrgCountAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
-  isApproved?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
@@ -114,6 +113,7 @@ export type OrgCountAggregateInputType = {
   soclinks?: true
   gameHistory?: true
   email?: true
+  isBanned?: true
   _all?: true
 }
 
@@ -195,7 +195,6 @@ export type OrgGroupByOutputType = {
   slug: string
   nickname: string
   description: string | null
-  isApproved: boolean
   createdAt: Date
   updatedAt: Date
   avatar: string | null
@@ -203,6 +202,7 @@ export type OrgGroupByOutputType = {
   soclinks:unknown | null
   gameHistory:unknown
   email: string
+  isBanned: boolean
   _count: OrgCountAggregateOutputType | null
   _min: OrgMinAggregateOutputType | null
   _max: OrgMaxAggregateOutputType | null
@@ -232,7 +232,6 @@ export type OrgWhereInput = {
   slug?: Prisma.StringFilter<"Org"> | string
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
-  isApproved?: Prisma.BoolFilter<"Org"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
@@ -240,6 +239,7 @@ export type OrgWhereInput = {
   soclinks?: Prisma.JsonNullableFilter<"Org">
   gameHistory?: Prisma.JsonFilter<"Org">
   email?: Prisma.StringFilter<"Org"> | string
+  isBanned?: Prisma.BoolFilter<"Org"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviews?: Prisma.EventReviewListRelationFilter
   events?: Prisma.EventListRelationFilter
@@ -251,7 +251,6 @@ export type OrgOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  isApproved?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -259,6 +258,7 @@ export type OrgOrderByWithRelationInput = {
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   reviews?: Prisma.EventReviewOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
@@ -274,13 +274,13 @@ export type OrgWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OrgWhereInput | Prisma.OrgWhereInput[]
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
-  isApproved?: Prisma.BoolFilter<"Org"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
   timezone?: Prisma.StringNullableFilter<"Org"> | string | null
   soclinks?: Prisma.JsonNullableFilter<"Org">
   gameHistory?: Prisma.JsonFilter<"Org">
+  isBanned?: Prisma.BoolFilter<"Org"> | boolean
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviews?: Prisma.EventReviewListRelationFilter
   events?: Prisma.EventListRelationFilter
@@ -292,7 +292,6 @@ export type OrgOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  isApproved?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -300,6 +299,7 @@ export type OrgOrderByWithAggregationInput = {
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
   _count?: Prisma.OrgCountOrderByAggregateInput
   _max?: Prisma.OrgMaxOrderByAggregateInput
   _min?: Prisma.OrgMinOrderByAggregateInput
@@ -314,7 +314,6 @@ export type OrgScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Org"> | string
   nickname?: Prisma.StringWithAggregatesFilter<"Org"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
-  isApproved?: Prisma.BoolWithAggregatesFilter<"Org"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
@@ -322,6 +321,7 @@ export type OrgScalarWhereWithAggregatesInput = {
   soclinks?: Prisma.JsonNullableWithAggregatesFilter<"Org">
   gameHistory?: Prisma.JsonWithAggregatesFilter<"Org">
   email?: Prisma.StringWithAggregatesFilter<"Org"> | string
+  isBanned?: Prisma.BoolWithAggregatesFilter<"Org"> | boolean
 }
 
 export type OrgCreateInput = {
@@ -329,7 +329,6 @@ export type OrgCreateInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -337,6 +336,7 @@ export type OrgCreateInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   user: Prisma.UserCreateNestedOneWithoutOrgInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutOrgInput
   events?: Prisma.EventCreateNestedManyWithoutOrgInput
@@ -348,7 +348,6 @@ export type OrgUncheckedCreateInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -356,6 +355,7 @@ export type OrgUncheckedCreateInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutOrgInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
 }
@@ -365,7 +365,6 @@ export type OrgUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -373,6 +372,7 @@ export type OrgUpdateInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUpdateManyWithoutOrgNestedInput
@@ -384,7 +384,6 @@ export type OrgUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -392,6 +391,7 @@ export type OrgUncheckedUpdateInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
@@ -402,7 +402,6 @@ export type OrgCreateManyInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -410,6 +409,7 @@ export type OrgCreateManyInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
 }
 
 export type OrgUpdateManyMutationInput = {
@@ -417,7 +417,6 @@ export type OrgUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -425,6 +424,7 @@ export type OrgUpdateManyMutationInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrgUncheckedUpdateManyInput = {
@@ -433,7 +433,6 @@ export type OrgUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -441,6 +440,7 @@ export type OrgUncheckedUpdateManyInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type OrgScalarRelationFilter = {
@@ -454,7 +454,6 @@ export type OrgCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  isApproved?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -462,6 +461,7 @@ export type OrgCountOrderByAggregateInput = {
   soclinks?: Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type OrgMaxOrderByAggregateInput = {
@@ -470,12 +470,12 @@ export type OrgMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  isApproved?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type OrgMinOrderByAggregateInput = {
@@ -484,12 +484,12 @@ export type OrgMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  isApproved?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type OrgNullableScalarRelationFilter = {
@@ -562,7 +562,6 @@ export type OrgCreateWithoutEventsInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -570,6 +569,7 @@ export type OrgCreateWithoutEventsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   user: Prisma.UserCreateNestedOneWithoutOrgInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutOrgInput
 }
@@ -580,7 +580,6 @@ export type OrgUncheckedCreateWithoutEventsInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -588,6 +587,7 @@ export type OrgUncheckedCreateWithoutEventsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutOrgInput
 }
 
@@ -612,7 +612,6 @@ export type OrgUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -620,6 +619,7 @@ export type OrgUpdateWithoutEventsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutOrgNestedInput
 }
@@ -630,7 +630,6 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -638,6 +637,7 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
 }
 
@@ -646,7 +646,6 @@ export type OrgCreateWithoutReviewsInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -654,6 +653,7 @@ export type OrgCreateWithoutReviewsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   user: Prisma.UserCreateNestedOneWithoutOrgInput
   events?: Prisma.EventCreateNestedManyWithoutOrgInput
 }
@@ -664,7 +664,6 @@ export type OrgUncheckedCreateWithoutReviewsInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -672,6 +671,7 @@ export type OrgUncheckedCreateWithoutReviewsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
 }
 
@@ -696,7 +696,6 @@ export type OrgUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -704,6 +703,7 @@ export type OrgUpdateWithoutReviewsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
   events?: Prisma.EventUpdateManyWithoutOrgNestedInput
 }
@@ -714,7 +714,6 @@ export type OrgUncheckedUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -722,6 +721,7 @@ export type OrgUncheckedUpdateWithoutReviewsInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
 
@@ -730,7 +730,6 @@ export type OrgCreateWithoutUserInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -738,6 +737,7 @@ export type OrgCreateWithoutUserInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   reviews?: Prisma.EventReviewCreateNestedManyWithoutOrgInput
   events?: Prisma.EventCreateNestedManyWithoutOrgInput
 }
@@ -747,7 +747,6 @@ export type OrgUncheckedCreateWithoutUserInput = {
   slug: string
   nickname: string
   description?: string | null
-  isApproved?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -755,6 +754,7 @@ export type OrgUncheckedCreateWithoutUserInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email: string
+  isBanned?: boolean
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutOrgInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
 }
@@ -780,7 +780,6 @@ export type OrgUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -788,6 +787,7 @@ export type OrgUpdateWithoutUserInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reviews?: Prisma.EventReviewUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUpdateManyWithoutOrgNestedInput
 }
@@ -797,7 +797,6 @@ export type OrgUncheckedUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -805,6 +804,7 @@ export type OrgUncheckedUpdateWithoutUserInput = {
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
@@ -855,7 +855,6 @@ export type OrgSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   slug?: boolean
   nickname?: boolean
   description?: boolean
-  isApproved?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -863,6 +862,7 @@ export type OrgSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   soclinks?: boolean
   gameHistory?: boolean
   email?: boolean
+  isBanned?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
   events?: boolean | Prisma.Org$eventsArgs<ExtArgs>
@@ -875,7 +875,6 @@ export type OrgSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   slug?: boolean
   nickname?: boolean
   description?: boolean
-  isApproved?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -883,6 +882,7 @@ export type OrgSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   soclinks?: boolean
   gameHistory?: boolean
   email?: boolean
+  isBanned?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["org"]>
 
@@ -892,7 +892,6 @@ export type OrgSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   slug?: boolean
   nickname?: boolean
   description?: boolean
-  isApproved?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -900,6 +899,7 @@ export type OrgSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   soclinks?: boolean
   gameHistory?: boolean
   email?: boolean
+  isBanned?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["org"]>
 
@@ -909,7 +909,6 @@ export type OrgSelectScalar = {
   slug?: boolean
   nickname?: boolean
   description?: boolean
-  isApproved?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -917,9 +916,10 @@ export type OrgSelectScalar = {
   soclinks?: boolean
   gameHistory?: boolean
   email?: boolean
+  isBanned?: boolean
 }
 
-export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "isApproved" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email", ExtArgs["result"]["org"]>
+export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned", ExtArgs["result"]["org"]>
 export type OrgInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
@@ -946,7 +946,6 @@ export type $OrgPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     slug: string
     nickname: string
     description: string | null
-    isApproved: boolean
     createdAt: Date
     updatedAt: Date
     avatar: string | null
@@ -954,6 +953,7 @@ export type $OrgPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     soclinks:unknown | null
     gameHistory:unknown
     email: string
+    isBanned: boolean
   }, ExtArgs["result"]["org"]>
   composites: {}
 }
@@ -1385,7 +1385,6 @@ export interface OrgFieldRefs {
   readonly slug: Prisma.FieldRef<"Org", 'String'>
   readonly nickname: Prisma.FieldRef<"Org", 'String'>
   readonly description: Prisma.FieldRef<"Org", 'String'>
-  readonly isApproved: Prisma.FieldRef<"Org", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Org", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Org", 'DateTime'>
   readonly avatar: Prisma.FieldRef<"Org", 'String'>
@@ -1393,6 +1392,7 @@ export interface OrgFieldRefs {
   readonly soclinks: Prisma.FieldRef<"Org", 'Json'>
   readonly gameHistory: Prisma.FieldRef<"Org", 'Json'>
   readonly email: Prisma.FieldRef<"Org", 'String'>
+  readonly isBanned: Prisma.FieldRef<"Org", 'Boolean'>
 }
     
 

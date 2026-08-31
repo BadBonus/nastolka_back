@@ -31,6 +31,7 @@ export class ProfileUserMe implements Omit<UserModel, 'sub'> {
   @Expose() gameHistory!: Array<unknown>;
   @Expose() isVerified!: boolean;
   @Expose() roleId!: string;
+  @Expose() isBanned!: boolean;
   @ApiProperty({
     type: () => [ScheduleIntervalEntity],
     description: 'Интервалы доступности пользователя',
@@ -43,7 +44,7 @@ export class ProfileUserMe implements Omit<UserModel, 'sub'> {
 @Exclude()
 export class ProfileUserWithId implements Omit<
   UserModel,
-  'sub' | 'birthdate' | 'isVerified' | 'roleId'
+  'sub' | 'birthdate' | 'isVerified' | 'roleId' | 'isBanned'
 > {
   @Expose() id!: string;
   @Expose() nickname!: string;

@@ -13,6 +13,15 @@ declare global {
   interface RequestWithUser extends Request {
     user: TActiveUser;
   }
+
+  type TPaginationMeta = {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 }
 
 export type TSoclinksObject = Partial<Record<ESocLinks, string | undefined>>;

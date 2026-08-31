@@ -1,26 +1,30 @@
 model Role {
-  id          String               @id @default(uuid())
-  name        String               @unique
+  id          String           @id @default(uuid())
+  name        String
+  slug        String           @unique @db.VarChar(100)
+  description String?
   users       User[]
-  permissions RolesOnPermissions[]
+  permissions RolePermission[]
 
   @@map("roles")
 }
 
 model Permission {
-  id    String               @id @default(uuid())
-  slug  String               @unique
-  roles RolesOnPermissions[]
+  id          String           @id @default(uuid())
+  name        String
+  slug        String           @unique @db.VarChar(150)
+  description String?
+  roles       RolePermission[]
 
   @@map("permissions")
 }
 
-model RolesOnPermissions {
+model RolePermission {
   roleId       String     @map("role_id")
-  permissionId String     @map("permission_id")
   role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId String     @map("permission_id")
   permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
   @@id([roleId, permissionId])
-  @@map("roles_on_permissions")
+  @@map("role_permissions")
 }

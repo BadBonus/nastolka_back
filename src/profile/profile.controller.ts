@@ -15,10 +15,10 @@ import {
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PermissionsGuard } from '../common/guards/permissions.guard';
-import { JwtAuthGuard } from './../auth/jwt/jwt-auth.guard';
+import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
 import { PrismaService } from '@/prisma/prisma.service';
 import { RequirePermissions } from '@/common/decorators/require-permissions.decorator';
-import { AppPermission } from '@/common/enums/permissions.enum';
+import { permission } from '@/common/enums/permissions.enum';
 import {
   ApiTags,
   ApiCreatedResponse,
@@ -93,7 +93,7 @@ export class ProfileController {
   @Patch(':id')
   @ApiConsumes('multipart/form-data')
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  @RequirePermissions(AppPermission.USER_EDIT)
+  @RequirePermissions(permission.USER_EDIT)
   @UseInterceptors(FileInterceptor('avatar'))
   async update(
     @Param('id') id: string,

@@ -30,7 +30,6 @@ export type UserMinAggregateOutputType = {
   fullName: string | null
   nickname: string | null
   email: string | null
-  roleId: string | null
   description: string | null
   birthdate: Date | null
   slug: string | null
@@ -38,13 +37,13 @@ export type UserMinAggregateOutputType = {
   timezone: string | null
   isVerified: boolean | null
   id: string | null
+  isBanned: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
   fullName: string | null
   nickname: string | null
   email: string | null
-  roleId: string | null
   description: string | null
   birthdate: Date | null
   slug: string | null
@@ -52,13 +51,13 @@ export type UserMaxAggregateOutputType = {
   timezone: string | null
   isVerified: boolean | null
   id: string | null
+  isBanned: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
   fullName: number
   nickname: number
   email: number
-  roleId: number
   description: number
   birthdate: number
   slug: number
@@ -69,6 +68,7 @@ export type UserCountAggregateOutputType = {
   sub: number
   soclinks: number
   gameHistory: number
+  isBanned: number
   _all: number
 }
 
@@ -77,7 +77,6 @@ export type UserMinAggregateInputType = {
   fullName?: true
   nickname?: true
   email?: true
-  roleId?: true
   description?: true
   birthdate?: true
   slug?: true
@@ -85,13 +84,13 @@ export type UserMinAggregateInputType = {
   timezone?: true
   isVerified?: true
   id?: true
+  isBanned?: true
 }
 
 export type UserMaxAggregateInputType = {
   fullName?: true
   nickname?: true
   email?: true
-  roleId?: true
   description?: true
   birthdate?: true
   slug?: true
@@ -99,13 +98,13 @@ export type UserMaxAggregateInputType = {
   timezone?: true
   isVerified?: true
   id?: true
+  isBanned?: true
 }
 
 export type UserCountAggregateInputType = {
   fullName?: true
   nickname?: true
   email?: true
-  roleId?: true
   description?: true
   birthdate?: true
   slug?: true
@@ -116,6 +115,7 @@ export type UserCountAggregateInputType = {
   sub?: true
   soclinks?: true
   gameHistory?: true
+  isBanned?: true
   _all?: true
 }
 
@@ -195,7 +195,6 @@ export type UserGroupByOutputType = {
   fullName: string | null
   nickname: string
   email: string
-  roleId: string
   description: string | null
   birthdate: Date | null
   slug: string
@@ -206,6 +205,7 @@ export type UserGroupByOutputType = {
   sub:unknown
   soclinks:unknown | null
   gameHistory:unknown
+  isBanned: boolean
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -233,7 +233,6 @@ export type UserWhereInput = {
   fullName?: Prisma.StringNullableFilter<"User"> | string | null
   nickname?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
-  roleId?: Prisma.StringFilter<"User"> | string
   description?: Prisma.StringNullableFilter<"User"> | string | null
   birthdate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   slug?: Prisma.StringFilter<"User"> | string
@@ -244,7 +243,8 @@ export type UserWhereInput = {
   sub?: Prisma.JsonFilter<"User">
   soclinks?: Prisma.JsonNullableFilter<"User">
   gameHistory?: Prisma.JsonFilter<"User">
-  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
+  isBanned?: Prisma.BoolFilter<"User"> | boolean
+  roles?: Prisma.RoleListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   passwordResetToken?: Prisma.XOR<Prisma.PasswordResetTokenNullableScalarRelationFilter, Prisma.PasswordResetTokenWhereInput> | null
@@ -259,7 +259,6 @@ export type UserOrderByWithRelationInput = {
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   nickname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   birthdate?: Prisma.SortOrderInput | Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -270,7 +269,8 @@ export type UserOrderByWithRelationInput = {
   sub?: Prisma.SortOrder
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
-  role?: Prisma.RoleOrderByWithRelationInput
+  isBanned?: Prisma.SortOrder
+  roles?: Prisma.RoleOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   passwordResetToken?: Prisma.PasswordResetTokenOrderByWithRelationInput
@@ -290,7 +290,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   fullName?: Prisma.StringNullableFilter<"User"> | string | null
   nickname?: Prisma.StringFilter<"User"> | string
-  roleId?: Prisma.StringFilter<"User"> | string
   description?: Prisma.StringNullableFilter<"User"> | string | null
   birthdate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
@@ -299,7 +298,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   sub?: Prisma.JsonFilter<"User">
   soclinks?: Prisma.JsonNullableFilter<"User">
   gameHistory?: Prisma.JsonFilter<"User">
-  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
+  isBanned?: Prisma.BoolFilter<"User"> | boolean
+  roles?: Prisma.RoleListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   passwordResetToken?: Prisma.XOR<Prisma.PasswordResetTokenNullableScalarRelationFilter, Prisma.PasswordResetTokenWhereInput> | null
@@ -314,7 +314,6 @@ export type UserOrderByWithAggregationInput = {
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   nickname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   birthdate?: Prisma.SortOrderInput | Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -325,6 +324,7 @@ export type UserOrderByWithAggregationInput = {
   sub?: Prisma.SortOrder
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -337,7 +337,6 @@ export type UserScalarWhereWithAggregatesInput = {
   fullName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   nickname?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
-  roleId?: Prisma.StringWithAggregatesFilter<"User"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   birthdate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   slug?: Prisma.StringWithAggregatesFilter<"User"> | string
@@ -348,6 +347,7 @@ export type UserScalarWhereWithAggregatesInput = {
   sub?: Prisma.JsonWithAggregatesFilter<"User">
   soclinks?: Prisma.JsonNullableWithAggregatesFilter<"User">
   gameHistory?: Prisma.JsonWithAggregatesFilter<"User">
+  isBanned?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
@@ -364,7 +364,8 @@ export type UserCreateInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -379,7 +380,6 @@ export type UserUncheckedCreateInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -390,6 +390,8 @@ export type UserUncheckedCreateInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -414,7 +416,8 @@ export type UserUpdateInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -429,7 +432,6 @@ export type UserUncheckedUpdateInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -440,6 +442,8 @@ export type UserUncheckedUpdateInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -454,7 +458,6 @@ export type UserCreateManyInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -465,6 +468,7 @@ export type UserCreateManyInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
@@ -481,13 +485,13 @@ export type UserUpdateManyMutationInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -498,6 +502,7 @@ export type UserUncheckedUpdateManyInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserScalarRelationFilter = {
@@ -519,7 +524,6 @@ export type UserCountOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   birthdate?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -530,13 +534,13 @@ export type UserCountOrderByAggregateInput = {
   sub?: Prisma.SortOrder
   soclinks?: Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   birthdate?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -544,13 +548,13 @@ export type UserMaxOrderByAggregateInput = {
   timezone?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   id?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  roleId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   birthdate?: Prisma.SortOrder
   slug?: Prisma.SortOrder
@@ -558,6 +562,7 @@ export type UserMinOrderByAggregateInput = {
   timezone?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
   id?: Prisma.SortOrder
+  isBanned?: Prisma.SortOrder
 }
 
 export type UserCreateNestedOneWithoutAccountsInput = {
@@ -616,45 +621,41 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
 }
 
-export type UserCreateNestedManyWithoutRoleInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutRoleInput, Prisma.UserUncheckedCreateWithoutRoleInput> | Prisma.UserCreateWithoutRoleInput[] | Prisma.UserUncheckedCreateWithoutRoleInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoleInput | Prisma.UserCreateOrConnectWithoutRoleInput[]
-  createMany?: Prisma.UserCreateManyRoleInputEnvelope
+export type UserCreateNestedManyWithoutRolesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput> | Prisma.UserCreateWithoutRolesInput[] | Prisma.UserUncheckedCreateWithoutRolesInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRolesInput | Prisma.UserCreateOrConnectWithoutRolesInput[]
   connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
 }
 
-export type UserUncheckedCreateNestedManyWithoutRoleInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutRoleInput, Prisma.UserUncheckedCreateWithoutRoleInput> | Prisma.UserCreateWithoutRoleInput[] | Prisma.UserUncheckedCreateWithoutRoleInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoleInput | Prisma.UserCreateOrConnectWithoutRoleInput[]
-  createMany?: Prisma.UserCreateManyRoleInputEnvelope
+export type UserUncheckedCreateNestedManyWithoutRolesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput> | Prisma.UserCreateWithoutRolesInput[] | Prisma.UserUncheckedCreateWithoutRolesInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRolesInput | Prisma.UserCreateOrConnectWithoutRolesInput[]
   connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
 }
 
-export type UserUpdateManyWithoutRoleNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutRoleInput, Prisma.UserUncheckedCreateWithoutRoleInput> | Prisma.UserCreateWithoutRoleInput[] | Prisma.UserUncheckedCreateWithoutRoleInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoleInput | Prisma.UserCreateOrConnectWithoutRoleInput[]
-  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutRoleInput | Prisma.UserUpsertWithWhereUniqueWithoutRoleInput[]
-  createMany?: Prisma.UserCreateManyRoleInputEnvelope
+export type UserUpdateManyWithoutRolesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput> | Prisma.UserCreateWithoutRolesInput[] | Prisma.UserUncheckedCreateWithoutRolesInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRolesInput | Prisma.UserCreateOrConnectWithoutRolesInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutRolesInput | Prisma.UserUpsertWithWhereUniqueWithoutRolesInput[]
   set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
   disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
   delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
   connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  update?: Prisma.UserUpdateWithWhereUniqueWithoutRoleInput | Prisma.UserUpdateWithWhereUniqueWithoutRoleInput[]
-  updateMany?: Prisma.UserUpdateManyWithWhereWithoutRoleInput | Prisma.UserUpdateManyWithWhereWithoutRoleInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutRolesInput | Prisma.UserUpdateWithWhereUniqueWithoutRolesInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutRolesInput | Prisma.UserUpdateManyWithWhereWithoutRolesInput[]
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
-export type UserUncheckedUpdateManyWithoutRoleNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutRoleInput, Prisma.UserUncheckedCreateWithoutRoleInput> | Prisma.UserCreateWithoutRoleInput[] | Prisma.UserUncheckedCreateWithoutRoleInput[]
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRoleInput | Prisma.UserCreateOrConnectWithoutRoleInput[]
-  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutRoleInput | Prisma.UserUpsertWithWhereUniqueWithoutRoleInput[]
-  createMany?: Prisma.UserCreateManyRoleInputEnvelope
+export type UserUncheckedUpdateManyWithoutRolesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput> | Prisma.UserCreateWithoutRolesInput[] | Prisma.UserUncheckedCreateWithoutRolesInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRolesInput | Prisma.UserCreateOrConnectWithoutRolesInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutRolesInput | Prisma.UserUpsertWithWhereUniqueWithoutRolesInput[]
   set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
   disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
   delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
   connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
-  update?: Prisma.UserUpdateWithWhereUniqueWithoutRoleInput | Prisma.UserUpdateWithWhereUniqueWithoutRoleInput[]
-  updateMany?: Prisma.UserUpdateManyWithWhereWithoutRoleInput | Prisma.UserUpdateManyWithWhereWithoutRoleInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutRolesInput | Prisma.UserUpdateWithWhereUniqueWithoutRolesInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutRolesInput | Prisma.UserUpdateManyWithWhereWithoutRolesInput[]
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
@@ -728,7 +729,8 @@ export type UserCreateWithoutAccountsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   schedules?: Prisma.UserScheduleCreateNestedManyWithoutUserInput
@@ -742,7 +744,6 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -753,6 +754,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   schedules?: Prisma.UserScheduleUncheckedCreateNestedManyWithoutUserInput
@@ -792,7 +795,8 @@ export type UserUpdateWithoutAccountsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUpdateManyWithoutUserNestedInput
@@ -806,7 +810,6 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -817,6 +820,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
@@ -840,7 +845,8 @@ export type UserCreateWithoutEventRequestsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -854,7 +860,6 @@ export type UserUncheckedCreateWithoutEventRequestsInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -865,6 +870,8 @@ export type UserUncheckedCreateWithoutEventRequestsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -904,7 +911,8 @@ export type UserUpdateWithoutEventRequestsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -918,7 +926,6 @@ export type UserUncheckedUpdateWithoutEventRequestsInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -929,6 +936,8 @@ export type UserUncheckedUpdateWithoutEventRequestsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -952,7 +961,8 @@ export type UserCreateWithoutOrgInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -966,7 +976,6 @@ export type UserUncheckedCreateWithoutOrgInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -977,6 +986,8 @@ export type UserUncheckedCreateWithoutOrgInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -1016,7 +1027,8 @@ export type UserUpdateWithoutOrgInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -1030,7 +1042,6 @@ export type UserUncheckedUpdateWithoutOrgInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1041,6 +1052,8 @@ export type UserUncheckedUpdateWithoutOrgInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -1064,7 +1077,8 @@ export type UserCreateWithoutReviewsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -1078,7 +1092,6 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -1089,6 +1102,8 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -1128,7 +1143,8 @@ export type UserUpdateWithoutReviewsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -1142,7 +1158,6 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1153,6 +1168,8 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -1162,7 +1179,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutRoleInput = {
+export type UserCreateWithoutRolesInput = {
   fullName?: string | null
   nickname: string
   email: string
@@ -1176,6 +1193,7 @@ export type UserCreateWithoutRoleInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -1186,7 +1204,7 @@ export type UserCreateWithoutRoleInput = {
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutRoleInput = {
+export type UserUncheckedCreateWithoutRolesInput = {
   fullName?: string | null
   nickname: string
   email: string
@@ -1200,6 +1218,7 @@ export type UserUncheckedCreateWithoutRoleInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -1210,30 +1229,25 @@ export type UserUncheckedCreateWithoutRoleInput = {
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutRoleInput = {
+export type UserCreateOrConnectWithoutRolesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutRoleInput, Prisma.UserUncheckedCreateWithoutRoleInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput>
 }
 
-export type UserCreateManyRoleInputEnvelope = {
-  data: Prisma.UserCreateManyRoleInput | Prisma.UserCreateManyRoleInput[]
-  skipDuplicates?: boolean
-}
-
-export type UserUpsertWithWhereUniqueWithoutRoleInput = {
+export type UserUpsertWithWhereUniqueWithoutRolesInput = {
   where: Prisma.UserWhereUniqueInput
-  update: Prisma.XOR<Prisma.UserUpdateWithoutRoleInput, Prisma.UserUncheckedUpdateWithoutRoleInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutRoleInput, Prisma.UserUncheckedCreateWithoutRoleInput>
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRolesInput, Prisma.UserUncheckedUpdateWithoutRolesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRolesInput, Prisma.UserUncheckedCreateWithoutRolesInput>
 }
 
-export type UserUpdateWithWhereUniqueWithoutRoleInput = {
+export type UserUpdateWithWhereUniqueWithoutRolesInput = {
   where: Prisma.UserWhereUniqueInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutRoleInput, Prisma.UserUncheckedUpdateWithoutRoleInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRolesInput, Prisma.UserUncheckedUpdateWithoutRolesInput>
 }
 
-export type UserUpdateManyWithWhereWithoutRoleInput = {
+export type UserUpdateManyWithWhereWithoutRolesInput = {
   where: Prisma.UserScalarWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutRoleInput>
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutRolesInput>
 }
 
 export type UserScalarWhereInput = {
@@ -1243,7 +1257,6 @@ export type UserScalarWhereInput = {
   fullName?: Prisma.StringNullableFilter<"User"> | string | null
   nickname?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
-  roleId?: Prisma.StringFilter<"User"> | string
   description?: Prisma.StringNullableFilter<"User"> | string | null
   birthdate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   slug?: Prisma.StringFilter<"User"> | string
@@ -1254,6 +1267,7 @@ export type UserScalarWhereInput = {
   sub?: Prisma.JsonFilter<"User">
   soclinks?: Prisma.JsonNullableFilter<"User">
   gameHistory?: Prisma.JsonFilter<"User">
+  isBanned?: Prisma.BoolFilter<"User"> | boolean
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1270,7 +1284,8 @@ export type UserCreateWithoutSessionsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   schedules?: Prisma.UserScheduleCreateNestedManyWithoutUserInput
@@ -1284,7 +1299,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -1295,6 +1309,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   schedules?: Prisma.UserScheduleUncheckedCreateNestedManyWithoutUserInput
@@ -1334,7 +1350,8 @@ export type UserUpdateWithoutSessionsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUpdateManyWithoutUserNestedInput
@@ -1348,7 +1365,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1359,6 +1375,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
@@ -1382,7 +1400,8 @@ export type UserCreateWithoutSupportTicketsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -1396,7 +1415,6 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -1407,6 +1425,8 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -1446,7 +1466,8 @@ export type UserUpdateWithoutSupportTicketsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -1460,7 +1481,6 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1471,6 +1491,8 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -1494,7 +1516,8 @@ export type UserCreateWithoutSchedulesInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
@@ -1508,7 +1531,6 @@ export type UserUncheckedCreateWithoutSchedulesInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -1519,6 +1541,8 @@ export type UserUncheckedCreateWithoutSchedulesInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
@@ -1558,7 +1582,8 @@ export type UserUpdateWithoutSchedulesInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -1572,7 +1597,6 @@ export type UserUncheckedUpdateWithoutSchedulesInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1583,6 +1607,8 @@ export type UserUncheckedUpdateWithoutSchedulesInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -1606,7 +1632,8 @@ export type UserCreateWithoutPasswordResetTokenInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   schedules?: Prisma.UserScheduleCreateNestedManyWithoutUserInput
@@ -1620,7 +1647,6 @@ export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
   fullName?: string | null
   nickname: string
   email: string
-  roleId: string
   description?: string | null
   birthdate?: Date | string | null
   slug: string
@@ -1631,6 +1657,8 @@ export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   schedules?: Prisma.UserScheduleUncheckedCreateNestedManyWithoutUserInput
@@ -1670,7 +1698,8 @@ export type UserUpdateWithoutPasswordResetTokenInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
-  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUpdateManyWithoutUserNestedInput
@@ -1684,7 +1713,6 @@ export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  roleId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1695,6 +1723,8 @@ export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
@@ -1704,23 +1734,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateManyRoleInput = {
-  fullName?: string | null
-  nickname: string
-  email: string
-  description?: string | null
-  birthdate?: Date | string | null
-  slug: string
-  avatar?: string | null
-  timezone?: string | null
-  isVerified?: boolean
-  id?: string
-  sub?:unknown
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-}
-
-export type UserUpdateWithoutRoleInput = {
+export type UserUpdateWithoutRolesInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1734,6 +1748,7 @@ export type UserUpdateWithoutRoleInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
@@ -1744,7 +1759,7 @@ export type UserUpdateWithoutRoleInput = {
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutRoleInput = {
+export type UserUncheckedUpdateWithoutRolesInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1758,6 +1773,7 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
@@ -1768,7 +1784,7 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateManyWithoutRoleInput = {
+export type UserUncheckedUpdateManyWithoutRolesInput = {
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1782,6 +1798,7 @@ export type UserUncheckedUpdateManyWithoutRoleInput = {
   sub?:unknown
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -1790,6 +1807,7 @@ export type UserUncheckedUpdateManyWithoutRoleInput = {
  */
 
 export type UserCountOutputType = {
+  roles: number
   accounts: number
   sessions: number
   schedules: number
@@ -1799,6 +1817,7 @@ export type UserCountOutputType = {
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  roles?: boolean | UserCountOutputTypeCountRolesArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   schedules?: boolean | UserCountOutputTypeCountSchedulesArgs
@@ -1815,6 +1834,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RoleWhereInput
 }
 
 /**
@@ -1864,7 +1890,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   fullName?: boolean
   nickname?: boolean
   email?: boolean
-  roleId?: boolean
   description?: boolean
   birthdate?: boolean
   slug?: boolean
@@ -1875,7 +1900,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   sub?: boolean
   soclinks?: boolean
   gameHistory?: boolean
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  isBanned?: boolean
+  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   passwordResetToken?: boolean | Prisma.User$passwordResetTokenArgs<ExtArgs>
@@ -1891,7 +1917,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   fullName?: boolean
   nickname?: boolean
   email?: boolean
-  roleId?: boolean
   description?: boolean
   birthdate?: boolean
   slug?: boolean
@@ -1902,14 +1927,13 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   sub?: boolean
   soclinks?: boolean
   gameHistory?: boolean
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  isBanned?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   fullName?: boolean
   nickname?: boolean
   email?: boolean
-  roleId?: boolean
   description?: boolean
   birthdate?: boolean
   slug?: boolean
@@ -1920,14 +1944,13 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   sub?: boolean
   soclinks?: boolean
   gameHistory?: boolean
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  isBanned?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   fullName?: boolean
   nickname?: boolean
   email?: boolean
-  roleId?: boolean
   description?: boolean
   birthdate?: boolean
   slug?: boolean
@@ -1938,11 +1961,12 @@ export type UserSelectScalar = {
   sub?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  isBanned?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"fullName" | "nickname" | "email" | "roleId" | "description" | "birthdate" | "slug" | "avatar" | "timezone" | "isVerified" | "id" | "sub" | "soclinks" | "gameHistory", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"fullName" | "nickname" | "email" | "description" | "birthdate" | "slug" | "avatar" | "timezone" | "isVerified" | "id" | "sub" | "soclinks" | "gameHistory" | "isBanned", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  roles?: boolean | Prisma.User$rolesArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   passwordResetToken?: boolean | Prisma.User$passwordResetTokenArgs<ExtArgs>
@@ -1953,17 +1977,13 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   eventRequests?: boolean | Prisma.User$eventRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
-}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
-}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    role: Prisma.$RolePayload<ExtArgs>
+    roles: Prisma.$RolePayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     passwordResetToken: Prisma.$PasswordResetTokenPayload<ExtArgs> | null
@@ -1977,7 +1997,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     fullName: string | null
     nickname: string
     email: string
-    roleId: string
     description: string | null
     birthdate: Date | null
     slug: string
@@ -1988,6 +2007,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sub:unknown
     soclinks:unknown | null
     gameHistory:unknown
+    isBanned: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2382,7 +2402,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  role<T extends Prisma.RoleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoleDefaultArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  roles<T extends Prisma.User$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   passwordResetToken<T extends Prisma.User$passwordResetTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokenArgs<ExtArgs>>): Prisma.Prisma__PasswordResetTokenClient<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2423,7 +2443,6 @@ export interface UserFieldRefs {
   readonly fullName: Prisma.FieldRef<"User", 'String'>
   readonly nickname: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
-  readonly roleId: Prisma.FieldRef<"User", 'String'>
   readonly description: Prisma.FieldRef<"User", 'String'>
   readonly birthdate: Prisma.FieldRef<"User", 'DateTime'>
   readonly slug: Prisma.FieldRef<"User", 'String'>
@@ -2434,6 +2453,7 @@ export interface UserFieldRefs {
   readonly sub: Prisma.FieldRef<"User", 'Json'>
   readonly soclinks: Prisma.FieldRef<"User", 'Json'>
   readonly gameHistory: Prisma.FieldRef<"User", 'Json'>
+  readonly isBanned: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 
@@ -2683,10 +2703,6 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2757,10 +2773,6 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2827,6 +2839,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.roles
+ */
+export type User$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Role
+   */
+  select?: Prisma.RoleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Role
+   */
+  omit?: Prisma.RoleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleInclude<ExtArgs> | null
+  where?: Prisma.RoleWhereInput
+  orderBy?: Prisma.RoleOrderByWithRelationInput | Prisma.RoleOrderByWithRelationInput[]
+  cursor?: Prisma.RoleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RoleScalarFieldEnum | Prisma.RoleScalarFieldEnum[]
 }
 
 /**
