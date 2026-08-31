@@ -2,7 +2,6 @@ import {
   Controller,
   Post,
   Get,
-  Delete,
   Body,
   Res,
   Req,
@@ -103,19 +102,6 @@ export class AuthController {
   async getMe(@Req() req: RequestWithUser) {
     const userId = req.user.userId;
     return await this.authService.me(userId);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @Delete('me')
-  async selfDelete(
-    @Req() req: RequestWithUser,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    const userId = req.user.userId;
-    await this.authService.deleteUser(userId);
-    res.clearCookie(REFRESH_TOKEN_NAME);
-    return true;
   }
 
   @Post('logout')

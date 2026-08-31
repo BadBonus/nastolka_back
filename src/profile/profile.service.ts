@@ -1,9 +1,10 @@
 import {
   Injectable,
-  ConflictException,
-  UnauthorizedException,
-  BadRequestException,
   NotFoundException,
+  // ConflictException,
+  // UnauthorizedException,
+  // BadRequestException,
+  // NotFoundException,
 } from '@nestjs/common';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '@/prisma/prisma.service';
@@ -86,7 +87,31 @@ export class ProfileService {
     });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} profile`;
+  async deleteMe(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    return this.prisma.user.delete({
+      where: { id: userId },
+    });
+  }
+
+  async remove(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }

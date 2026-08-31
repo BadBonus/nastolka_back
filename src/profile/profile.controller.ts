@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Delete,
   Body,
   Patch,
   Param,
@@ -36,6 +37,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageDimensionsPipe, ImageValidationPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from './profile.constants';
+import { CurrentUser } from '@/common/decorators';
 
 @ApiTags('Profile')
 @Controller('profile')
@@ -105,5 +107,22 @@ export class ProfileController {
     file?: Express.Multer.File,
   ) {
     return await this.profileService.updateProfile(id, dto, file);
+  }
+
+  @Delete('me')
+  @UseGuards(JwtAuthGuard)
+  deleteMe(@Req() req: RequestWithUser) {
+    const userId = req.user.userId;
+    console.log('userId');
+    console.log(userId);
+
+    return this.profileService.deleteMe(userId);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions(permission.USER_DELETE)
+  remove(@Param('id') id: string) {
+    return this.profileService.remove(id);
   }
 }
