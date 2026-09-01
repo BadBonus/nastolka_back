@@ -116,7 +116,7 @@ export class ProfileController {
     console.log('userId');
     console.log(userId);
 
-    return this.profileService.deleteMe(userId);
+    return this.profileService.remove(userId);
   }
 
   @Delete(':id')

@@ -13,6 +13,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
 import { buildImagePath } from '@/utils/pathToImg';
 import { PATH_UPLOADED_AVATARS } from './profile.constants';
+import { Prisma } from '@pGen/client';
 
 @Injectable()
 export class ProfileService {
@@ -45,6 +46,10 @@ export class ProfileService {
       },
     });
 
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
     if (user?.avatar) {
       user.avatar = this.imgproxyService.generateSignedUrl(
         buildImagePath('avatars') + user.avatar,
@@ -61,7 +66,17 @@ export class ProfileService {
     file?: Express.Multer.File,
   ) {
     const { schedules, ...updateData } = dto;
-    const dataToUpdate: Record<string, any> = { ...updateData };
+    const dataToUpdate: Prisma.UserUpdateInput = { ...updateData };
+
+    const userExists = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!userExists) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
     if (file && file.buffer) {
       const buffer = await this.uploadsService.optimizeImage(file.buffer);
       const avatar = await this.uploadsService.saveToDisk(
@@ -71,6 +86,7 @@ export class ProfileService {
       );
       dataToUpdate.avatar = avatar.fileName;
     }
+
     return this.prisma.user.update({
       where: { id: userId },
       data: {
@@ -87,31 +103,18 @@ export class ProfileService {
     });
   }
 
-  async deleteMe(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-    });
+  async remove(userId: string) {
+    try {
+      return await this.prisma.user.delete({
+        where: { id: userId },
+      });
+    } catch (error) {
+      const err = error as { code?: string };
 
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
+      if (err?.code === 'P2025') {
+        throw new NotFoundException('Пользователь не найден');
+      }
+      throw error;
     }
-
-    return this.prisma.user.delete({
-      where: { id: userId },
-    });
-  }
-
-  async remove(id: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    });
-
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
-    }
-
-    return this.prisma.user.delete({
-      where: { id },
-    });
   }
 }
