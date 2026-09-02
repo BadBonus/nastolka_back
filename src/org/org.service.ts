@@ -15,6 +15,7 @@ import { PATH_UPLOADED_AVATARS } from './org.contants';
 import { createUniqueSlug } from '@/common/utils/createUniqueSlug';
 import { ERole } from '@/common/enums/roles.enum';
 import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
+import { buildImagePath } from '@/utils/pathToImg';
 
 @Injectable()
 export class OrgService {
@@ -101,6 +102,42 @@ export class OrgService {
     };
 
     return { data, meta };
+  }
+
+  async findMe(userId: string) {
+    const org = await this.prisma.org.findUnique({
+      where: { userId },
+      select: {
+        id: true,
+        slug: true,
+        nickname: true,
+        description: true,
+        avatar: true,
+        timezone: true,
+        email: true,
+        isBanned: true,
+        preferredSystems: true,
+        preferredGenres: true,
+        preferredFormats: true,
+        gameHistory: true,
+        soclinks: true,
+        reviews: true,
+        events: true,
+      },
+    });
+
+    if (!org) {
+      throw new NotFoundException('Профиль организатора не найден');
+    }
+
+    if (org.avatar) {
+      org.avatar = this.imgproxyService.generateSignedUrl(
+        buildImagePath('org_avatars') + org.avatar,
+        'profile_avatar',
+      );
+    }
+
+    return org;
   }
 
   async findOne(slug: string) {

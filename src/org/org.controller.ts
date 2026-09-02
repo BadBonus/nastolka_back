@@ -25,15 +25,16 @@ import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import {
   ApiTags,
   // ApiCreatedResponse,
-  // ApiOperation,
-  // ApiResponse,
-  // ApiOkResponse,
-  // ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiOkResponse,
+  ApiBearerAuth,
   // ApiQuery,
   // ApiParam,
   ApiBody,
   ApiConsumes,
 } from '@nestjs/swagger';
+import { OrgMeResponseDto } from './dto/org-me.response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe, ImageDimensionsPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from '@/profile/profile.constants';
@@ -67,6 +68,24 @@ export class OrgController {
     limit: number,
   ) {
     return this.orgService.findAll(page, limit);
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Получение профиля текущего авторизованного организатора',
+  })
+  @ApiOkResponse({
+    description: 'Данные профиля организатора текущего пользователя',
+    type: OrgMeResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Профиль организатора не найден',
+  })
+  async getMe(@Req() req: RequestWithUser) {
+    return this.orgService.findMe(req.user.userId);
   }
 
   @Patch('me')

@@ -68,6 +68,9 @@ export type OrgCountAggregateOutputType = {
   gameHistory: number
   email: number
   isBanned: number
+  preferredSystems: number
+  preferredGenres: number
+  preferredFormats: number
   _all: number
 }
 
@@ -114,6 +117,9 @@ export type OrgCountAggregateInputType = {
   gameHistory?: true
   email?: true
   isBanned?: true
+  preferredSystems?: true
+  preferredGenres?: true
+  preferredFormats?: true
   _all?: true
 }
 
@@ -203,6 +209,9 @@ export type OrgGroupByOutputType = {
   gameHistory:unknown
   email: string
   isBanned: boolean
+  preferredSystems: $Enums.GameSystem[]
+  preferredGenres: $Enums.GameGenres[]
+  preferredFormats: $Enums.EventFormat[]
   _count: OrgCountAggregateOutputType | null
   _min: OrgMinAggregateOutputType | null
   _max: OrgMaxAggregateOutputType | null
@@ -240,6 +249,9 @@ export type OrgWhereInput = {
   gameHistory?: Prisma.JsonFilter<"Org">
   email?: Prisma.StringFilter<"Org"> | string
   isBanned?: Prisma.BoolFilter<"Org"> | boolean
+  preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
+  preferredGenres?: Prisma.EnumGameGenresNullableListFilter<"Org">
+  preferredFormats?: Prisma.EnumEventFormatNullableListFilter<"Org">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviews?: Prisma.EventReviewListRelationFilter
   events?: Prisma.EventListRelationFilter
@@ -259,6 +271,9 @@ export type OrgOrderByWithRelationInput = {
   gameHistory?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
+  preferredSystems?: Prisma.SortOrder
+  preferredGenres?: Prisma.SortOrder
+  preferredFormats?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   reviews?: Prisma.EventReviewOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
@@ -281,6 +296,9 @@ export type OrgWhereUniqueInput = Prisma.AtLeast<{
   soclinks?: Prisma.JsonNullableFilter<"Org">
   gameHistory?: Prisma.JsonFilter<"Org">
   isBanned?: Prisma.BoolFilter<"Org"> | boolean
+  preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
+  preferredGenres?: Prisma.EnumGameGenresNullableListFilter<"Org">
+  preferredFormats?: Prisma.EnumEventFormatNullableListFilter<"Org">
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviews?: Prisma.EventReviewListRelationFilter
   events?: Prisma.EventListRelationFilter
@@ -300,6 +318,9 @@ export type OrgOrderByWithAggregationInput = {
   gameHistory?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
+  preferredSystems?: Prisma.SortOrder
+  preferredGenres?: Prisma.SortOrder
+  preferredFormats?: Prisma.SortOrder
   _count?: Prisma.OrgCountOrderByAggregateInput
   _max?: Prisma.OrgMaxOrderByAggregateInput
   _min?: Prisma.OrgMinOrderByAggregateInput
@@ -322,6 +343,9 @@ export type OrgScalarWhereWithAggregatesInput = {
   gameHistory?: Prisma.JsonWithAggregatesFilter<"Org">
   email?: Prisma.StringWithAggregatesFilter<"Org"> | string
   isBanned?: Prisma.BoolWithAggregatesFilter<"Org"> | boolean
+  preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
+  preferredGenres?: Prisma.EnumGameGenresNullableListFilter<"Org">
+  preferredFormats?: Prisma.EnumEventFormatNullableListFilter<"Org">
 }
 
 export type OrgCreateInput = {
@@ -337,6 +361,9 @@ export type OrgCreateInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   user: Prisma.UserCreateNestedOneWithoutOrgInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutOrgInput
   events?: Prisma.EventCreateNestedManyWithoutOrgInput
@@ -356,6 +383,9 @@ export type OrgUncheckedCreateInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutOrgInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
 }
@@ -373,6 +403,9 @@ export type OrgUpdateInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUpdateManyWithoutOrgNestedInput
@@ -392,6 +425,9 @@ export type OrgUncheckedUpdateInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
@@ -410,6 +446,9 @@ export type OrgCreateManyInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
 }
 
 export type OrgUpdateManyMutationInput = {
@@ -425,6 +464,9 @@ export type OrgUpdateManyMutationInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
 }
 
 export type OrgUncheckedUpdateManyInput = {
@@ -441,11 +483,30 @@ export type OrgUncheckedUpdateManyInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
 }
 
 export type OrgScalarRelationFilter = {
   is?: Prisma.OrgWhereInput
   isNot?: Prisma.OrgWhereInput
+}
+
+export type EnumGameSystemNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.GameSystem[] | Prisma.ListEnumGameSystemFieldRefInput<$PrismaModel> | null
+  has?: $Enums.GameSystem | Prisma.EnumGameSystemFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.GameSystem[] | Prisma.ListEnumGameSystemFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.GameSystem[] | Prisma.ListEnumGameSystemFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
+export type EnumEventFormatNullableListFilter<$PrismaModel = never> = {
+  equals?: $Enums.EventFormat[] | Prisma.ListEnumEventFormatFieldRefInput<$PrismaModel> | null
+  has?: $Enums.EventFormat | Prisma.EnumEventFormatFieldRefInput<$PrismaModel> | null
+  hasEvery?: $Enums.EventFormat[] | Prisma.ListEnumEventFormatFieldRefInput<$PrismaModel>
+  hasSome?: $Enums.EventFormat[] | Prisma.ListEnumEventFormatFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type OrgCountOrderByAggregateInput = {
@@ -462,6 +523,9 @@ export type OrgCountOrderByAggregateInput = {
   gameHistory?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
+  preferredSystems?: Prisma.SortOrder
+  preferredGenres?: Prisma.SortOrder
+  preferredFormats?: Prisma.SortOrder
 }
 
 export type OrgMaxOrderByAggregateInput = {
@@ -509,6 +573,33 @@ export type OrgUpdateOneRequiredWithoutEventsNestedInput = {
   upsert?: Prisma.OrgUpsertWithoutEventsInput
   connect?: Prisma.OrgWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrgUpdateToOneWithWhereWithoutEventsInput, Prisma.OrgUpdateWithoutEventsInput>, Prisma.OrgUncheckedUpdateWithoutEventsInput>
+}
+
+export type OrgCreatepreferredSystemsInput = {
+  set: $Enums.GameSystem[]
+}
+
+export type OrgCreatepreferredGenresInput = {
+  set: $Enums.GameGenres[]
+}
+
+export type OrgCreatepreferredFormatsInput = {
+  set: $Enums.EventFormat[]
+}
+
+export type OrgUpdatepreferredSystemsInput = {
+  set?: $Enums.GameSystem[]
+  push?: $Enums.GameSystem | $Enums.GameSystem[]
+}
+
+export type OrgUpdatepreferredGenresInput = {
+  set?: $Enums.GameGenres[]
+  push?: $Enums.GameGenres | $Enums.GameGenres[]
+}
+
+export type OrgUpdatepreferredFormatsInput = {
+  set?: $Enums.EventFormat[]
+  push?: $Enums.EventFormat | $Enums.EventFormat[]
 }
 
 export type OrgCreateNestedOneWithoutReviewsInput = {
@@ -570,6 +661,9 @@ export type OrgCreateWithoutEventsInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   user: Prisma.UserCreateNestedOneWithoutOrgInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutOrgInput
 }
@@ -588,6 +682,9 @@ export type OrgUncheckedCreateWithoutEventsInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutOrgInput
 }
 
@@ -620,6 +717,9 @@ export type OrgUpdateWithoutEventsInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutOrgNestedInput
 }
@@ -638,6 +738,9 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
 }
 
@@ -654,6 +757,9 @@ export type OrgCreateWithoutReviewsInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   user: Prisma.UserCreateNestedOneWithoutOrgInput
   events?: Prisma.EventCreateNestedManyWithoutOrgInput
 }
@@ -672,6 +778,9 @@ export type OrgUncheckedCreateWithoutReviewsInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
 }
 
@@ -704,6 +813,9 @@ export type OrgUpdateWithoutReviewsInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
   events?: Prisma.EventUpdateManyWithoutOrgNestedInput
 }
@@ -722,6 +834,9 @@ export type OrgUncheckedUpdateWithoutReviewsInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
 
@@ -738,6 +853,9 @@ export type OrgCreateWithoutUserInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewCreateNestedManyWithoutOrgInput
   events?: Prisma.EventCreateNestedManyWithoutOrgInput
 }
@@ -755,6 +873,9 @@ export type OrgUncheckedCreateWithoutUserInput = {
   gameHistory?:unknown
   email: string
   isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgCreatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutOrgInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
 }
@@ -788,6 +909,9 @@ export type OrgUpdateWithoutUserInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUpdateManyWithoutOrgNestedInput
 }
@@ -805,6 +929,9 @@ export type OrgUncheckedUpdateWithoutUserInput = {
   gameHistory?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  preferredFormats?: Prisma.OrgUpdatepreferredFormatsInput | $Enums.EventFormat[]
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
@@ -863,6 +990,9 @@ export type OrgSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   gameHistory?: boolean
   email?: boolean
   isBanned?: boolean
+  preferredSystems?: boolean
+  preferredGenres?: boolean
+  preferredFormats?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
   events?: boolean | Prisma.Org$eventsArgs<ExtArgs>
@@ -883,6 +1013,9 @@ export type OrgSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   gameHistory?: boolean
   email?: boolean
   isBanned?: boolean
+  preferredSystems?: boolean
+  preferredGenres?: boolean
+  preferredFormats?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["org"]>
 
@@ -900,6 +1033,9 @@ export type OrgSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   gameHistory?: boolean
   email?: boolean
   isBanned?: boolean
+  preferredSystems?: boolean
+  preferredGenres?: boolean
+  preferredFormats?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["org"]>
 
@@ -917,9 +1053,12 @@ export type OrgSelectScalar = {
   gameHistory?: boolean
   email?: boolean
   isBanned?: boolean
+  preferredSystems?: boolean
+  preferredGenres?: boolean
+  preferredFormats?: boolean
 }
 
-export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned", ExtArgs["result"]["org"]>
+export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "preferredFormats", ExtArgs["result"]["org"]>
 export type OrgInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
@@ -954,6 +1093,9 @@ export type $OrgPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     gameHistory:unknown
     email: string
     isBanned: boolean
+    preferredSystems: $Enums.GameSystem[]
+    preferredGenres: $Enums.GameGenres[]
+    preferredFormats: $Enums.EventFormat[]
   }, ExtArgs["result"]["org"]>
   composites: {}
 }
@@ -1393,6 +1535,9 @@ export interface OrgFieldRefs {
   readonly gameHistory: Prisma.FieldRef<"Org", 'Json'>
   readonly email: Prisma.FieldRef<"Org", 'String'>
   readonly isBanned: Prisma.FieldRef<"Org", 'Boolean'>
+  readonly preferredSystems: Prisma.FieldRef<"Org", 'GameSystem[]'>
+  readonly preferredGenres: Prisma.FieldRef<"Org", 'GameGenres[]'>
+  readonly preferredFormats: Prisma.FieldRef<"Org", 'EventFormat[]'>
 }
     
 
