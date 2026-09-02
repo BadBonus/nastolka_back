@@ -29,7 +29,8 @@
       "@/*": ["src/*"],
       "@pGenTypes": ["src/shared/prisma/generated/browser.ts"],
       "@pGen/*": ["src/shared/prisma/generated/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/shared/*"],
+      "@common/*": ["src/common/*"]
     }
   }
 }

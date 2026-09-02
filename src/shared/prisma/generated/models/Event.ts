@@ -31,23 +31,30 @@ export type AggregateEvent = {
 export type EventAvgAggregateOutputType = {
   minUsers: number | null
   maxUsers: number | null
+  ageLimit: number | null
   costValue: number | null
 }
 
 export type EventSumAggregateOutputType = {
   minUsers: number | null
   maxUsers: number | null
+  ageLimit: number | null
   costValue: number | null
 }
 
 export type EventMinAggregateOutputType = {
   id: string | null
+  slug: string | null
   orgId: string | null
   name: string | null
   description: string | null
   addInfo: string | null
+  preview: string | null
   minUsers: number | null
   maxUsers: number | null
+  isBeginnerFriendly: boolean | null
+  ageLimit: number | null
+  autoApprove: boolean | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
   format: $Enums.EventFormat | null
@@ -66,12 +73,17 @@ export type EventMinAggregateOutputType = {
 
 export type EventMaxAggregateOutputType = {
   id: string | null
+  slug: string | null
   orgId: string | null
   name: string | null
   description: string | null
   addInfo: string | null
+  preview: string | null
   minUsers: number | null
   maxUsers: number | null
+  isBeginnerFriendly: boolean | null
+  ageLimit: number | null
+  autoApprove: boolean | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
   format: $Enums.EventFormat | null
@@ -90,12 +102,17 @@ export type EventMaxAggregateOutputType = {
 
 export type EventCountAggregateOutputType = {
   id: number
+  slug: number
   orgId: number
   name: number
   description: number
   addInfo: number
+  preview: number
   minUsers: number
   maxUsers: number
+  isBeginnerFriendly: number
+  ageLimit: number
+  autoApprove: number
   costValue: number
   costCurrency: number
   format: number
@@ -119,23 +136,30 @@ export type EventCountAggregateOutputType = {
 export type EventAvgAggregateInputType = {
   minUsers?: true
   maxUsers?: true
+  ageLimit?: true
   costValue?: true
 }
 
 export type EventSumAggregateInputType = {
   minUsers?: true
   maxUsers?: true
+  ageLimit?: true
   costValue?: true
 }
 
 export type EventMinAggregateInputType = {
   id?: true
+  slug?: true
   orgId?: true
   name?: true
   description?: true
   addInfo?: true
+  preview?: true
   minUsers?: true
   maxUsers?: true
+  isBeginnerFriendly?: true
+  ageLimit?: true
+  autoApprove?: true
   costValue?: true
   costCurrency?: true
   format?: true
@@ -154,12 +178,17 @@ export type EventMinAggregateInputType = {
 
 export type EventMaxAggregateInputType = {
   id?: true
+  slug?: true
   orgId?: true
   name?: true
   description?: true
   addInfo?: true
+  preview?: true
   minUsers?: true
   maxUsers?: true
+  isBeginnerFriendly?: true
+  ageLimit?: true
+  autoApprove?: true
   costValue?: true
   costCurrency?: true
   format?: true
@@ -178,12 +207,17 @@ export type EventMaxAggregateInputType = {
 
 export type EventCountAggregateInputType = {
   id?: true
+  slug?: true
   orgId?: true
   name?: true
   description?: true
   addInfo?: true
+  preview?: true
   minUsers?: true
   maxUsers?: true
+  isBeginnerFriendly?: true
+  ageLimit?: true
+  autoApprove?: true
   costValue?: true
   costCurrency?: true
   format?: true
@@ -291,12 +325,17 @@ export type EventGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type EventGroupByOutputType = {
   id: string
+  slug: string
   orgId: string
   name: string
   description: string | null
   addInfo: string | null
+  preview: string | null
   minUsers: number
   maxUsers: number | null
+  isBeginnerFriendly: boolean
+  ageLimit: number | null
+  autoApprove: boolean
   costValue: number | null
   costCurrency: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -340,12 +379,17 @@ export type EventWhereInput = {
   OR?: Prisma.EventWhereInput[]
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   id?: Prisma.StringFilter<"Event"> | string
+  slug?: Prisma.StringFilter<"Event"> | string
   orgId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringNullableFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableFilter<"Event"> | string | null
+  preview?: Prisma.StringNullableFilter<"Event"> | string | null
   minUsers?: Prisma.IntFilter<"Event"> | number
   maxUsers?: Prisma.IntNullableFilter<"Event"> | number | null
+  isBeginnerFriendly?: Prisma.BoolFilter<"Event"> | boolean
+  ageLimit?: Prisma.IntNullableFilter<"Event"> | number | null
+  autoApprove?: Prisma.BoolFilter<"Event"> | boolean
   costValue?: Prisma.IntNullableFilter<"Event"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFilter<"Event"> | $Enums.EventFormat
@@ -369,12 +413,17 @@ export type EventWhereInput = {
 
 export type EventOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   addInfo?: Prisma.SortOrderInput | Prisma.SortOrder
+  preview?: Prisma.SortOrderInput | Prisma.SortOrder
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrderInput | Prisma.SortOrder
+  isBeginnerFriendly?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  autoApprove?: Prisma.SortOrder
   costValue?: Prisma.SortOrderInput | Prisma.SortOrder
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   format?: Prisma.SortOrder
@@ -398,6 +447,7 @@ export type EventOrderByWithRelationInput = {
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  slug?: string
   AND?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   OR?: Prisma.EventWhereInput[]
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
@@ -405,8 +455,12 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringNullableFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableFilter<"Event"> | string | null
+  preview?: Prisma.StringNullableFilter<"Event"> | string | null
   minUsers?: Prisma.IntFilter<"Event"> | number
   maxUsers?: Prisma.IntNullableFilter<"Event"> | number | null
+  isBeginnerFriendly?: Prisma.BoolFilter<"Event"> | boolean
+  ageLimit?: Prisma.IntNullableFilter<"Event"> | number | null
+  autoApprove?: Prisma.BoolFilter<"Event"> | boolean
   costValue?: Prisma.IntNullableFilter<"Event"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFilter<"Event"> | $Enums.EventFormat
@@ -426,16 +480,21 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   org?: Prisma.XOR<Prisma.OrgScalarRelationFilter, Prisma.OrgWhereInput>
   requests?: Prisma.EventRequestListRelationFilter
   reviews?: Prisma.EventReviewListRelationFilter
-}, "id">
+}, "id" | "slug">
 
 export type EventOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   addInfo?: Prisma.SortOrderInput | Prisma.SortOrder
+  preview?: Prisma.SortOrderInput | Prisma.SortOrder
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrderInput | Prisma.SortOrder
+  isBeginnerFriendly?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  autoApprove?: Prisma.SortOrder
   costValue?: Prisma.SortOrderInput | Prisma.SortOrder
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   format?: Prisma.SortOrder
@@ -464,12 +523,17 @@ export type EventScalarWhereWithAggregatesInput = {
   OR?: Prisma.EventScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EventScalarWhereWithAggregatesInput | Prisma.EventScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Event"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"Event"> | string
   orgId?: Prisma.StringWithAggregatesFilter<"Event"> | string
   name?: Prisma.StringWithAggregatesFilter<"Event"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  preview?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   minUsers?: Prisma.IntWithAggregatesFilter<"Event"> | number
   maxUsers?: Prisma.IntNullableWithAggregatesFilter<"Event"> | number | null
+  isBeginnerFriendly?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
+  ageLimit?: Prisma.IntNullableWithAggregatesFilter<"Event"> | number | null
+  autoApprove?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
   costValue?: Prisma.IntNullableWithAggregatesFilter<"Event"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableWithAggregatesFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatWithAggregatesFilter<"Event"> | $Enums.EventFormat
@@ -490,11 +554,16 @@ export type EventScalarWhereWithAggregatesInput = {
 
 export type EventCreateInput = {
   id?: string
+  slug: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -518,12 +587,17 @@ export type EventCreateInput = {
 
 export type EventUncheckedCreateInput = {
   id?: string
+  slug: string
   orgId: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -546,11 +620,16 @@ export type EventUncheckedCreateInput = {
 
 export type EventUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -574,12 +653,17 @@ export type EventUpdateInput = {
 
 export type EventUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -602,12 +686,17 @@ export type EventUncheckedUpdateInput = {
 
 export type EventCreateManyInput = {
   id?: string
+  slug: string
   orgId: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -628,11 +717,16 @@ export type EventCreateManyInput = {
 
 export type EventUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -653,12 +747,17 @@ export type EventUpdateManyMutationInput = {
 
 export type EventUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -695,12 +794,17 @@ export type EnumGamePlatformNullableListFilter<$PrismaModel = never> = {
 
 export type EventCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   addInfo?: Prisma.SortOrder
+  preview?: Prisma.SortOrder
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
+  isBeginnerFriendly?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrder
+  autoApprove?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
   format?: Prisma.SortOrder
@@ -722,17 +826,23 @@ export type EventCountOrderByAggregateInput = {
 export type EventAvgOrderByAggregateInput = {
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
 }
 
 export type EventMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   addInfo?: Prisma.SortOrder
+  preview?: Prisma.SortOrder
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
+  isBeginnerFriendly?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrder
+  autoApprove?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
   format?: Prisma.SortOrder
@@ -751,12 +861,17 @@ export type EventMaxOrderByAggregateInput = {
 
 export type EventMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   addInfo?: Prisma.SortOrder
+  preview?: Prisma.SortOrder
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
+  isBeginnerFriendly?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrder
+  autoApprove?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
   format?: Prisma.SortOrder
@@ -776,6 +891,7 @@ export type EventMinOrderByAggregateInput = {
 export type EventSumOrderByAggregateInput = {
   minUsers?: Prisma.SortOrder
   maxUsers?: Prisma.SortOrder
+  ageLimit?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
 }
 
@@ -816,6 +932,10 @@ export type NullableIntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type NullableEnumCurrencyFieldUpdateOperationsInput = {
@@ -924,11 +1044,16 @@ export type EventUpdateOneRequiredWithoutReviewsNestedInput = {
 
 export type EventCreateWithoutRequestsInput = {
   id?: string
+  slug: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -951,12 +1076,17 @@ export type EventCreateWithoutRequestsInput = {
 
 export type EventUncheckedCreateWithoutRequestsInput = {
   id?: string
+  slug: string
   orgId: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -994,11 +1124,16 @@ export type EventUpdateToOneWithWhereWithoutRequestsInput = {
 
 export type EventUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1021,12 +1156,17 @@ export type EventUpdateWithoutRequestsInput = {
 
 export type EventUncheckedUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1048,11 +1188,16 @@ export type EventUncheckedUpdateWithoutRequestsInput = {
 
 export type EventCreateWithoutOrgInput = {
   id?: string
+  slug: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -1075,11 +1220,16 @@ export type EventCreateWithoutOrgInput = {
 
 export type EventUncheckedCreateWithoutOrgInput = {
   id?: string
+  slug: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -1131,12 +1281,17 @@ export type EventScalarWhereInput = {
   OR?: Prisma.EventScalarWhereInput[]
   NOT?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
   id?: Prisma.StringFilter<"Event"> | string
+  slug?: Prisma.StringFilter<"Event"> | string
   orgId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringNullableFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableFilter<"Event"> | string | null
+  preview?: Prisma.StringNullableFilter<"Event"> | string | null
   minUsers?: Prisma.IntFilter<"Event"> | number
   maxUsers?: Prisma.IntNullableFilter<"Event"> | number | null
+  isBeginnerFriendly?: Prisma.BoolFilter<"Event"> | boolean
+  ageLimit?: Prisma.IntNullableFilter<"Event"> | number | null
+  autoApprove?: Prisma.BoolFilter<"Event"> | boolean
   costValue?: Prisma.IntNullableFilter<"Event"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFilter<"Event"> | $Enums.EventFormat
@@ -1157,11 +1312,16 @@ export type EventScalarWhereInput = {
 
 export type EventCreateWithoutReviewsInput = {
   id?: string
+  slug: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -1184,12 +1344,17 @@ export type EventCreateWithoutReviewsInput = {
 
 export type EventUncheckedCreateWithoutReviewsInput = {
   id?: string
+  slug: string
   orgId: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -1227,11 +1392,16 @@ export type EventUpdateToOneWithWhereWithoutReviewsInput = {
 
 export type EventUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1254,12 +1424,17 @@ export type EventUpdateWithoutReviewsInput = {
 
 export type EventUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1281,11 +1456,16 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
 
 export type EventCreateManyOrgInput = {
   id?: string
+  slug: string
   name: string
   description?: string | null
   addInfo?: string | null
+  preview?: string | null
   minUsers?: number
   maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
@@ -1306,11 +1486,16 @@ export type EventCreateManyOrgInput = {
 
 export type EventUpdateWithoutOrgInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1333,11 +1518,16 @@ export type EventUpdateWithoutOrgInput = {
 
 export type EventUncheckedUpdateWithoutOrgInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1360,11 +1550,16 @@ export type EventUncheckedUpdateWithoutOrgInput = {
 
 export type EventUncheckedUpdateManyWithoutOrgInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
   maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
@@ -1425,12 +1620,17 @@ export type EventCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.E
 
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   orgId?: boolean
   name?: boolean
   description?: boolean
   addInfo?: boolean
+  preview?: boolean
   minUsers?: boolean
   maxUsers?: boolean
+  isBeginnerFriendly?: boolean
+  ageLimit?: boolean
+  autoApprove?: boolean
   costValue?: boolean
   costCurrency?: boolean
   format?: boolean
@@ -1455,12 +1655,17 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   orgId?: boolean
   name?: boolean
   description?: boolean
   addInfo?: boolean
+  preview?: boolean
   minUsers?: boolean
   maxUsers?: boolean
+  isBeginnerFriendly?: boolean
+  ageLimit?: boolean
+  autoApprove?: boolean
   costValue?: boolean
   costCurrency?: boolean
   format?: boolean
@@ -1482,12 +1687,17 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  slug?: boolean
   orgId?: boolean
   name?: boolean
   description?: boolean
   addInfo?: boolean
+  preview?: boolean
   minUsers?: boolean
   maxUsers?: boolean
+  isBeginnerFriendly?: boolean
+  ageLimit?: boolean
+  autoApprove?: boolean
   costValue?: boolean
   costCurrency?: boolean
   format?: boolean
@@ -1509,12 +1719,17 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type EventSelectScalar = {
   id?: boolean
+  slug?: boolean
   orgId?: boolean
   name?: boolean
   description?: boolean
   addInfo?: boolean
+  preview?: boolean
   minUsers?: boolean
   maxUsers?: boolean
+  isBeginnerFriendly?: boolean
+  ageLimit?: boolean
+  autoApprove?: boolean
   costValue?: boolean
   costCurrency?: boolean
   format?: boolean
@@ -1533,7 +1748,7 @@ export type EventSelectScalar = {
   gameSystem?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orgId" | "name" | "description" | "addInfo" | "minUsers" | "maxUsers" | "costValue" | "costCurrency" | "format" | "sessionType" | "address" | "mapUrl" | "status" | "startsAt" | "endsAt" | "canceledAt" | "cancelReason" | "createdAt" | "updatedAt" | "genres" | "platforms" | "gameSystem", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "orgId" | "name" | "description" | "addInfo" | "preview" | "minUsers" | "maxUsers" | "isBeginnerFriendly" | "ageLimit" | "autoApprove" | "costValue" | "costCurrency" | "format" | "sessionType" | "address" | "mapUrl" | "status" | "startsAt" | "endsAt" | "canceledAt" | "cancelReason" | "createdAt" | "updatedAt" | "genres" | "platforms" | "gameSystem", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   org?: boolean | Prisma.OrgDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Event$requestsArgs<ExtArgs>
@@ -1556,12 +1771,17 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    slug: string
     orgId: string
     name: string
     description: string | null
     addInfo: string | null
+    preview: string | null
     minUsers: number
     maxUsers: number | null
+    isBeginnerFriendly: boolean
+    ageLimit: number | null
+    autoApprove: boolean
     costValue: number | null
     costCurrency: $Enums.Currency | null
     format: $Enums.EventFormat
@@ -2005,12 +2225,17 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface EventFieldRefs {
   readonly id: Prisma.FieldRef<"Event", 'String'>
+  readonly slug: Prisma.FieldRef<"Event", 'String'>
   readonly orgId: Prisma.FieldRef<"Event", 'String'>
   readonly name: Prisma.FieldRef<"Event", 'String'>
   readonly description: Prisma.FieldRef<"Event", 'String'>
   readonly addInfo: Prisma.FieldRef<"Event", 'String'>
+  readonly preview: Prisma.FieldRef<"Event", 'String'>
   readonly minUsers: Prisma.FieldRef<"Event", 'Int'>
   readonly maxUsers: Prisma.FieldRef<"Event", 'Int'>
+  readonly isBeginnerFriendly: Prisma.FieldRef<"Event", 'Boolean'>
+  readonly ageLimit: Prisma.FieldRef<"Event", 'Int'>
+  readonly autoApprove: Prisma.FieldRef<"Event", 'Boolean'>
   readonly costValue: Prisma.FieldRef<"Event", 'Int'>
   readonly costCurrency: Prisma.FieldRef<"Event", 'Currency'>
   readonly format: Prisma.FieldRef<"Event", 'EventFormat'>

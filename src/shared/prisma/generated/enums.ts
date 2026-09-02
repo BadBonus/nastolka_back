@@ -17,26 +17,6 @@ export const EAccProviders = {
 export type EAccProviders = (typeof EAccProviders)[keyof typeof EAccProviders]
 
 
-export const EventStatus = {
-  PREPARE: 'PREPARE',
-  ACTIVE: 'ACTIVE',
-  FINISHED: 'FINISHED',
-  CANCELED: 'CANCELED'
-} as const
-
-export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
-
-
-export const RequestStatus = {
-  PENDING: 'PENDING',
-  CONFIRMED: 'CONFIRMED',
-  DECLINED: 'DECLINED',
-  CANCELED: 'CANCELED'
-} as const
-
-export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
-
-
 export const EventFormat = {
   ONLINE: 'ONLINE',
   OFFLINE: 'OFFLINE'
@@ -47,8 +27,7 @@ export type EventFormat = (typeof EventFormat)[keyof typeof EventFormat]
 
 export const SessionType = {
   ONE_SHOT: 'ONE_SHOT',
-  CAMPAIGN: 'CAMPAIGN',
-  SESSION_ZERO: 'SESSION_ZERO'
+  CAMPAIGN: 'CAMPAIGN'
 } as const
 
 export type SessionType = (typeof SessionType)[keyof typeof SessionType]
@@ -518,10 +497,7 @@ export const GameSystem = {
   WEREWOLF_THE_FORSAKEN: 'WEREWOLF_THE_FORSAKEN',
   WICKED_ONES: 'WICKED_ONES',
   XAS_IRKALLA: 'XAS_IRKALLA',
-  Z_LAND: 'Z_LAND',
-  BLUEBEARDS_BRIDE: 'BLUEBEARDS_BRIDE',
-  HECKIN_GOOD_DOGGOS: 'HECKIN_GOOD_DOGGOS',
-  STALWART_85: 'STALWART_85'
+  Z_LAND: 'Z_LAND'
 } as const
 
 export type GameSystem = (typeof GameSystem)[keyof typeof GameSystem]
@@ -560,6 +536,27 @@ export const GamePlatform = {
 } as const
 
 export type GamePlatform = (typeof GamePlatform)[keyof typeof GamePlatform]
+
+
+export const EventStatus = {
+  PREPARE: 'PREPARE',
+  ACTIVE: 'ACTIVE',
+  FINISHED: 'FINISHED',
+  CANCELED: 'CANCELED'
+} as const
+
+export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus]
+
+
+export const RequestStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  DECLINED: 'DECLINED',
+  WAITLIST: 'WAITLIST',
+  CANCELED: 'CANCELED'
+} as const
+
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 
 
 export const KindOfRate = {

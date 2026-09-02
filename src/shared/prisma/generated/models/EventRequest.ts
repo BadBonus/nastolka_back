@@ -439,10 +439,6 @@ export type EnumRequestStatusFieldUpdateOperationsInput = {
   set?: $Enums.RequestStatus
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type EventRequestCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.EventRequestCreateWithoutUserInput, Prisma.EventRequestUncheckedCreateWithoutUserInput> | Prisma.EventRequestCreateWithoutUserInput[] | Prisma.EventRequestUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.EventRequestCreateOrConnectWithoutUserInput | Prisma.EventRequestCreateOrConnectWithoutUserInput[]

@@ -37,7 +37,6 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageDimensionsPipe, ImageValidationPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from './profile.constants';
-import { CurrentUser } from '@/common/decorators';
 
 @ApiTags('Profile')
 @Controller('profile')

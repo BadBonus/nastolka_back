@@ -98,12 +98,17 @@ export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeo
 
 export const EventScalarFieldEnum = {
   id: 'id',
+  slug: 'slug',
   orgId: 'orgId',
   name: 'name',
   description: 'description',
   addInfo: 'addInfo',
+  preview: 'preview',
   minUsers: 'minUsers',
   maxUsers: 'maxUsers',
+  isBeginnerFriendly: 'isBeginnerFriendly',
+  ageLimit: 'ageLimit',
+  autoApprove: 'autoApprove',
   costValue: 'costValue',
   costCurrency: 'costCurrency',
   format: 'format',
@@ -152,7 +157,10 @@ export const OrgScalarFieldEnum = {
   soclinks: 'soclinks',
   gameHistory: 'gameHistory',
   email: 'email',
-  isBanned: 'isBanned'
+  isBanned: 'isBanned',
+  preferredSystems: 'preferredSystems',
+  preferredGenres: 'preferredGenres',
+  preferredFormats: 'preferredFormats'
 } as const
 
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]

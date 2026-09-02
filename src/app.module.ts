@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './auth/mail/mail.module';
 import { ProfileModule } from './profile/profile.module';
 import { UploadsModule } from './common/modules/uploads/uploads.module';
+import { EventModule } from './event/event.module';
 // import { SupportModule } from './support/support.module';
 import { OrgModule } from './org/org.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
@@ -21,6 +22,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     ProfileModule,
     UploadsModule,
     OrgModule,
+    EventModule,
     // SupportModule,
   ],
 })

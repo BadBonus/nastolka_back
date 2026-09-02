@@ -18,6 +18,10 @@ model Org {
   events            Event[]
   isBanned          Boolean             @default(false) @map("is_banned")
 
+  preferredSystems GameSystem[]  @map("preferred_systems")
+  preferredGenres  GameGenres[]  @map("preferred_genres")
+  preferredFormats EventFormat[] @map("preferred_formats")
+
   @@map("orgs")
 }
 
