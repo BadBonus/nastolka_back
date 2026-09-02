@@ -9,6 +9,7 @@ import { EventModule } from './event/event.module';
 // import { SupportModule } from './support/support.module';
 import { OrgModule } from './org/org.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { DictionaryModule } from './dictionary/dictionary.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     UploadsModule,
     OrgModule,
     EventModule,
+    DictionaryModule,
     // SupportModule,
   ],
 })

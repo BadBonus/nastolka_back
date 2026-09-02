@@ -23,9 +23,11 @@ enum GameGenres {
   MODERN
   HISTORICAL
   CYBERPUNK
+  OTHER
 }
 
 enum GameSystem {
+  OTHER 
   DUNGEONS_AND_DRAGONS_5E @map("Dungeons & Dragons 5e")
   PATHFINDER_2E @map("Pathfinder 2e")
   DAGGERHEART @map("Daggerheart")
@@ -499,4 +501,5 @@ enum GamePlatform {
   TARRASQUE_IO @map("Tarrasque.io")
   TEXT_PLAY_BY_POST @map("Text/Play by Post")
   ZOOM @map("Zoom")
+  OTHER
 }
