@@ -1,0 +1,3879 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Успешный вход",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "operationId": "AuthController_verifyEmail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "operationId": "AuthController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Получения ограниченных минимальных данных юзера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refreshToken",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Обновление сессии и получение данных пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/reset-password/request": {
+      "post": {
+        "operationId": "AuthController_resetPasswordRequest",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/reset-password/validate": {
+      "get": {
+        "operationId": "AuthController_validateToken",
+        "parameters": [
+          {
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/reset-password/confirm": {
+      "post": {
+        "operationId": "AuthController_confirmReset",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Пароль успешно изменен"
+          },
+          "400": {
+            "description": "Токен недействителен"
+          }
+        },
+        "summary": "Сброс пароля через токен",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/profile/me": {
+      "get": {
+        "operationId": "ProfileController_getMyProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Получения данных текущего авторизованного пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileUserMe"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Profile"
+        ]
+      },
+      "patch": {
+        "operationId": "ProfileController_updateMe",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Profile"
+        ]
+      },
+      "delete": {
+        "operationId": "ProfileController_deleteMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/profile/{id}": {
+      "get": {
+        "operationId": "ProfileController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получения данных пользователя по id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileUserWithId"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Profile"
+        ]
+      },
+      "patch": {
+        "operationId": "ProfileController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Profile"
+        ]
+      },
+      "delete": {
+        "operationId": "ProfileController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/org/create": {
+      "post": {
+        "operationId": "OrgController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrgDtoReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Org"
+        ]
+      }
+    },
+    "/org": {
+      "get": {
+        "operationId": "OrgController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Org"
+        ]
+      }
+    },
+    "/org/me": {
+      "get": {
+        "operationId": "OrgController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Данные профиля организатора текущего пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgMeResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Профиль организатора не найден"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Получение профиля текущего авторизованного организатора",
+        "tags": [
+          "Org"
+        ]
+      },
+      "patch": {
+        "operationId": "OrgController_updateMe",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrgDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Org"
+        ]
+      },
+      "delete": {
+        "operationId": "OrgController_deleteMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Org"
+        ]
+      }
+    },
+    "/org/{slug}": {
+      "get": {
+        "operationId": "OrgController_findOne",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Org"
+        ]
+      }
+    },
+    "/events": {
+      "post": {
+        "operationId": "EventController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventDtoReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ивент успешно создан",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Создание нового ивента",
+        "tags": [
+          "Events"
+        ]
+      },
+      "get": {
+        "operationId": "EventController_findAll",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "gameSystem",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DUNGEONS_AND_DRAGONS_5E",
+                "PATHFINDER_2E",
+                "DAGGERHEART",
+                "HOMEBREW_GAME",
+                "CALL_OF_CTHULHU",
+                "VAMPIRE_THE_MASQUERADE_5TH_EDITION",
+                "PATHFINDER_1E",
+                "MONSTER_OF_THE_WEEK",
+                "SHADOWDARK_RPG",
+                "GAME_MASTER_WORKSHOP",
+                "CYBERPUNK_RED",
+                "DARK_MATTER",
+                "DRAW_STEEL",
+                "DUNGEON_CRAWL_CLASSICS",
+                "COSMERE_ROLEPLAYING_GAME",
+                "LANCER",
+                "STAR_WARS_RPG_BY_FANTASY_FLIGHT_GAMES",
+                "LEGEND_IN_THE_MIST",
+                "INDIE_TTRPG",
+                "MOTHERSHIP",
+                "MARVEL_MULTIVERSE_ROLE_PLAYING_GAME",
+                "SAVAGE_WORLDS",
+                "WARHAMMER_FANTASY_ROLEPLAY",
+                "BLADES_IN_THE_DARK",
+                "DELTA_GREEN",
+                "DUNGEONS_AND_DRAGONS_3_3_5E",
+                "FALLOUT_THE_ROLEPLAYING_GAME",
+                "STAR_WARS_5E",
+                "ALIEN_THE_ROLEPLAYING_GAME",
+                "STARFINDER",
+                "ADVANCED_DUNGEONS_AND_DRAGONS_1E",
+                "DRAGONBANE",
+                "FABULA_ULTIMA",
+                "THIRSTY_SWORD_LESBIANS",
+                "WORLD_OF_DARKNESS",
+                "SEMINAR",
+                "CANDELA_OBSCURA",
+                "MASKS_A_NEW_GENERATION",
+                "OLD_SCHOOL_ESSENTIALS",
+                "MAGE_THE_ASCENSION_20TH_ANNIVERSARY",
+                "CYPHER_SYSTEM",
+                "DISCWORLD",
+                "AVATAR_LEGENDS_THE_RPG",
+                "STARFINDER_2E",
+                "VAMPIRE_THE_MASQUERADE_20TH_ANNIVERSARY_EDITION",
+                "D6_SYSTEM",
+                "PIRATE_BORG",
+                "LEVEL_UP_ADVANCED_5TH_EDITION",
+                "SHADOWRUN",
+                "FATE_CORE_SYSTEM",
+                "POKEMON_TABLETOP_UNITED",
+                "DUNGEONS_AND_DRAGONS_0E",
+                "KIDS_ON_BIKES",
+                "DUNGEONS_AND_DRAGONS_B_X",
+                "STAR_TREK_ADVENTURES",
+                "TRAVELLER",
+                "WEREWOLF_THE_APOCALYPSE_5TH_EDITION",
+                "CHRONICLES_OF_DARKNESS",
+                "WEREWOLF_THE_APOCALYPSE_20TH_ANNIVERSARY_EDITION",
+                "CITY_OF_MIST",
+                "WARHAMMER_40000_IMPERIUM_MALEDICTUM",
+                "HUNTER_THE_RECKONING",
+                "MUTANTS_AND_MASTERMINDS_3E",
+                "ALICE_IS_MISSING",
+                "FATE",
+                "MONSTERHEARTS_2",
+                "OUTGUNNED",
+                "THE_ONE_RING_2E",
+                "VAESEN",
+                "GURPS",
+                "STAR_TREK_ADVENTURES_SECOND_EDITION",
+                "ADVANCED_DUNGEONS_AND_DRAGONS_2E",
+                "DUNE_ADVENTURES_IN_THE_IMPERIUM",
+                "TEN_CANDLES",
+                "KIDS_ON_BROOMS",
+                "MYTHIC_BASTIONLAND",
+                "WARHAMMER_40000_ROLEPLAY",
+                "TALES_FROM_THE_LOOP",
+                "D20_MODERN",
+                "MASS_EFFECT_5E",
+                "POWER_RANGERS_ROLEPLAYING_GAME",
+                "EXALTED_3RD_EDITION",
+                "FATE_ACCELERATED",
+                "PULP_CTHULHU",
+                "TALES_OF_THE_VALIANT",
+                "TRANSFORMERS_ROLEPLAYING_GAME",
+                "DEADLANDS",
+                "LEGEND_OF_THE_FIVE_RINGS_5TH_EDITION",
+                "MORK_BORG",
+                "PLAYTEST",
+                "PLAYTEST_GAME",
+                "WARHAMMER_40000_WRATH_AND_GLORY",
+                "DRAGON_AGE",
+                "FANTASY_AGE_RPG",
+                "GRIMWILD",
+                "INTO_THE_ODD",
+                "NEVER_STOP_BLOWING_UP",
+                "OTHERSCAPE",
+                "POKEMON_THE_ROLEPLAYING_GAME",
+                "SEVENTH_SEA",
+                "DUNGEON_WORLD",
+                "PENDRAGON_6TH_EDITION",
+                "D20_OGL",
+                "DEATHWATCH",
+                "DUNGEONS_AND_DRAGONS_4E",
+                "FORBIDDEN_LANDS",
+                "GOOD_SOCIETY",
+                "KULT",
+                "STORYPATH",
+                "THE_LAND_ROLEPLAYING_SYSTEM",
+                "THE_LORD_OF_THE_RINGS_ROLEPLAYING_5E",
+                "THE_WILDSEA",
+                "BATTLETECH_RPG",
+                "BRINDLEWOOD_BAY",
+                "DARK_HERESY_2E",
+                "DC20",
+                "OLD_GODS_OF_APPALACHIA",
+                "PALLADIUM",
+                "POKEMON_TABLETOP_ADVENTURES_3",
+                "RUNEQUEST_ROLEPLAYING_IN_GLORANTHA",
+                "STARS_WITHOUT_NUMBERS_REVISED",
+                "TWILIGHT_2000",
+                "BLADE_RUNNER_THE_ROLEPLAYING_GAME",
+                "CHANGELING_THE_LOST_SECOND_EDITION",
+                "CONAN_ADVENTURES_IN_AN_AGE_UNDREAMED_OF",
+                "CURSEBORNE",
+                "CY_BORG",
+                "FOR_THE_QUEEN",
+                "MAGE_THE_AWAKENING_2ND_EDITION",
+                "ODYSSEY_OF_THE_DRAGONLORDS",
+                "SCION_2E",
+                "STAR_WARS_SAGA_EDITION",
+                "SYMBAROUM",
+                "THE_BETWEEN",
+                "TROIKA",
+                "VAMPIRE_THE_REQUIEM_2ND_EDITION",
+                "ACHTUNG_CTHULHU_2D20",
+                "APOCALYPSE_WORLD_2E",
+                "BLACK_CRUSADE",
+                "CAIRN",
+                "DUNGEONS_AND_DRAGONS_2E",
+                "GIRL_BY_MOONLIGHT",
+                "HOUSEHOLD",
+                "MISTBORN_ADVENTURE_GAME",
+                "ONE_SHOT_RPG_SYSTEM",
+                "PARANOIA",
+                "THE_WITCH_IS_DEAD",
+                "URBAN_SHADOWS_1E",
+                "AGE_OF_SIGMAR_SOULBOUND",
+                "CHANGELING_THE_DREAMING_20TH_ANNIVERSARY_EDITION",
+                "DEADLANDS_CLASSIC_20TH_ANNIVERSARY_EDITION",
+                "EARTHDAWN",
+                "EPITAPH",
+                "GLITTER_HEARTS",
+                "HEART_THE_CITY_BENEATH_RPG",
+                "LASERS_AND_FEELINGS",
+                "MAUSRITTER",
+                "RIFTS",
+                "ROLL_FOR_SHOES",
+                "SCUM_AND_VILLAINY",
+                "SPIRE_THE_CITY_MUST_FALL_RPG",
+                "TROPHY_DARK",
+                "URBAN_SHADOWS_2E",
+                "A_SONG_OF_ICE_AND_FIRE_RPG",
+                "BURN_BRYTE",
+                "COYOTE_AND_CROW",
+                "CYBERPUNK_2020",
+                "DARK_SOULS_THE_ROLEPLAYING_GAME",
+                "DEMON_THE_FALLEN",
+                "DOCTOR_WHO_RPG",
+                "FABLECRAFT",
+                "GENESYS",
+                "GHOSTBUSTERS_RPG",
+                "GODBOUND",
+                "HERO_SYSTEM",
+                "HONEY_HEIST",
+                "KING_ARTHUR_PENDRAGON_RPG",
+                "MUTANT_YEAR_ZERO",
+                "MY_LITTLE_PONY_ROLEPLAYING_GAME",
+                "PATHWAYS_TO_ADVENTURE",
+                "PERILS_AND_PRINCESSES",
+                "POLYMORPH",
+                "PUBLIC_ACCESS",
+                "STARGATE_SG_1_RPG",
+                "THE_WALKING_DEAD_UNIVERSE_ROLEPLAYING_GAME",
+                "VAMPIRE_THE_MASQUERADE_REVISED_EDITION",
+                "WANDERHOME",
+                "ABERRANT",
+                "BAND_OF_BLADES",
+                "BASIC_FANTASY",
+                "BREAK",
+                "CASTLES_AND_CRUSADES",
+                "DARK_HERESY_1E",
+                "DEATH_IN_SPACE",
+                "DUMP_QUEST",
+                "DUNGEONS_AND_DRAGONS_1E",
+                "EAT_THE_REICH",
+                "EZD6",
+                "FREE_KRIEGSSPIEL_REVOLUTION",
+                "HACKMASTER",
+                "HUNTER_THE_VIGIL",
+                "LANCER_BATTLEGROUP",
+                "LEGEND_OF_THE_FIVE_RINGS_4TH_EDITION",
+                "MARK_OF_THE_ODD",
+                "MARVEL_SUPER_HEROES_FASERIP",
+                "MODERN_AGE_RPG",
+                "MOONLIGHT_ON_ROSEVILLE_BEACH",
+                "MUTANT_CRAWL_CLASSICS",
+                "NUMENERA",
+                "RISUS_THE_ANYTHING_RPG",
+                "RIVERS_OF_LONDON",
+                "ROGUE_TRADER",
+                "ROOT_THE_ROLEPLAYING_GAME",
+                "RYUUTAMA",
+                "SCARRED_LANDS",
+                "SCION_1E",
+                "SHADOW_OF_THE_DEMON_LORD",
+                "STAR_WARS_D6",
+                "STEEL_HEARTS",
+                "STEWPOT",
+                "THE_EXPANSE_RPG",
+                "THE_WITCHER_TTRPG",
+                "TORG_ETERNITY",
+                "TRINITY_CONTINUUM",
+                "WARHAMMER_AGE_OF_SIGMAR_SOULBOUND",
+                "WILD_TALENTS",
+                "WORLDS_WITHOUT_NUMBER",
+                "THIRTEENTH_AGE",
+                "ABSURDIA",
+                "ACES_AND_EIGHTS_RELOADED",
+                "ADVENTURER_CONQUEROR_KING",
+                "ADVENTURES_IN_MIDDLE_EARTH",
+                "ADVENTURE_SKELETONS",
+                "A_FAMILIAR_PROBLEM",
+                "AFTERLIFE_WANDERING_SOULS",
+                "AGE_OF_ADVENTURE",
+                "ALL_FLESH_MUST_BE_EATEN",
+                "ARS_MAGICA_FIFTH_EDITION",
+                "ASHES_WITHOUT_NUMBER",
+                "BEAM_SABER",
+                "BIRTHRIGHT",
+                "BRAVE_ZENITH",
+                "CAIN",
+                "CAPERS",
+                "CHROME",
+                "CONAN",
+                "CORIOLIS_THE_THIRD_HORIZON",
+                "DEAD_OF_NIGHT",
+                "DIE_RPG",
+                "ELDRITCH_AUTOMATA",
+                "ELECTRIC_BASTIONLAND",
+                "EVERYDAY_HEROES",
+                "EXALTED_2ND_EDITION",
+                "EXALTED_ESSENCE",
+                "FIASCO",
+                "FUDGE",
+                "GUMSHOE",
+                "ICRPG_INDEX_CARD_RPG",
+                "INEVITABLE",
+                "IN_NOMINE",
+                "INTERSTITIAL_OUR_HEARTS_INTERTWINED",
+                "IRONSWORN",
+                "IRONSWORN_STARFORGED",
+                "KNAVE",
+                "LADY_BLACKBIRD",
+                "LAND_OF_EEM",
+                "LARP",
+                "LEGEND_OF_THE_FIVE_RINGS_FIRST_EDITION",
+                "ONLY_WAR_RPG",
+                "ORBITAL_BLUES",
+                "RAPSCALLION",
+                "ROLEMASTER",
+                "RUNARCANA",
+                "SENTINEL_COMICS",
+                "SERENITY_RPG",
+                "SLUGBLASTER",
+                "SOJOURN",
+                "TEATIME_ADVENTURES",
+                "TEENS_IN_SPACE",
+                "THE_BURNING_WHEEL",
+                "THE_DRESDEN_FILES_RPG",
+                "THE_MECHA_HACK",
+                "THE_QUIET_YEAR",
+                "THE_SILT_VERSES",
+                "THE_ULTIMATE_MICRO_RPG_BOOK",
+                "THEY_CAME_FROM",
+                "THIS_DISCORD_HAS_GHOSTS_IN_IT",
+                "TINY_SUPERS",
+                "TOON_ROLEPLAYING_GAME",
+                "TORG",
+                "TRAIL_OF_CTHULHU",
+                "TRIANGLE_AGENCY",
+                "TUNNELS_AND_TROLLS",
+                "UNKNOWN_ARMIES_3E",
+                "VALOR_THE_HEROIC_ROLEPLAY_SYSTEM",
+                "VAMPIRE_THE_DARK_AGES",
+                "VAMPIRE_THE_MASQUERADE_2ND_EDITION",
+                "WARHAMMER_THE_OLD_WORLD_ROLEPLAYING_GAME",
+                "WARLOCK",
+                "WELCOME_TO_DOLMENWOOD",
+                "WEREWOLF_THE_FORSAKEN_2E",
+                "WORLD_WIDE_WRESTLING_2E",
+                "WRAITH_THE_OBLIVION_20TH_ANNIVERSARY_EDITION",
+                "XCRAWL_CLASSICS",
+                "ZWEIHANDER",
+                "FOUR_D6",
+                "ABSOLUTE_POWER",
+                "AGE_OF_VIKINGS",
+                "AGON",
+                "AMBER_DICELESS",
+                "ANIMA_BEYOND_FANTASY",
+                "ANIME_E_SANGUE",
+                "ANTAGONIST",
+                "APOCALYPSE_KEYS",
+                "ARKHAM_HORROR",
+                "ASCENDANT",
+                "BABES_IN_THE_WOODS",
+                "BASIC_ROLEPLAYING",
+                "BETTER_ANGELS",
+                "BETWEEN_CLOUDS",
+                "BIG_EYES_SMALL_MOUTH",
+                "BLOOD_SWEAT_AND_STEEL",
+                "BOOT_HILL",
+                "BRINKWOOD_THE_BLOOD_OF_TYRANTS",
+                "BUNKERS_AND_BADASSES",
+                "BUNNIES_AND_BURROWS",
+                "CALTROP_CORE",
+                "CAPES_COWLS_AND_VILLAINS_FOUL",
+                "CARBON_2185",
+                "CASTLE_FALKENSTEIN",
+                "CHANGELING_THE_LOST_FIRST_EDITION",
+                "COGENT_ROLEPLAY",
+                "CORTEX_RPG",
+                "COVEN_AND_CRUCIBLE",
+                "DC_HEROES_ROLEPLAYING_GAME",
+                "DEATHMATCH_ISLAND",
+                "DEFINITELY_WIZARDS",
+                "DEMON_GATE",
+                "DISHONORED",
+                "DRESDEN_FILES_ACCELERATED_EDITION",
+                "DUNGEON_BOARD_GAME",
+                "ELDRITCH_RPG",
+                "ELTHOS_RPG",
+                "EMPIRE_OF_THE_PETAL_THRONE",
+                "EPYLLION",
+                "ESPER_GENESIS",
+                "FADING_SUNS",
+                "FATE_OF_CTHULHU",
+                "FATHOMLESS_GEARS",
+                "FEAR_ITSELF",
+                "FENG_SHUI_2",
+                "FINAL_FANTASY_RPG_4TH_EDITION",
+                "FIST",
+                "FRONTIER_SCUM",
+                "FUNDAMENTAL_RPG",
+                "GI_JOE_ROLEPLAYING_GAME",
+                "GLOOMHAVEN",
+                "GOBLIN_WITH_A_FAT_ASS",
+                "GOLDEN_SKY_STORIES",
+                "HARNMASTER",
+                "HEROES_AND_HARDSHIPS",
+                "HEROQUEST",
+                "HIGH_MAGIC_LOWLIVES",
+                "HIT_THE_STREETS_DEFEND_THE_BLOCK",
+                "HOLLER",
+                "ICONS_SUPERPOWERED_ROLEPLAYING",
+                "IMPULSE_DRIVE",
+                "INFINITY",
+                "IRONCLAW",
+                "KNAVE_2E",
+                "KOBOLDS_ATE_MY_BABY",
+                "LIMINAL",
+                "LOG_HORIZON",
+                "LOW_FANTASY_GAMING",
+                "LUMEN",
+                "MAGE_THE_AWAKENING_1E",
+                "MARVEL_HEROIC_ROLEPLAYING",
+                "MEMENTO_MORI",
+                "METAMORPHOSIS_ALPHA",
+                "MICROSCOPE",
+                "MIDDLE_EARTH_ROLE_PLAYING_MERP",
+                "MONAD_ECHO",
+                "MONSTERS_AND_OTHER_CHILDISH_THINGS",
+                "MOONGRAVE",
+                "MUTANTS_AND_MASTERMINDS",
+                "NEMESIS",
+                "NEVER_GOING_HOME",
+                "NOBILIS_THE_GAME_OF_SOVEREIGN_POWERS_2002_EDITION",
+                "OUTCAST_SILVER_RAIDERS",
+                "PALEOMYTHIC",
+                "PASSING",
+                "PEQUENOS_DETECTIVES_DE_MONSTRUOS",
+                "PERFECT_DRAW",
+                "PHANTASY_STAR_TABLETOP_RPG",
+                "POINT_SYSTEM_GAMING",
+                "POLARIS",
+                "PROMETHEAN_THE_CREATED_2ND_EDITION",
+                "PUNK_APOCALYPTIC",
+                "QUEST",
+                "REALMS_OF_PUGMIRE",
+                "REIGN",
+                "RIGHTEOUS_BLOOD_RUTHLESS_BLADES",
+                "S5E_SUPERHEROIC_ROLEPLAYING",
+                "SALVAGE_UNION",
+                "SENSOJI_TTRPG",
+                "SHADOW_OF_THE_WEIRD_WIZARD",
+                "SLAYERS",
+                "SPECTACULARS",
+                "SPINDLEWHEEL",
+                "STAR_FRONTIERS",
+                "TALISLANTA",
+                "TEENAGERS_FROM_OUTERSPACE",
+                "TEETH",
+                "THE_BEAST",
+                "THE_DARKEST_HOUSE",
+                "THE_DARK_EYE",
+                "THE_DEE_SANCTION",
+                "THE_ELECTRIC_STATE_ROLEPLAYING_GAME",
+                "THE_FIFTH_SEASON",
+                "THE_GRIMOIRE_OF_HEART",
+                "THE_ONE_RING_1E",
+                "THE_SPRAWL",
+                "THE_SPY_GAME",
+                "THEY_CAME_FROM_BEYOND_THE_GRAVE",
+                "THINGS_FROM_THE_FLOOD",
+                "THROUGH_THE_BREACH",
+                "TIMEWATCH",
+                "TINY_DUNGEON",
+                "TINY_GODS",
+                "TREMULUS",
+                "TRIVIA",
+                "ULTRAVIOLET_GRASSLANDS",
+                "UNBELIEVABLY_SIMPLE_ROLE_PLAYING",
+                "UNCHARTED_WORLDS",
+                "VAGABOND",
+                "VAULTS_OF_VAARN",
+                "WEIRD_FRONTIERS",
+                "WEREWOLF_THE_FORSAKEN",
+                "WICKED_ONES",
+                "XAS_IRKALLA",
+                "Z_LAND"
+              ]
+            }
+          },
+          {
+            "name": "format",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ONLINE",
+                "OFFLINE"
+              ]
+            }
+          },
+          {
+            "name": "sessionType",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ONE_SHOT",
+                "CAMPAIGN"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PREPARE",
+                "ACTIVE",
+                "FINISHED",
+                "CANCELED"
+              ]
+            }
+          },
+          {
+            "name": "isBeginnerFriendly",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список ивентов с метаданными пагинации",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedEventsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Получение списка ивентов с фильтрацией и пагинацией",
+        "tags": [
+          "Events"
+        ]
+      }
+    },
+    "/events/{slug}": {
+      "get": {
+        "operationId": "EventController_findOneBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "description": "Уникальный URL-идентификатор",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные ивента",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ивент не найден"
+          }
+        },
+        "summary": "Получение детальной информации об ивенте по slug",
+        "tags": [
+          "Events"
+        ]
+      }
+    },
+    "/events/{id}": {
+      "patch": {
+        "operationId": "EventController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID ивента",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ивент обновлен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на редактирование"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Редактирование параметров ивента",
+        "tags": [
+          "Events"
+        ]
+      },
+      "delete": {
+        "operationId": "EventController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID ивента",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ивент удален"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Удаление ивента",
+        "tags": [
+          "Events"
+        ]
+      }
+    },
+    "/events/{id}/cancel": {
+      "patch": {
+        "operationId": "EventController_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID ивента",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Статус ивента изменен на CANCELED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Отмена ивента организатором",
+        "tags": [
+          "Events"
+        ]
+      }
+    },
+    "/dictionaries": {
+      "get": {
+        "operationId": "DictionaryController_getDictionaries",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Объект со списками всех системных enum",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DictionariesDtoRes"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Получение всех справочников и конфигураций",
+        "tags": [
+          "Dictionaries"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "timezone": {
+            "type": "string",
+            "example": "Europe/Minsk"
+          }
+        }
+      },
+      "VerifyEmailDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "nickname",
+          "email",
+          "avatar"
+        ]
+      },
+      "ResetPasswordRequestDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ScheduleIntervalEntity": {
+        "type": "object",
+        "properties": {
+          "dayOfWeek": {
+            "type": "number",
+            "description": "День недели (1-7)",
+            "example": 1
+          },
+          "startTime": {
+            "type": "number",
+            "description": "Время начала",
+            "example": 8
+          },
+          "endTime": {
+            "type": "number",
+            "description": "Время окончания",
+            "example": 12
+          }
+        },
+        "required": [
+          "dayOfWeek",
+          "startTime",
+          "endTime"
+        ]
+      },
+      "ProfileUserMe": {
+        "type": "object",
+        "properties": {
+          "schedules": {
+            "description": "Интервалы доступности пользователя",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleIntervalEntity"
+            }
+          }
+        },
+        "required": [
+          "schedules"
+        ]
+      },
+      "ProfileUserWithId": {
+        "type": "object",
+        "properties": {}
+      },
+      "ScheduleIntervalDto": {
+        "type": "object",
+        "properties": {
+          "dayOfWeek": {
+            "type": "number",
+            "description": "День недели (1-7)",
+            "example": 1
+          },
+          "startTime": {
+            "type": "number",
+            "description": "Время начала (в часах)",
+            "example": 8
+          },
+          "endTime": {
+            "type": "number",
+            "description": "Время окончания (в часах)",
+            "example": 12
+          }
+        },
+        "required": [
+          "dayOfWeek",
+          "startTime",
+          "endTime"
+        ]
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Иван Иванов"
+          },
+          "description": {
+            "type": "string",
+            "example": "О себе"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Аватар пользователя, размерность 256x256 пикселей"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "1990-01-01T00:00:00.000Z"
+          },
+          "timezone": {
+            "type": "string",
+            "example": "UTC"
+          },
+          "soclinks": {
+            "type": "string",
+            "description": "JSON-строка с соцсетями",
+            "example": "{\"VK\": \"https://vk.com/id1\"}"
+          },
+          "schedules": {
+            "description": "Массив интервалов расписания доступности",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduleIntervalDto"
+            }
+          }
+        }
+      },
+      "CreateOrgDtoReq": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "description": "Отображаемое имя организатора",
+            "example": "GameMaster"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email организатора",
+            "example": "org@example.com"
+          },
+          "description": {
+            "type": "object",
+            "description": "Описание организатора",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Аватар организатора, размерность 256x256 пикселей"
+          },
+          "soclinks": {
+            "type": "object",
+            "description": "Объект ссылок на соцсети",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "example": "UTC"
+          }
+        },
+        "required": [
+          "nickname",
+          "email"
+        ]
+      },
+      "OrgMeResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string",
+            "example": "GameMaster"
+          },
+          "description": {
+            "type": "object",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "object",
+            "example": "UTC",
+            "nullable": true
+          },
+          "soclinks": {
+            "type": "object",
+            "nullable": true
+          },
+          "gameHistory": {
+            "type": "object"
+          },
+          "email": {
+            "type": "string",
+            "example": "org@example.com"
+          },
+          "isBanned": {
+            "type": "boolean"
+          },
+          "preferredSystems": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DUNGEONS_AND_DRAGONS_5E",
+                "PATHFINDER_2E",
+                "DAGGERHEART",
+                "HOMEBREW_GAME",
+                "CALL_OF_CTHULHU",
+                "VAMPIRE_THE_MASQUERADE_5TH_EDITION",
+                "PATHFINDER_1E",
+                "MONSTER_OF_THE_WEEK",
+                "SHADOWDARK_RPG",
+                "GAME_MASTER_WORKSHOP",
+                "CYBERPUNK_RED",
+                "DARK_MATTER",
+                "DRAW_STEEL",
+                "DUNGEON_CRAWL_CLASSICS",
+                "COSMERE_ROLEPLAYING_GAME",
+                "LANCER",
+                "STAR_WARS_RPG_BY_FANTASY_FLIGHT_GAMES",
+                "LEGEND_IN_THE_MIST",
+                "INDIE_TTRPG",
+                "MOTHERSHIP",
+                "MARVEL_MULTIVERSE_ROLE_PLAYING_GAME",
+                "SAVAGE_WORLDS",
+                "WARHAMMER_FANTASY_ROLEPLAY",
+                "BLADES_IN_THE_DARK",
+                "DELTA_GREEN",
+                "DUNGEONS_AND_DRAGONS_3_3_5E",
+                "FALLOUT_THE_ROLEPLAYING_GAME",
+                "STAR_WARS_5E",
+                "ALIEN_THE_ROLEPLAYING_GAME",
+                "STARFINDER",
+                "ADVANCED_DUNGEONS_AND_DRAGONS_1E",
+                "DRAGONBANE",
+                "FABULA_ULTIMA",
+                "THIRSTY_SWORD_LESBIANS",
+                "WORLD_OF_DARKNESS",
+                "SEMINAR",
+                "CANDELA_OBSCURA",
+                "MASKS_A_NEW_GENERATION",
+                "OLD_SCHOOL_ESSENTIALS",
+                "MAGE_THE_ASCENSION_20TH_ANNIVERSARY",
+                "CYPHER_SYSTEM",
+                "DISCWORLD",
+                "AVATAR_LEGENDS_THE_RPG",
+                "STARFINDER_2E",
+                "VAMPIRE_THE_MASQUERADE_20TH_ANNIVERSARY_EDITION",
+                "D6_SYSTEM",
+                "PIRATE_BORG",
+                "LEVEL_UP_ADVANCED_5TH_EDITION",
+                "SHADOWRUN",
+                "FATE_CORE_SYSTEM",
+                "POKEMON_TABLETOP_UNITED",
+                "DUNGEONS_AND_DRAGONS_0E",
+                "KIDS_ON_BIKES",
+                "DUNGEONS_AND_DRAGONS_B_X",
+                "STAR_TREK_ADVENTURES",
+                "TRAVELLER",
+                "WEREWOLF_THE_APOCALYPSE_5TH_EDITION",
+                "CHRONICLES_OF_DARKNESS",
+                "WEREWOLF_THE_APOCALYPSE_20TH_ANNIVERSARY_EDITION",
+                "CITY_OF_MIST",
+                "WARHAMMER_40000_IMPERIUM_MALEDICTUM",
+                "HUNTER_THE_RECKONING",
+                "MUTANTS_AND_MASTERMINDS_3E",
+                "ALICE_IS_MISSING",
+                "FATE",
+                "MONSTERHEARTS_2",
+                "OUTGUNNED",
+                "THE_ONE_RING_2E",
+                "VAESEN",
+                "GURPS",
+                "STAR_TREK_ADVENTURES_SECOND_EDITION",
+                "ADVANCED_DUNGEONS_AND_DRAGONS_2E",
+                "DUNE_ADVENTURES_IN_THE_IMPERIUM",
+                "TEN_CANDLES",
+                "KIDS_ON_BROOMS",
+                "MYTHIC_BASTIONLAND",
+                "WARHAMMER_40000_ROLEPLAY",
+                "TALES_FROM_THE_LOOP",
+                "D20_MODERN",
+                "MASS_EFFECT_5E",
+                "POWER_RANGERS_ROLEPLAYING_GAME",
+                "EXALTED_3RD_EDITION",
+                "FATE_ACCELERATED",
+                "PULP_CTHULHU",
+                "TALES_OF_THE_VALIANT",
+                "TRANSFORMERS_ROLEPLAYING_GAME",
+                "DEADLANDS",
+                "LEGEND_OF_THE_FIVE_RINGS_5TH_EDITION",
+                "MORK_BORG",
+                "PLAYTEST",
+                "PLAYTEST_GAME",
+                "WARHAMMER_40000_WRATH_AND_GLORY",
+                "DRAGON_AGE",
+                "FANTASY_AGE_RPG",
+                "GRIMWILD",
+                "INTO_THE_ODD",
+                "NEVER_STOP_BLOWING_UP",
+                "OTHERSCAPE",
+                "POKEMON_THE_ROLEPLAYING_GAME",
+                "SEVENTH_SEA",
+                "DUNGEON_WORLD",
+                "PENDRAGON_6TH_EDITION",
+                "D20_OGL",
+                "DEATHWATCH",
+                "DUNGEONS_AND_DRAGONS_4E",
+                "FORBIDDEN_LANDS",
+                "GOOD_SOCIETY",
+                "KULT",
+                "STORYPATH",
+                "THE_LAND_ROLEPLAYING_SYSTEM",
+                "THE_LORD_OF_THE_RINGS_ROLEPLAYING_5E",
+                "THE_WILDSEA",
+                "BATTLETECH_RPG",
+                "BRINDLEWOOD_BAY",
+                "DARK_HERESY_2E",
+                "DC20",
+                "OLD_GODS_OF_APPALACHIA",
+                "PALLADIUM",
+                "POKEMON_TABLETOP_ADVENTURES_3",
+                "RUNEQUEST_ROLEPLAYING_IN_GLORANTHA",
+                "STARS_WITHOUT_NUMBERS_REVISED",
+                "TWILIGHT_2000",
+                "BLADE_RUNNER_THE_ROLEPLAYING_GAME",
+                "CHANGELING_THE_LOST_SECOND_EDITION",
+                "CONAN_ADVENTURES_IN_AN_AGE_UNDREAMED_OF",
+                "CURSEBORNE",
+                "CY_BORG",
+                "FOR_THE_QUEEN",
+                "MAGE_THE_AWAKENING_2ND_EDITION",
+                "ODYSSEY_OF_THE_DRAGONLORDS",
+                "SCION_2E",
+                "STAR_WARS_SAGA_EDITION",
+                "SYMBAROUM",
+                "THE_BETWEEN",
+                "TROIKA",
+                "VAMPIRE_THE_REQUIEM_2ND_EDITION",
+                "ACHTUNG_CTHULHU_2D20",
+                "APOCALYPSE_WORLD_2E",
+                "BLACK_CRUSADE",
+                "CAIRN",
+                "DUNGEONS_AND_DRAGONS_2E",
+                "GIRL_BY_MOONLIGHT",
+                "HOUSEHOLD",
+                "MISTBORN_ADVENTURE_GAME",
+                "ONE_SHOT_RPG_SYSTEM",
+                "PARANOIA",
+                "THE_WITCH_IS_DEAD",
+                "URBAN_SHADOWS_1E",
+                "AGE_OF_SIGMAR_SOULBOUND",
+                "CHANGELING_THE_DREAMING_20TH_ANNIVERSARY_EDITION",
+                "DEADLANDS_CLASSIC_20TH_ANNIVERSARY_EDITION",
+                "EARTHDAWN",
+                "EPITAPH",
+                "GLITTER_HEARTS",
+                "HEART_THE_CITY_BENEATH_RPG",
+                "LASERS_AND_FEELINGS",
+                "MAUSRITTER",
+                "RIFTS",
+                "ROLL_FOR_SHOES",
+                "SCUM_AND_VILLAINY",
+                "SPIRE_THE_CITY_MUST_FALL_RPG",
+                "TROPHY_DARK",
+                "URBAN_SHADOWS_2E",
+                "A_SONG_OF_ICE_AND_FIRE_RPG",
+                "BURN_BRYTE",
+                "COYOTE_AND_CROW",
+                "CYBERPUNK_2020",
+                "DARK_SOULS_THE_ROLEPLAYING_GAME",
+                "DEMON_THE_FALLEN",
+                "DOCTOR_WHO_RPG",
+                "FABLECRAFT",
+                "GENESYS",
+                "GHOSTBUSTERS_RPG",
+                "GODBOUND",
+                "HERO_SYSTEM",
+                "HONEY_HEIST",
+                "KING_ARTHUR_PENDRAGON_RPG",
+                "MUTANT_YEAR_ZERO",
+                "MY_LITTLE_PONY_ROLEPLAYING_GAME",
+                "PATHWAYS_TO_ADVENTURE",
+                "PERILS_AND_PRINCESSES",
+                "POLYMORPH",
+                "PUBLIC_ACCESS",
+                "STARGATE_SG_1_RPG",
+                "THE_WALKING_DEAD_UNIVERSE_ROLEPLAYING_GAME",
+                "VAMPIRE_THE_MASQUERADE_REVISED_EDITION",
+                "WANDERHOME",
+                "ABERRANT",
+                "BAND_OF_BLADES",
+                "BASIC_FANTASY",
+                "BREAK",
+                "CASTLES_AND_CRUSADES",
+                "DARK_HERESY_1E",
+                "DEATH_IN_SPACE",
+                "DUMP_QUEST",
+                "DUNGEONS_AND_DRAGONS_1E",
+                "EAT_THE_REICH",
+                "EZD6",
+                "FREE_KRIEGSSPIEL_REVOLUTION",
+                "HACKMASTER",
+                "HUNTER_THE_VIGIL",
+                "LANCER_BATTLEGROUP",
+                "LEGEND_OF_THE_FIVE_RINGS_4TH_EDITION",
+                "MARK_OF_THE_ODD",
+                "MARVEL_SUPER_HEROES_FASERIP",
+                "MODERN_AGE_RPG",
+                "MOONLIGHT_ON_ROSEVILLE_BEACH",
+                "MUTANT_CRAWL_CLASSICS",
+                "NUMENERA",
+                "RISUS_THE_ANYTHING_RPG",
+                "RIVERS_OF_LONDON",
+                "ROGUE_TRADER",
+                "ROOT_THE_ROLEPLAYING_GAME",
+                "RYUUTAMA",
+                "SCARRED_LANDS",
+                "SCION_1E",
+                "SHADOW_OF_THE_DEMON_LORD",
+                "STAR_WARS_D6",
+                "STEEL_HEARTS",
+                "STEWPOT",
+                "THE_EXPANSE_RPG",
+                "THE_WITCHER_TTRPG",
+                "TORG_ETERNITY",
+                "TRINITY_CONTINUUM",
+                "WARHAMMER_AGE_OF_SIGMAR_SOULBOUND",
+                "WILD_TALENTS",
+                "WORLDS_WITHOUT_NUMBER",
+                "THIRTEENTH_AGE",
+                "ABSURDIA",
+                "ACES_AND_EIGHTS_RELOADED",
+                "ADVENTURER_CONQUEROR_KING",
+                "ADVENTURES_IN_MIDDLE_EARTH",
+                "ADVENTURE_SKELETONS",
+                "A_FAMILIAR_PROBLEM",
+                "AFTERLIFE_WANDERING_SOULS",
+                "AGE_OF_ADVENTURE",
+                "ALL_FLESH_MUST_BE_EATEN",
+                "ARS_MAGICA_FIFTH_EDITION",
+                "ASHES_WITHOUT_NUMBER",
+                "BEAM_SABER",
+                "BIRTHRIGHT",
+                "BRAVE_ZENITH",
+                "CAIN",
+                "CAPERS",
+                "CHROME",
+                "CONAN",
+                "CORIOLIS_THE_THIRD_HORIZON",
+                "DEAD_OF_NIGHT",
+                "DIE_RPG",
+                "ELDRITCH_AUTOMATA",
+                "ELECTRIC_BASTIONLAND",
+                "EVERYDAY_HEROES",
+                "EXALTED_2ND_EDITION",
+                "EXALTED_ESSENCE",
+                "FIASCO",
+                "FUDGE",
+                "GUMSHOE",
+                "ICRPG_INDEX_CARD_RPG",
+                "INEVITABLE",
+                "IN_NOMINE",
+                "INTERSTITIAL_OUR_HEARTS_INTERTWINED",
+                "IRONSWORN",
+                "IRONSWORN_STARFORGED",
+                "KNAVE",
+                "LADY_BLACKBIRD",
+                "LAND_OF_EEM",
+                "LARP",
+                "LEGEND_OF_THE_FIVE_RINGS_FIRST_EDITION",
+                "ONLY_WAR_RPG",
+                "ORBITAL_BLUES",
+                "RAPSCALLION",
+                "ROLEMASTER",
+                "RUNARCANA",
+                "SENTINEL_COMICS",
+                "SERENITY_RPG",
+                "SLUGBLASTER",
+                "SOJOURN",
+                "TEATIME_ADVENTURES",
+                "TEENS_IN_SPACE",
+                "THE_BURNING_WHEEL",
+                "THE_DRESDEN_FILES_RPG",
+                "THE_MECHA_HACK",
+                "THE_QUIET_YEAR",
+                "THE_SILT_VERSES",
+                "THE_ULTIMATE_MICRO_RPG_BOOK",
+                "THEY_CAME_FROM",
+                "THIS_DISCORD_HAS_GHOSTS_IN_IT",
+                "TINY_SUPERS",
+                "TOON_ROLEPLAYING_GAME",
+                "TORG",
+                "TRAIL_OF_CTHULHU",
+                "TRIANGLE_AGENCY",
+                "TUNNELS_AND_TROLLS",
+                "UNKNOWN_ARMIES_3E",
+                "VALOR_THE_HEROIC_ROLEPLAY_SYSTEM",
+                "VAMPIRE_THE_DARK_AGES",
+                "VAMPIRE_THE_MASQUERADE_2ND_EDITION",
+                "WARHAMMER_THE_OLD_WORLD_ROLEPLAYING_GAME",
+                "WARLOCK",
+                "WELCOME_TO_DOLMENWOOD",
+                "WEREWOLF_THE_FORSAKEN_2E",
+                "WORLD_WIDE_WRESTLING_2E",
+                "WRAITH_THE_OBLIVION_20TH_ANNIVERSARY_EDITION",
+                "XCRAWL_CLASSICS",
+                "ZWEIHANDER",
+                "FOUR_D6",
+                "ABSOLUTE_POWER",
+                "AGE_OF_VIKINGS",
+                "AGON",
+                "AMBER_DICELESS",
+                "ANIMA_BEYOND_FANTASY",
+                "ANIME_E_SANGUE",
+                "ANTAGONIST",
+                "APOCALYPSE_KEYS",
+                "ARKHAM_HORROR",
+                "ASCENDANT",
+                "BABES_IN_THE_WOODS",
+                "BASIC_ROLEPLAYING",
+                "BETTER_ANGELS",
+                "BETWEEN_CLOUDS",
+                "BIG_EYES_SMALL_MOUTH",
+                "BLOOD_SWEAT_AND_STEEL",
+                "BOOT_HILL",
+                "BRINKWOOD_THE_BLOOD_OF_TYRANTS",
+                "BUNKERS_AND_BADASSES",
+                "BUNNIES_AND_BURROWS",
+                "CALTROP_CORE",
+                "CAPES_COWLS_AND_VILLAINS_FOUL",
+                "CARBON_2185",
+                "CASTLE_FALKENSTEIN",
+                "CHANGELING_THE_LOST_FIRST_EDITION",
+                "COGENT_ROLEPLAY",
+                "CORTEX_RPG",
+                "COVEN_AND_CRUCIBLE",
+                "DC_HEROES_ROLEPLAYING_GAME",
+                "DEATHMATCH_ISLAND",
+                "DEFINITELY_WIZARDS",
+                "DEMON_GATE",
+                "DISHONORED",
+                "DRESDEN_FILES_ACCELERATED_EDITION",
+                "DUNGEON_BOARD_GAME",
+                "ELDRITCH_RPG",
+                "ELTHOS_RPG",
+                "EMPIRE_OF_THE_PETAL_THRONE",
+                "EPYLLION",
+                "ESPER_GENESIS",
+                "FADING_SUNS",
+                "FATE_OF_CTHULHU",
+                "FATHOMLESS_GEARS",
+                "FEAR_ITSELF",
+                "FENG_SHUI_2",
+                "FINAL_FANTASY_RPG_4TH_EDITION",
+                "FIST",
+                "FRONTIER_SCUM",
+                "FUNDAMENTAL_RPG",
+                "GI_JOE_ROLEPLAYING_GAME",
+                "GLOOMHAVEN",
+                "GOBLIN_WITH_A_FAT_ASS",
+                "GOLDEN_SKY_STORIES",
+                "HARNMASTER",
+                "HEROES_AND_HARDSHIPS",
+                "HEROQUEST",
+                "HIGH_MAGIC_LOWLIVES",
+                "HIT_THE_STREETS_DEFEND_THE_BLOCK",
+                "HOLLER",
+                "ICONS_SUPERPOWERED_ROLEPLAYING",
+                "IMPULSE_DRIVE",
+                "INFINITY",
+                "IRONCLAW",
+                "KNAVE_2E",
+                "KOBOLDS_ATE_MY_BABY",
+                "LIMINAL",
+                "LOG_HORIZON",
+                "LOW_FANTASY_GAMING",
+                "LUMEN",
+                "MAGE_THE_AWAKENING_1E",
+                "MARVEL_HEROIC_ROLEPLAYING",
+                "MEMENTO_MORI",
+                "METAMORPHOSIS_ALPHA",
+                "MICROSCOPE",
+                "MIDDLE_EARTH_ROLE_PLAYING_MERP",
+                "MONAD_ECHO",
+                "MONSTERS_AND_OTHER_CHILDISH_THINGS",
+                "MOONGRAVE",
+                "MUTANTS_AND_MASTERMINDS",
+                "NEMESIS",
+                "NEVER_GOING_HOME",
+                "NOBILIS_THE_GAME_OF_SOVEREIGN_POWERS_2002_EDITION",
+                "OUTCAST_SILVER_RAIDERS",
+                "PALEOMYTHIC",
+                "PASSING",
+                "PEQUENOS_DETECTIVES_DE_MONSTRUOS",
+                "PERFECT_DRAW",
+                "PHANTASY_STAR_TABLETOP_RPG",
+                "POINT_SYSTEM_GAMING",
+                "POLARIS",
+                "PROMETHEAN_THE_CREATED_2ND_EDITION",
+                "PUNK_APOCALYPTIC",
+                "QUEST",
+                "REALMS_OF_PUGMIRE",
+                "REIGN",
+                "RIGHTEOUS_BLOOD_RUTHLESS_BLADES",
+                "S5E_SUPERHEROIC_ROLEPLAYING",
+                "SALVAGE_UNION",
+                "SENSOJI_TTRPG",
+                "SHADOW_OF_THE_WEIRD_WIZARD",
+                "SLAYERS",
+                "SPECTACULARS",
+                "SPINDLEWHEEL",
+                "STAR_FRONTIERS",
+                "TALISLANTA",
+                "TEENAGERS_FROM_OUTERSPACE",
+                "TEETH",
+                "THE_BEAST",
+                "THE_DARKEST_HOUSE",
+                "THE_DARK_EYE",
+                "THE_DEE_SANCTION",
+                "THE_ELECTRIC_STATE_ROLEPLAYING_GAME",
+                "THE_FIFTH_SEASON",
+                "THE_GRIMOIRE_OF_HEART",
+                "THE_ONE_RING_1E",
+                "THE_SPRAWL",
+                "THE_SPY_GAME",
+                "THEY_CAME_FROM_BEYOND_THE_GRAVE",
+                "THINGS_FROM_THE_FLOOD",
+                "THROUGH_THE_BREACH",
+                "TIMEWATCH",
+                "TINY_DUNGEON",
+                "TINY_GODS",
+                "TREMULUS",
+                "TRIVIA",
+                "ULTRAVIOLET_GRASSLANDS",
+                "UNBELIEVABLY_SIMPLE_ROLE_PLAYING",
+                "UNCHARTED_WORLDS",
+                "VAGABOND",
+                "VAULTS_OF_VAARN",
+                "WEIRD_FRONTIERS",
+                "WEREWOLF_THE_FORSAKEN",
+                "WICKED_ONES",
+                "XAS_IRKALLA",
+                "Z_LAND"
+              ]
+            }
+          },
+          "preferredGenres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "FANTASY",
+                "HORROR",
+                "SCIFI",
+                "POSTAPOCALYPTIC",
+                "MODERN",
+                "HISTORICAL",
+                "CYBERPUNK"
+              ]
+            }
+          },
+          "preferredFormats": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ONLINE",
+                "OFFLINE"
+              ]
+            }
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "nickname",
+          "gameHistory",
+          "email",
+          "isBanned",
+          "preferredSystems",
+          "preferredGenres",
+          "preferredFormats",
+          "reviews"
+        ]
+      },
+      "UpdateOrgDto": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "description": "Отображаемое имя организатора",
+            "example": "GameMaster"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email организатора",
+            "example": "org@example.com"
+          },
+          "description": {
+            "type": "object",
+            "description": "Описание организатора",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Аватар организатора, размерность 256x256 пикселей"
+          },
+          "soclinks": {
+            "type": "object",
+            "description": "Объект ссылок на соцсети",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "example": "UTC"
+          }
+        },
+        "required": [
+          "nickname",
+          "email"
+        ]
+      },
+      "CreateEventDtoReq": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "addInfo": {
+            "type": "string"
+          },
+          "previewImage": {
+            "type": "string",
+            "format": "binary",
+            "description": "Аватар пользователя, размерность 1024x1024 пикселей"
+          },
+          "minUsers": {
+            "type": "number",
+            "default": 1
+          },
+          "maxUsers": {
+            "type": "number"
+          },
+          "isBeginnerFriendly": {
+            "type": "boolean",
+            "default": true
+          },
+          "ageLimit": {
+            "type": "number"
+          },
+          "autoApprove": {
+            "type": "boolean",
+            "default": false
+          },
+          "costValue": {
+            "type": "number"
+          },
+          "costCurrency": {
+            "type": "string",
+            "enum": [
+              "EUR",
+              "USD",
+              "RUB",
+              "BYN"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "ONLINE",
+              "OFFLINE"
+            ]
+          },
+          "sessionType": {
+            "type": "string",
+            "enum": [
+              "ONE_SHOT",
+              "CAMPAIGN"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "mapUrl": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "FANTASY",
+                "HORROR",
+                "SCIFI",
+                "POSTAPOCALYPTIC",
+                "MODERN",
+                "HISTORICAL",
+                "CYBERPUNK"
+              ]
+            }
+          },
+          "platforms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ABOVE_VTT",
+                "ALCHEMY",
+                "ARKENFORGE",
+                "BAG_OF_MAPPING",
+                "DND_BEYOND",
+                "DND_BEYOND_MAPS",
+                "DEMIPLANE",
+                "DISCORD",
+                "FANTASY_GROUNDS",
+                "FOUNDRY_VTT",
+                "GOOGLE_MEET",
+                "MAPTOOL",
+                "MICROSOFT_TEAMS",
+                "ONE_MORE_MULTIVERSE",
+                "OWLBEAR_RODEO",
+                "PHYSICAL_BATTLEMAP",
+                "QUEST_PORTAL",
+                "ROLE",
+                "ROLEPLAY_TV",
+                "ROLL20",
+                "RPG_SESSIONS",
+                "SHARD_TABLETOP",
+                "SIGIL",
+                "TABLEPLOP",
+                "TABLETOP_SIMULATOR",
+                "TALE_SPIRE",
+                "TARRASQUE_IO",
+                "TEXT_PLAY_BY_POST",
+                "ZOOM"
+              ]
+            }
+          },
+          "gameSystem": {
+            "type": "string",
+            "enum": [
+              "DUNGEONS_AND_DRAGONS_5E",
+              "PATHFINDER_2E",
+              "DAGGERHEART",
+              "HOMEBREW_GAME",
+              "CALL_OF_CTHULHU",
+              "VAMPIRE_THE_MASQUERADE_5TH_EDITION",
+              "PATHFINDER_1E",
+              "MONSTER_OF_THE_WEEK",
+              "SHADOWDARK_RPG",
+              "GAME_MASTER_WORKSHOP",
+              "CYBERPUNK_RED",
+              "DARK_MATTER",
+              "DRAW_STEEL",
+              "DUNGEON_CRAWL_CLASSICS",
+              "COSMERE_ROLEPLAYING_GAME",
+              "LANCER",
+              "STAR_WARS_RPG_BY_FANTASY_FLIGHT_GAMES",
+              "LEGEND_IN_THE_MIST",
+              "INDIE_TTRPG",
+              "MOTHERSHIP",
+              "MARVEL_MULTIVERSE_ROLE_PLAYING_GAME",
+              "SAVAGE_WORLDS",
+              "WARHAMMER_FANTASY_ROLEPLAY",
+              "BLADES_IN_THE_DARK",
+              "DELTA_GREEN",
+              "DUNGEONS_AND_DRAGONS_3_3_5E",
+              "FALLOUT_THE_ROLEPLAYING_GAME",
+              "STAR_WARS_5E",
+              "ALIEN_THE_ROLEPLAYING_GAME",
+              "STARFINDER",
+              "ADVANCED_DUNGEONS_AND_DRAGONS_1E",
+              "DRAGONBANE",
+              "FABULA_ULTIMA",
+              "THIRSTY_SWORD_LESBIANS",
+              "WORLD_OF_DARKNESS",
+              "SEMINAR",
+              "CANDELA_OBSCURA",
+              "MASKS_A_NEW_GENERATION",
+              "OLD_SCHOOL_ESSENTIALS",
+              "MAGE_THE_ASCENSION_20TH_ANNIVERSARY",
+              "CYPHER_SYSTEM",
+              "DISCWORLD",
+              "AVATAR_LEGENDS_THE_RPG",
+              "STARFINDER_2E",
+              "VAMPIRE_THE_MASQUERADE_20TH_ANNIVERSARY_EDITION",
+              "D6_SYSTEM",
+              "PIRATE_BORG",
+              "LEVEL_UP_ADVANCED_5TH_EDITION",
+              "SHADOWRUN",
+              "FATE_CORE_SYSTEM",
+              "POKEMON_TABLETOP_UNITED",
+              "DUNGEONS_AND_DRAGONS_0E",
+              "KIDS_ON_BIKES",
+              "DUNGEONS_AND_DRAGONS_B_X",
+              "STAR_TREK_ADVENTURES",
+              "TRAVELLER",
+              "WEREWOLF_THE_APOCALYPSE_5TH_EDITION",
+              "CHRONICLES_OF_DARKNESS",
+              "WEREWOLF_THE_APOCALYPSE_20TH_ANNIVERSARY_EDITION",
+              "CITY_OF_MIST",
+              "WARHAMMER_40000_IMPERIUM_MALEDICTUM",
+              "HUNTER_THE_RECKONING",
+              "MUTANTS_AND_MASTERMINDS_3E",
+              "ALICE_IS_MISSING",
+              "FATE",
+              "MONSTERHEARTS_2",
+              "OUTGUNNED",
+              "THE_ONE_RING_2E",
+              "VAESEN",
+              "GURPS",
+              "STAR_TREK_ADVENTURES_SECOND_EDITION",
+              "ADVANCED_DUNGEONS_AND_DRAGONS_2E",
+              "DUNE_ADVENTURES_IN_THE_IMPERIUM",
+              "TEN_CANDLES",
+              "KIDS_ON_BROOMS",
+              "MYTHIC_BASTIONLAND",
+              "WARHAMMER_40000_ROLEPLAY",
+              "TALES_FROM_THE_LOOP",
+              "D20_MODERN",
+              "MASS_EFFECT_5E",
+              "POWER_RANGERS_ROLEPLAYING_GAME",
+              "EXALTED_3RD_EDITION",
+              "FATE_ACCELERATED",
+              "PULP_CTHULHU",
+              "TALES_OF_THE_VALIANT",
+              "TRANSFORMERS_ROLEPLAYING_GAME",
+              "DEADLANDS",
+              "LEGEND_OF_THE_FIVE_RINGS_5TH_EDITION",
+              "MORK_BORG",
+              "PLAYTEST",
+              "PLAYTEST_GAME",
+              "WARHAMMER_40000_WRATH_AND_GLORY",
+              "DRAGON_AGE",
+              "FANTASY_AGE_RPG",
+              "GRIMWILD",
+              "INTO_THE_ODD",
+              "NEVER_STOP_BLOWING_UP",
+              "OTHERSCAPE",
+              "POKEMON_THE_ROLEPLAYING_GAME",
+              "SEVENTH_SEA",
+              "DUNGEON_WORLD",
+              "PENDRAGON_6TH_EDITION",
+              "D20_OGL",
+              "DEATHWATCH",
+              "DUNGEONS_AND_DRAGONS_4E",
+              "FORBIDDEN_LANDS",
+              "GOOD_SOCIETY",
+              "KULT",
+              "STORYPATH",
+              "THE_LAND_ROLEPLAYING_SYSTEM",
+              "THE_LORD_OF_THE_RINGS_ROLEPLAYING_5E",
+              "THE_WILDSEA",
+              "BATTLETECH_RPG",
+              "BRINDLEWOOD_BAY",
+              "DARK_HERESY_2E",
+              "DC20",
+              "OLD_GODS_OF_APPALACHIA",
+              "PALLADIUM",
+              "POKEMON_TABLETOP_ADVENTURES_3",
+              "RUNEQUEST_ROLEPLAYING_IN_GLORANTHA",
+              "STARS_WITHOUT_NUMBERS_REVISED",
+              "TWILIGHT_2000",
+              "BLADE_RUNNER_THE_ROLEPLAYING_GAME",
+              "CHANGELING_THE_LOST_SECOND_EDITION",
+              "CONAN_ADVENTURES_IN_AN_AGE_UNDREAMED_OF",
+              "CURSEBORNE",
+              "CY_BORG",
+              "FOR_THE_QUEEN",
+              "MAGE_THE_AWAKENING_2ND_EDITION",
+              "ODYSSEY_OF_THE_DRAGONLORDS",
+              "SCION_2E",
+              "STAR_WARS_SAGA_EDITION",
+              "SYMBAROUM",
+              "THE_BETWEEN",
+              "TROIKA",
+              "VAMPIRE_THE_REQUIEM_2ND_EDITION",
+              "ACHTUNG_CTHULHU_2D20",
+              "APOCALYPSE_WORLD_2E",
+              "BLACK_CRUSADE",
+              "CAIRN",
+              "DUNGEONS_AND_DRAGONS_2E",
+              "GIRL_BY_MOONLIGHT",
+              "HOUSEHOLD",
+              "MISTBORN_ADVENTURE_GAME",
+              "ONE_SHOT_RPG_SYSTEM",
+              "PARANOIA",
+              "THE_WITCH_IS_DEAD",
+              "URBAN_SHADOWS_1E",
+              "AGE_OF_SIGMAR_SOULBOUND",
+              "CHANGELING_THE_DREAMING_20TH_ANNIVERSARY_EDITION",
+              "DEADLANDS_CLASSIC_20TH_ANNIVERSARY_EDITION",
+              "EARTHDAWN",
+              "EPITAPH",
+              "GLITTER_HEARTS",
+              "HEART_THE_CITY_BENEATH_RPG",
+              "LASERS_AND_FEELINGS",
+              "MAUSRITTER",
+              "RIFTS",
+              "ROLL_FOR_SHOES",
+              "SCUM_AND_VILLAINY",
+              "SPIRE_THE_CITY_MUST_FALL_RPG",
+              "TROPHY_DARK",
+              "URBAN_SHADOWS_2E",
+              "A_SONG_OF_ICE_AND_FIRE_RPG",
+              "BURN_BRYTE",
+              "COYOTE_AND_CROW",
+              "CYBERPUNK_2020",
+              "DARK_SOULS_THE_ROLEPLAYING_GAME",
+              "DEMON_THE_FALLEN",
+              "DOCTOR_WHO_RPG",
+              "FABLECRAFT",
+              "GENESYS",
+              "GHOSTBUSTERS_RPG",
+              "GODBOUND",
+              "HERO_SYSTEM",
+              "HONEY_HEIST",
+              "KING_ARTHUR_PENDRAGON_RPG",
+              "MUTANT_YEAR_ZERO",
+              "MY_LITTLE_PONY_ROLEPLAYING_GAME",
+              "PATHWAYS_TO_ADVENTURE",
+              "PERILS_AND_PRINCESSES",
+              "POLYMORPH",
+              "PUBLIC_ACCESS",
+              "STARGATE_SG_1_RPG",
+              "THE_WALKING_DEAD_UNIVERSE_ROLEPLAYING_GAME",
+              "VAMPIRE_THE_MASQUERADE_REVISED_EDITION",
+              "WANDERHOME",
+              "ABERRANT",
+              "BAND_OF_BLADES",
+              "BASIC_FANTASY",
+              "BREAK",
+              "CASTLES_AND_CRUSADES",
+              "DARK_HERESY_1E",
+              "DEATH_IN_SPACE",
+              "DUMP_QUEST",
+              "DUNGEONS_AND_DRAGONS_1E",
+              "EAT_THE_REICH",
+              "EZD6",
+              "FREE_KRIEGSSPIEL_REVOLUTION",
+              "HACKMASTER",
+              "HUNTER_THE_VIGIL",
+              "LANCER_BATTLEGROUP",
+              "LEGEND_OF_THE_FIVE_RINGS_4TH_EDITION",
+              "MARK_OF_THE_ODD",
+              "MARVEL_SUPER_HEROES_FASERIP",
+              "MODERN_AGE_RPG",
+              "MOONLIGHT_ON_ROSEVILLE_BEACH",
+              "MUTANT_CRAWL_CLASSICS",
+              "NUMENERA",
+              "RISUS_THE_ANYTHING_RPG",
+              "RIVERS_OF_LONDON",
+              "ROGUE_TRADER",
+              "ROOT_THE_ROLEPLAYING_GAME",
+              "RYUUTAMA",
+              "SCARRED_LANDS",
+              "SCION_1E",
+              "SHADOW_OF_THE_DEMON_LORD",
+              "STAR_WARS_D6",
+              "STEEL_HEARTS",
+              "STEWPOT",
+              "THE_EXPANSE_RPG",
+              "THE_WITCHER_TTRPG",
+              "TORG_ETERNITY",
+              "TRINITY_CONTINUUM",
+              "WARHAMMER_AGE_OF_SIGMAR_SOULBOUND",
+              "WILD_TALENTS",
+              "WORLDS_WITHOUT_NUMBER",
+              "THIRTEENTH_AGE",
+              "ABSURDIA",
+              "ACES_AND_EIGHTS_RELOADED",
+              "ADVENTURER_CONQUEROR_KING",
+              "ADVENTURES_IN_MIDDLE_EARTH",
+              "ADVENTURE_SKELETONS",
+              "A_FAMILIAR_PROBLEM",
+              "AFTERLIFE_WANDERING_SOULS",
+              "AGE_OF_ADVENTURE",
+              "ALL_FLESH_MUST_BE_EATEN",
+              "ARS_MAGICA_FIFTH_EDITION",
+              "ASHES_WITHOUT_NUMBER",
+              "BEAM_SABER",
+              "BIRTHRIGHT",
+              "BRAVE_ZENITH",
+              "CAIN",
+              "CAPERS",
+              "CHROME",
+              "CONAN",
+              "CORIOLIS_THE_THIRD_HORIZON",
+              "DEAD_OF_NIGHT",
+              "DIE_RPG",
+              "ELDRITCH_AUTOMATA",
+              "ELECTRIC_BASTIONLAND",
+              "EVERYDAY_HEROES",
+              "EXALTED_2ND_EDITION",
+              "EXALTED_ESSENCE",
+              "FIASCO",
+              "FUDGE",
+              "GUMSHOE",
+              "ICRPG_INDEX_CARD_RPG",
+              "INEVITABLE",
+              "IN_NOMINE",
+              "INTERSTITIAL_OUR_HEARTS_INTERTWINED",
+              "IRONSWORN",
+              "IRONSWORN_STARFORGED",
+              "KNAVE",
+              "LADY_BLACKBIRD",
+              "LAND_OF_EEM",
+              "LARP",
+              "LEGEND_OF_THE_FIVE_RINGS_FIRST_EDITION",
+              "ONLY_WAR_RPG",
+              "ORBITAL_BLUES",
+              "RAPSCALLION",
+              "ROLEMASTER",
+              "RUNARCANA",
+              "SENTINEL_COMICS",
+              "SERENITY_RPG",
+              "SLUGBLASTER",
+              "SOJOURN",
+              "TEATIME_ADVENTURES",
+              "TEENS_IN_SPACE",
+              "THE_BURNING_WHEEL",
+              "THE_DRESDEN_FILES_RPG",
+              "THE_MECHA_HACK",
+              "THE_QUIET_YEAR",
+              "THE_SILT_VERSES",
+              "THE_ULTIMATE_MICRO_RPG_BOOK",
+              "THEY_CAME_FROM",
+              "THIS_DISCORD_HAS_GHOSTS_IN_IT",
+              "TINY_SUPERS",
+              "TOON_ROLEPLAYING_GAME",
+              "TORG",
+              "TRAIL_OF_CTHULHU",
+              "TRIANGLE_AGENCY",
+              "TUNNELS_AND_TROLLS",
+              "UNKNOWN_ARMIES_3E",
+              "VALOR_THE_HEROIC_ROLEPLAY_SYSTEM",
+              "VAMPIRE_THE_DARK_AGES",
+              "VAMPIRE_THE_MASQUERADE_2ND_EDITION",
+              "WARHAMMER_THE_OLD_WORLD_ROLEPLAYING_GAME",
+              "WARLOCK",
+              "WELCOME_TO_DOLMENWOOD",
+              "WEREWOLF_THE_FORSAKEN_2E",
+              "WORLD_WIDE_WRESTLING_2E",
+              "WRAITH_THE_OBLIVION_20TH_ANNIVERSARY_EDITION",
+              "XCRAWL_CLASSICS",
+              "ZWEIHANDER",
+              "FOUR_D6",
+              "ABSOLUTE_POWER",
+              "AGE_OF_VIKINGS",
+              "AGON",
+              "AMBER_DICELESS",
+              "ANIMA_BEYOND_FANTASY",
+              "ANIME_E_SANGUE",
+              "ANTAGONIST",
+              "APOCALYPSE_KEYS",
+              "ARKHAM_HORROR",
+              "ASCENDANT",
+              "BABES_IN_THE_WOODS",
+              "BASIC_ROLEPLAYING",
+              "BETTER_ANGELS",
+              "BETWEEN_CLOUDS",
+              "BIG_EYES_SMALL_MOUTH",
+              "BLOOD_SWEAT_AND_STEEL",
+              "BOOT_HILL",
+              "BRINKWOOD_THE_BLOOD_OF_TYRANTS",
+              "BUNKERS_AND_BADASSES",
+              "BUNNIES_AND_BURROWS",
+              "CALTROP_CORE",
+              "CAPES_COWLS_AND_VILLAINS_FOUL",
+              "CARBON_2185",
+              "CASTLE_FALKENSTEIN",
+              "CHANGELING_THE_LOST_FIRST_EDITION",
+              "COGENT_ROLEPLAY",
+              "CORTEX_RPG",
+              "COVEN_AND_CRUCIBLE",
+              "DC_HEROES_ROLEPLAYING_GAME",
+              "DEATHMATCH_ISLAND",
+              "DEFINITELY_WIZARDS",
+              "DEMON_GATE",
+              "DISHONORED",
+              "DRESDEN_FILES_ACCELERATED_EDITION",
+              "DUNGEON_BOARD_GAME",
+              "ELDRITCH_RPG",
+              "ELTHOS_RPG",
+              "EMPIRE_OF_THE_PETAL_THRONE",
+              "EPYLLION",
+              "ESPER_GENESIS",
+              "FADING_SUNS",
+              "FATE_OF_CTHULHU",
+              "FATHOMLESS_GEARS",
+              "FEAR_ITSELF",
+              "FENG_SHUI_2",
+              "FINAL_FANTASY_RPG_4TH_EDITION",
+              "FIST",
+              "FRONTIER_SCUM",
+              "FUNDAMENTAL_RPG",
+              "GI_JOE_ROLEPLAYING_GAME",
+              "GLOOMHAVEN",
+              "GOBLIN_WITH_A_FAT_ASS",
+              "GOLDEN_SKY_STORIES",
+              "HARNMASTER",
+              "HEROES_AND_HARDSHIPS",
+              "HEROQUEST",
+              "HIGH_MAGIC_LOWLIVES",
+              "HIT_THE_STREETS_DEFEND_THE_BLOCK",
+              "HOLLER",
+              "ICONS_SUPERPOWERED_ROLEPLAYING",
+              "IMPULSE_DRIVE",
+              "INFINITY",
+              "IRONCLAW",
+              "KNAVE_2E",
+              "KOBOLDS_ATE_MY_BABY",
+              "LIMINAL",
+              "LOG_HORIZON",
+              "LOW_FANTASY_GAMING",
+              "LUMEN",
+              "MAGE_THE_AWAKENING_1E",
+              "MARVEL_HEROIC_ROLEPLAYING",
+              "MEMENTO_MORI",
+              "METAMORPHOSIS_ALPHA",
+              "MICROSCOPE",
+              "MIDDLE_EARTH_ROLE_PLAYING_MERP",
+              "MONAD_ECHO",
+              "MONSTERS_AND_OTHER_CHILDISH_THINGS",
+              "MOONGRAVE",
+              "MUTANTS_AND_MASTERMINDS",
+              "NEMESIS",
+              "NEVER_GOING_HOME",
+              "NOBILIS_THE_GAME_OF_SOVEREIGN_POWERS_2002_EDITION",
+              "OUTCAST_SILVER_RAIDERS",
+              "PALEOMYTHIC",
+              "PASSING",
+              "PEQUENOS_DETECTIVES_DE_MONSTRUOS",
+              "PERFECT_DRAW",
+              "PHANTASY_STAR_TABLETOP_RPG",
+              "POINT_SYSTEM_GAMING",
+              "POLARIS",
+              "PROMETHEAN_THE_CREATED_2ND_EDITION",
+              "PUNK_APOCALYPTIC",
+              "QUEST",
+              "REALMS_OF_PUGMIRE",
+              "REIGN",
+              "RIGHTEOUS_BLOOD_RUTHLESS_BLADES",
+              "S5E_SUPERHEROIC_ROLEPLAYING",
+              "SALVAGE_UNION",
+              "SENSOJI_TTRPG",
+              "SHADOW_OF_THE_WEIRD_WIZARD",
+              "SLAYERS",
+              "SPECTACULARS",
+              "SPINDLEWHEEL",
+              "STAR_FRONTIERS",
+              "TALISLANTA",
+              "TEENAGERS_FROM_OUTERSPACE",
+              "TEETH",
+              "THE_BEAST",
+              "THE_DARKEST_HOUSE",
+              "THE_DARK_EYE",
+              "THE_DEE_SANCTION",
+              "THE_ELECTRIC_STATE_ROLEPLAYING_GAME",
+              "THE_FIFTH_SEASON",
+              "THE_GRIMOIRE_OF_HEART",
+              "THE_ONE_RING_1E",
+              "THE_SPRAWL",
+              "THE_SPY_GAME",
+              "THEY_CAME_FROM_BEYOND_THE_GRAVE",
+              "THINGS_FROM_THE_FLOOD",
+              "THROUGH_THE_BREACH",
+              "TIMEWATCH",
+              "TINY_DUNGEON",
+              "TINY_GODS",
+              "TREMULUS",
+              "TRIVIA",
+              "ULTRAVIOLET_GRASSLANDS",
+              "UNBELIEVABLY_SIMPLE_ROLE_PLAYING",
+              "UNCHARTED_WORLDS",
+              "VAGABOND",
+              "VAULTS_OF_VAARN",
+              "WEIRD_FRONTIERS",
+              "WEREWOLF_THE_FORSAKEN",
+              "WICKED_ONES",
+              "XAS_IRKALLA",
+              "Z_LAND"
+            ]
+          }
+        },
+        "required": [
+          "orgId",
+          "name",
+          "format",
+          "sessionType",
+          "startsAt",
+          "endsAt",
+          "gameSystem"
+        ]
+      },
+      "EventResponseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "gameSystem": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "sessionType": {
+            "type": "string"
+          },
+          "isBeginnerFriendly": {
+            "type": "boolean"
+          },
+          "addInfo": {
+            "type": "string"
+          },
+          "costValue": {
+            "type": "number"
+          },
+          "startsAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "maxUsers": {
+            "type": "number"
+          },
+          "ageLimit": {
+            "type": "number"
+          },
+          "endsAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "minUsers": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "gameSystem",
+          "format",
+          "sessionType",
+          "isBeginnerFriendly",
+          "addInfo",
+          "costValue",
+          "startsAt",
+          "maxUsers",
+          "ageLimit",
+          "endsAt",
+          "genres",
+          "minUsers"
+        ]
+      },
+      "PaginationMetaDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "page": {
+            "type": "number"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "hasPrev": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "total",
+          "page",
+          "limit",
+          "totalPages",
+          "hasNext",
+          "hasPrev"
+        ]
+      },
+      "PaginatedEventsResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventResponseDto"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMetaDto"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "UpdateEventDto": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "addInfo": {
+            "type": "string"
+          },
+          "previewImage": {
+            "type": "string",
+            "format": "binary",
+            "description": "Аватар пользователя, размерность 1024x1024 пикселей"
+          },
+          "minUsers": {
+            "type": "number",
+            "default": 1
+          },
+          "maxUsers": {
+            "type": "number"
+          },
+          "isBeginnerFriendly": {
+            "type": "boolean",
+            "default": true
+          },
+          "ageLimit": {
+            "type": "number"
+          },
+          "autoApprove": {
+            "type": "boolean",
+            "default": false
+          },
+          "costValue": {
+            "type": "number"
+          },
+          "costCurrency": {
+            "type": "string",
+            "enum": [
+              "EUR",
+              "USD",
+              "RUB",
+              "BYN"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "ONLINE",
+              "OFFLINE"
+            ]
+          },
+          "sessionType": {
+            "type": "string",
+            "enum": [
+              "ONE_SHOT",
+              "CAMPAIGN"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "mapUrl": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "FANTASY",
+                "HORROR",
+                "SCIFI",
+                "POSTAPOCALYPTIC",
+                "MODERN",
+                "HISTORICAL",
+                "CYBERPUNK"
+              ]
+            }
+          },
+          "platforms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ABOVE_VTT",
+                "ALCHEMY",
+                "ARKENFORGE",
+                "BAG_OF_MAPPING",
+                "DND_BEYOND",
+                "DND_BEYOND_MAPS",
+                "DEMIPLANE",
+                "DISCORD",
+                "FANTASY_GROUNDS",
+                "FOUNDRY_VTT",
+                "GOOGLE_MEET",
+                "MAPTOOL",
+                "MICROSOFT_TEAMS",
+                "ONE_MORE_MULTIVERSE",
+                "OWLBEAR_RODEO",
+                "PHYSICAL_BATTLEMAP",
+                "QUEST_PORTAL",
+                "ROLE",
+                "ROLEPLAY_TV",
+                "ROLL20",
+                "RPG_SESSIONS",
+                "SHARD_TABLETOP",
+                "SIGIL",
+                "TABLEPLOP",
+                "TABLETOP_SIMULATOR",
+                "TALE_SPIRE",
+                "TARRASQUE_IO",
+                "TEXT_PLAY_BY_POST",
+                "ZOOM"
+              ]
+            }
+          },
+          "gameSystem": {
+            "type": "string",
+            "enum": [
+              "DUNGEONS_AND_DRAGONS_5E",
+              "PATHFINDER_2E",
+              "DAGGERHEART",
+              "HOMEBREW_GAME",
+              "CALL_OF_CTHULHU",
+              "VAMPIRE_THE_MASQUERADE_5TH_EDITION",
+              "PATHFINDER_1E",
+              "MONSTER_OF_THE_WEEK",
+              "SHADOWDARK_RPG",
+              "GAME_MASTER_WORKSHOP",
+              "CYBERPUNK_RED",
+              "DARK_MATTER",
+              "DRAW_STEEL",
+              "DUNGEON_CRAWL_CLASSICS",
+              "COSMERE_ROLEPLAYING_GAME",
+              "LANCER",
+              "STAR_WARS_RPG_BY_FANTASY_FLIGHT_GAMES",
+              "LEGEND_IN_THE_MIST",
+              "INDIE_TTRPG",
+              "MOTHERSHIP",
+              "MARVEL_MULTIVERSE_ROLE_PLAYING_GAME",
+              "SAVAGE_WORLDS",
+              "WARHAMMER_FANTASY_ROLEPLAY",
+              "BLADES_IN_THE_DARK",
+              "DELTA_GREEN",
+              "DUNGEONS_AND_DRAGONS_3_3_5E",
+              "FALLOUT_THE_ROLEPLAYING_GAME",
+              "STAR_WARS_5E",
+              "ALIEN_THE_ROLEPLAYING_GAME",
+              "STARFINDER",
+              "ADVANCED_DUNGEONS_AND_DRAGONS_1E",
+              "DRAGONBANE",
+              "FABULA_ULTIMA",
+              "THIRSTY_SWORD_LESBIANS",
+              "WORLD_OF_DARKNESS",
+              "SEMINAR",
+              "CANDELA_OBSCURA",
+              "MASKS_A_NEW_GENERATION",
+              "OLD_SCHOOL_ESSENTIALS",
+              "MAGE_THE_ASCENSION_20TH_ANNIVERSARY",
+              "CYPHER_SYSTEM",
+              "DISCWORLD",
+              "AVATAR_LEGENDS_THE_RPG",
+              "STARFINDER_2E",
+              "VAMPIRE_THE_MASQUERADE_20TH_ANNIVERSARY_EDITION",
+              "D6_SYSTEM",
+              "PIRATE_BORG",
+              "LEVEL_UP_ADVANCED_5TH_EDITION",
+              "SHADOWRUN",
+              "FATE_CORE_SYSTEM",
+              "POKEMON_TABLETOP_UNITED",
+              "DUNGEONS_AND_DRAGONS_0E",
+              "KIDS_ON_BIKES",
+              "DUNGEONS_AND_DRAGONS_B_X",
+              "STAR_TREK_ADVENTURES",
+              "TRAVELLER",
+              "WEREWOLF_THE_APOCALYPSE_5TH_EDITION",
+              "CHRONICLES_OF_DARKNESS",
+              "WEREWOLF_THE_APOCALYPSE_20TH_ANNIVERSARY_EDITION",
+              "CITY_OF_MIST",
+              "WARHAMMER_40000_IMPERIUM_MALEDICTUM",
+              "HUNTER_THE_RECKONING",
+              "MUTANTS_AND_MASTERMINDS_3E",
+              "ALICE_IS_MISSING",
+              "FATE",
+              "MONSTERHEARTS_2",
+              "OUTGUNNED",
+              "THE_ONE_RING_2E",
+              "VAESEN",
+              "GURPS",
+              "STAR_TREK_ADVENTURES_SECOND_EDITION",
+              "ADVANCED_DUNGEONS_AND_DRAGONS_2E",
+              "DUNE_ADVENTURES_IN_THE_IMPERIUM",
+              "TEN_CANDLES",
+              "KIDS_ON_BROOMS",
+              "MYTHIC_BASTIONLAND",
+              "WARHAMMER_40000_ROLEPLAY",
+              "TALES_FROM_THE_LOOP",
+              "D20_MODERN",
+              "MASS_EFFECT_5E",
+              "POWER_RANGERS_ROLEPLAYING_GAME",
+              "EXALTED_3RD_EDITION",
+              "FATE_ACCELERATED",
+              "PULP_CTHULHU",
+              "TALES_OF_THE_VALIANT",
+              "TRANSFORMERS_ROLEPLAYING_GAME",
+              "DEADLANDS",
+              "LEGEND_OF_THE_FIVE_RINGS_5TH_EDITION",
+              "MORK_BORG",
+              "PLAYTEST",
+              "PLAYTEST_GAME",
+              "WARHAMMER_40000_WRATH_AND_GLORY",
+              "DRAGON_AGE",
+              "FANTASY_AGE_RPG",
+              "GRIMWILD",
+              "INTO_THE_ODD",
+              "NEVER_STOP_BLOWING_UP",
+              "OTHERSCAPE",
+              "POKEMON_THE_ROLEPLAYING_GAME",
+              "SEVENTH_SEA",
+              "DUNGEON_WORLD",
+              "PENDRAGON_6TH_EDITION",
+              "D20_OGL",
+              "DEATHWATCH",
+              "DUNGEONS_AND_DRAGONS_4E",
+              "FORBIDDEN_LANDS",
+              "GOOD_SOCIETY",
+              "KULT",
+              "STORYPATH",
+              "THE_LAND_ROLEPLAYING_SYSTEM",
+              "THE_LORD_OF_THE_RINGS_ROLEPLAYING_5E",
+              "THE_WILDSEA",
+              "BATTLETECH_RPG",
+              "BRINDLEWOOD_BAY",
+              "DARK_HERESY_2E",
+              "DC20",
+              "OLD_GODS_OF_APPALACHIA",
+              "PALLADIUM",
+              "POKEMON_TABLETOP_ADVENTURES_3",
+              "RUNEQUEST_ROLEPLAYING_IN_GLORANTHA",
+              "STARS_WITHOUT_NUMBERS_REVISED",
+              "TWILIGHT_2000",
+              "BLADE_RUNNER_THE_ROLEPLAYING_GAME",
+              "CHANGELING_THE_LOST_SECOND_EDITION",
+              "CONAN_ADVENTURES_IN_AN_AGE_UNDREAMED_OF",
+              "CURSEBORNE",
+              "CY_BORG",
+              "FOR_THE_QUEEN",
+              "MAGE_THE_AWAKENING_2ND_EDITION",
+              "ODYSSEY_OF_THE_DRAGONLORDS",
+              "SCION_2E",
+              "STAR_WARS_SAGA_EDITION",
+              "SYMBAROUM",
+              "THE_BETWEEN",
+              "TROIKA",
+              "VAMPIRE_THE_REQUIEM_2ND_EDITION",
+              "ACHTUNG_CTHULHU_2D20",
+              "APOCALYPSE_WORLD_2E",
+              "BLACK_CRUSADE",
+              "CAIRN",
+              "DUNGEONS_AND_DRAGONS_2E",
+              "GIRL_BY_MOONLIGHT",
+              "HOUSEHOLD",
+              "MISTBORN_ADVENTURE_GAME",
+              "ONE_SHOT_RPG_SYSTEM",
+              "PARANOIA",
+              "THE_WITCH_IS_DEAD",
+              "URBAN_SHADOWS_1E",
+              "AGE_OF_SIGMAR_SOULBOUND",
+              "CHANGELING_THE_DREAMING_20TH_ANNIVERSARY_EDITION",
+              "DEADLANDS_CLASSIC_20TH_ANNIVERSARY_EDITION",
+              "EARTHDAWN",
+              "EPITAPH",
+              "GLITTER_HEARTS",
+              "HEART_THE_CITY_BENEATH_RPG",
+              "LASERS_AND_FEELINGS",
+              "MAUSRITTER",
+              "RIFTS",
+              "ROLL_FOR_SHOES",
+              "SCUM_AND_VILLAINY",
+              "SPIRE_THE_CITY_MUST_FALL_RPG",
+              "TROPHY_DARK",
+              "URBAN_SHADOWS_2E",
+              "A_SONG_OF_ICE_AND_FIRE_RPG",
+              "BURN_BRYTE",
+              "COYOTE_AND_CROW",
+              "CYBERPUNK_2020",
+              "DARK_SOULS_THE_ROLEPLAYING_GAME",
+              "DEMON_THE_FALLEN",
+              "DOCTOR_WHO_RPG",
+              "FABLECRAFT",
+              "GENESYS",
+              "GHOSTBUSTERS_RPG",
+              "GODBOUND",
+              "HERO_SYSTEM",
+              "HONEY_HEIST",
+              "KING_ARTHUR_PENDRAGON_RPG",
+              "MUTANT_YEAR_ZERO",
+              "MY_LITTLE_PONY_ROLEPLAYING_GAME",
+              "PATHWAYS_TO_ADVENTURE",
+              "PERILS_AND_PRINCESSES",
+              "POLYMORPH",
+              "PUBLIC_ACCESS",
+              "STARGATE_SG_1_RPG",
+              "THE_WALKING_DEAD_UNIVERSE_ROLEPLAYING_GAME",
+              "VAMPIRE_THE_MASQUERADE_REVISED_EDITION",
+              "WANDERHOME",
+              "ABERRANT",
+              "BAND_OF_BLADES",
+              "BASIC_FANTASY",
+              "BREAK",
+              "CASTLES_AND_CRUSADES",
+              "DARK_HERESY_1E",
+              "DEATH_IN_SPACE",
+              "DUMP_QUEST",
+              "DUNGEONS_AND_DRAGONS_1E",
+              "EAT_THE_REICH",
+              "EZD6",
+              "FREE_KRIEGSSPIEL_REVOLUTION",
+              "HACKMASTER",
+              "HUNTER_THE_VIGIL",
+              "LANCER_BATTLEGROUP",
+              "LEGEND_OF_THE_FIVE_RINGS_4TH_EDITION",
+              "MARK_OF_THE_ODD",
+              "MARVEL_SUPER_HEROES_FASERIP",
+              "MODERN_AGE_RPG",
+              "MOONLIGHT_ON_ROSEVILLE_BEACH",
+              "MUTANT_CRAWL_CLASSICS",
+              "NUMENERA",
+              "RISUS_THE_ANYTHING_RPG",
+              "RIVERS_OF_LONDON",
+              "ROGUE_TRADER",
+              "ROOT_THE_ROLEPLAYING_GAME",
+              "RYUUTAMA",
+              "SCARRED_LANDS",
+              "SCION_1E",
+              "SHADOW_OF_THE_DEMON_LORD",
+              "STAR_WARS_D6",
+              "STEEL_HEARTS",
+              "STEWPOT",
+              "THE_EXPANSE_RPG",
+              "THE_WITCHER_TTRPG",
+              "TORG_ETERNITY",
+              "TRINITY_CONTINUUM",
+              "WARHAMMER_AGE_OF_SIGMAR_SOULBOUND",
+              "WILD_TALENTS",
+              "WORLDS_WITHOUT_NUMBER",
+              "THIRTEENTH_AGE",
+              "ABSURDIA",
+              "ACES_AND_EIGHTS_RELOADED",
+              "ADVENTURER_CONQUEROR_KING",
+              "ADVENTURES_IN_MIDDLE_EARTH",
+              "ADVENTURE_SKELETONS",
+              "A_FAMILIAR_PROBLEM",
+              "AFTERLIFE_WANDERING_SOULS",
+              "AGE_OF_ADVENTURE",
+              "ALL_FLESH_MUST_BE_EATEN",
+              "ARS_MAGICA_FIFTH_EDITION",
+              "ASHES_WITHOUT_NUMBER",
+              "BEAM_SABER",
+              "BIRTHRIGHT",
+              "BRAVE_ZENITH",
+              "CAIN",
+              "CAPERS",
+              "CHROME",
+              "CONAN",
+              "CORIOLIS_THE_THIRD_HORIZON",
+              "DEAD_OF_NIGHT",
+              "DIE_RPG",
+              "ELDRITCH_AUTOMATA",
+              "ELECTRIC_BASTIONLAND",
+              "EVERYDAY_HEROES",
+              "EXALTED_2ND_EDITION",
+              "EXALTED_ESSENCE",
+              "FIASCO",
+              "FUDGE",
+              "GUMSHOE",
+              "ICRPG_INDEX_CARD_RPG",
+              "INEVITABLE",
+              "IN_NOMINE",
+              "INTERSTITIAL_OUR_HEARTS_INTERTWINED",
+              "IRONSWORN",
+              "IRONSWORN_STARFORGED",
+              "KNAVE",
+              "LADY_BLACKBIRD",
+              "LAND_OF_EEM",
+              "LARP",
+              "LEGEND_OF_THE_FIVE_RINGS_FIRST_EDITION",
+              "ONLY_WAR_RPG",
+              "ORBITAL_BLUES",
+              "RAPSCALLION",
+              "ROLEMASTER",
+              "RUNARCANA",
+              "SENTINEL_COMICS",
+              "SERENITY_RPG",
+              "SLUGBLASTER",
+              "SOJOURN",
+              "TEATIME_ADVENTURES",
+              "TEENS_IN_SPACE",
+              "THE_BURNING_WHEEL",
+              "THE_DRESDEN_FILES_RPG",
+              "THE_MECHA_HACK",
+              "THE_QUIET_YEAR",
+              "THE_SILT_VERSES",
+              "THE_ULTIMATE_MICRO_RPG_BOOK",
+              "THEY_CAME_FROM",
+              "THIS_DISCORD_HAS_GHOSTS_IN_IT",
+              "TINY_SUPERS",
+              "TOON_ROLEPLAYING_GAME",
+              "TORG",
+              "TRAIL_OF_CTHULHU",
+              "TRIANGLE_AGENCY",
+              "TUNNELS_AND_TROLLS",
+              "UNKNOWN_ARMIES_3E",
+              "VALOR_THE_HEROIC_ROLEPLAY_SYSTEM",
+              "VAMPIRE_THE_DARK_AGES",
+              "VAMPIRE_THE_MASQUERADE_2ND_EDITION",
+              "WARHAMMER_THE_OLD_WORLD_ROLEPLAYING_GAME",
+              "WARLOCK",
+              "WELCOME_TO_DOLMENWOOD",
+              "WEREWOLF_THE_FORSAKEN_2E",
+              "WORLD_WIDE_WRESTLING_2E",
+              "WRAITH_THE_OBLIVION_20TH_ANNIVERSARY_EDITION",
+              "XCRAWL_CLASSICS",
+              "ZWEIHANDER",
+              "FOUR_D6",
+              "ABSOLUTE_POWER",
+              "AGE_OF_VIKINGS",
+              "AGON",
+              "AMBER_DICELESS",
+              "ANIMA_BEYOND_FANTASY",
+              "ANIME_E_SANGUE",
+              "ANTAGONIST",
+              "APOCALYPSE_KEYS",
+              "ARKHAM_HORROR",
+              "ASCENDANT",
+              "BABES_IN_THE_WOODS",
+              "BASIC_ROLEPLAYING",
+              "BETTER_ANGELS",
+              "BETWEEN_CLOUDS",
+              "BIG_EYES_SMALL_MOUTH",
+              "BLOOD_SWEAT_AND_STEEL",
+              "BOOT_HILL",
+              "BRINKWOOD_THE_BLOOD_OF_TYRANTS",
+              "BUNKERS_AND_BADASSES",
+              "BUNNIES_AND_BURROWS",
+              "CALTROP_CORE",
+              "CAPES_COWLS_AND_VILLAINS_FOUL",
+              "CARBON_2185",
+              "CASTLE_FALKENSTEIN",
+              "CHANGELING_THE_LOST_FIRST_EDITION",
+              "COGENT_ROLEPLAY",
+              "CORTEX_RPG",
+              "COVEN_AND_CRUCIBLE",
+              "DC_HEROES_ROLEPLAYING_GAME",
+              "DEATHMATCH_ISLAND",
+              "DEFINITELY_WIZARDS",
+              "DEMON_GATE",
+              "DISHONORED",
+              "DRESDEN_FILES_ACCELERATED_EDITION",
+              "DUNGEON_BOARD_GAME",
+              "ELDRITCH_RPG",
+              "ELTHOS_RPG",
+              "EMPIRE_OF_THE_PETAL_THRONE",
+              "EPYLLION",
+              "ESPER_GENESIS",
+              "FADING_SUNS",
+              "FATE_OF_CTHULHU",
+              "FATHOMLESS_GEARS",
+              "FEAR_ITSELF",
+              "FENG_SHUI_2",
+              "FINAL_FANTASY_RPG_4TH_EDITION",
+              "FIST",
+              "FRONTIER_SCUM",
+              "FUNDAMENTAL_RPG",
+              "GI_JOE_ROLEPLAYING_GAME",
+              "GLOOMHAVEN",
+              "GOBLIN_WITH_A_FAT_ASS",
+              "GOLDEN_SKY_STORIES",
+              "HARNMASTER",
+              "HEROES_AND_HARDSHIPS",
+              "HEROQUEST",
+              "HIGH_MAGIC_LOWLIVES",
+              "HIT_THE_STREETS_DEFEND_THE_BLOCK",
+              "HOLLER",
+              "ICONS_SUPERPOWERED_ROLEPLAYING",
+              "IMPULSE_DRIVE",
+              "INFINITY",
+              "IRONCLAW",
+              "KNAVE_2E",
+              "KOBOLDS_ATE_MY_BABY",
+              "LIMINAL",
+              "LOG_HORIZON",
+              "LOW_FANTASY_GAMING",
+              "LUMEN",
+              "MAGE_THE_AWAKENING_1E",
+              "MARVEL_HEROIC_ROLEPLAYING",
+              "MEMENTO_MORI",
+              "METAMORPHOSIS_ALPHA",
+              "MICROSCOPE",
+              "MIDDLE_EARTH_ROLE_PLAYING_MERP",
+              "MONAD_ECHO",
+              "MONSTERS_AND_OTHER_CHILDISH_THINGS",
+              "MOONGRAVE",
+              "MUTANTS_AND_MASTERMINDS",
+              "NEMESIS",
+              "NEVER_GOING_HOME",
+              "NOBILIS_THE_GAME_OF_SOVEREIGN_POWERS_2002_EDITION",
+              "OUTCAST_SILVER_RAIDERS",
+              "PALEOMYTHIC",
+              "PASSING",
+              "PEQUENOS_DETECTIVES_DE_MONSTRUOS",
+              "PERFECT_DRAW",
+              "PHANTASY_STAR_TABLETOP_RPG",
+              "POINT_SYSTEM_GAMING",
+              "POLARIS",
+              "PROMETHEAN_THE_CREATED_2ND_EDITION",
+              "PUNK_APOCALYPTIC",
+              "QUEST",
+              "REALMS_OF_PUGMIRE",
+              "REIGN",
+              "RIGHTEOUS_BLOOD_RUTHLESS_BLADES",
+              "S5E_SUPERHEROIC_ROLEPLAYING",
+              "SALVAGE_UNION",
+              "SENSOJI_TTRPG",
+              "SHADOW_OF_THE_WEIRD_WIZARD",
+              "SLAYERS",
+              "SPECTACULARS",
+              "SPINDLEWHEEL",
+              "STAR_FRONTIERS",
+              "TALISLANTA",
+              "TEENAGERS_FROM_OUTERSPACE",
+              "TEETH",
+              "THE_BEAST",
+              "THE_DARKEST_HOUSE",
+              "THE_DARK_EYE",
+              "THE_DEE_SANCTION",
+              "THE_ELECTRIC_STATE_ROLEPLAYING_GAME",
+              "THE_FIFTH_SEASON",
+              "THE_GRIMOIRE_OF_HEART",
+              "THE_ONE_RING_1E",
+              "THE_SPRAWL",
+              "THE_SPY_GAME",
+              "THEY_CAME_FROM_BEYOND_THE_GRAVE",
+              "THINGS_FROM_THE_FLOOD",
+              "THROUGH_THE_BREACH",
+              "TIMEWATCH",
+              "TINY_DUNGEON",
+              "TINY_GODS",
+              "TREMULUS",
+              "TRIVIA",
+              "ULTRAVIOLET_GRASSLANDS",
+              "UNBELIEVABLY_SIMPLE_ROLE_PLAYING",
+              "UNCHARTED_WORLDS",
+              "VAGABOND",
+              "VAULTS_OF_VAARN",
+              "WEIRD_FRONTIERS",
+              "WEREWOLF_THE_FORSAKEN",
+              "WICKED_ONES",
+              "XAS_IRKALLA",
+              "Z_LAND"
+            ]
+          }
+        }
+      },
+      "CancelEventDto": {
+        "type": "object",
+        "properties": {
+          "cancelReason": {
+            "type": "string"
+          }
+        }
+      },
+      "DictionariesDtoRes": {
+        "type": "object",
+        "properties": {
+          "eventFormats": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ONLINE",
+                "OFFLINE"
+              ]
+            }
+          },
+          "sessionTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ONE_SHOT",
+                "CAMPAIGN"
+              ]
+            }
+          },
+          "currencies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "EUR",
+                "USD",
+                "RUB",
+                "BYN"
+              ]
+            }
+          },
+          "gameGenres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "FANTASY",
+                "HORROR",
+                "SCIFI",
+                "POSTAPOCALYPTIC",
+                "MODERN",
+                "HISTORICAL",
+                "CYBERPUNK"
+              ]
+            }
+          },
+          "gameSystems": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "DUNGEONS_AND_DRAGONS_5E",
+                "PATHFINDER_2E",
+                "DAGGERHEART",
+                "HOMEBREW_GAME",
+                "CALL_OF_CTHULHU",
+                "VAMPIRE_THE_MASQUERADE_5TH_EDITION",
+                "PATHFINDER_1E",
+                "MONSTER_OF_THE_WEEK",
+                "SHADOWDARK_RPG",
+                "GAME_MASTER_WORKSHOP",
+                "CYBERPUNK_RED",
+                "DARK_MATTER",
+                "DRAW_STEEL",
+                "DUNGEON_CRAWL_CLASSICS",
+                "COSMERE_ROLEPLAYING_GAME",
+                "LANCER",
+                "STAR_WARS_RPG_BY_FANTASY_FLIGHT_GAMES",
+                "LEGEND_IN_THE_MIST",
+                "INDIE_TTRPG",
+                "MOTHERSHIP",
+                "MARVEL_MULTIVERSE_ROLE_PLAYING_GAME",
+                "SAVAGE_WORLDS",
+                "WARHAMMER_FANTASY_ROLEPLAY",
+                "BLADES_IN_THE_DARK",
+                "DELTA_GREEN",
+                "DUNGEONS_AND_DRAGONS_3_3_5E",
+                "FALLOUT_THE_ROLEPLAYING_GAME",
+                "STAR_WARS_5E",
+                "ALIEN_THE_ROLEPLAYING_GAME",
+                "STARFINDER",
+                "ADVANCED_DUNGEONS_AND_DRAGONS_1E",
+                "DRAGONBANE",
+                "FABULA_ULTIMA",
+                "THIRSTY_SWORD_LESBIANS",
+                "WORLD_OF_DARKNESS",
+                "SEMINAR",
+                "CANDELA_OBSCURA",
+                "MASKS_A_NEW_GENERATION",
+                "OLD_SCHOOL_ESSENTIALS",
+                "MAGE_THE_ASCENSION_20TH_ANNIVERSARY",
+                "CYPHER_SYSTEM",
+                "DISCWORLD",
+                "AVATAR_LEGENDS_THE_RPG",
+                "STARFINDER_2E",
+                "VAMPIRE_THE_MASQUERADE_20TH_ANNIVERSARY_EDITION",
+                "D6_SYSTEM",
+                "PIRATE_BORG",
+                "LEVEL_UP_ADVANCED_5TH_EDITION",
+                "SHADOWRUN",
+                "FATE_CORE_SYSTEM",
+                "POKEMON_TABLETOP_UNITED",
+                "DUNGEONS_AND_DRAGONS_0E",
+                "KIDS_ON_BIKES",
+                "DUNGEONS_AND_DRAGONS_B_X",
+                "STAR_TREK_ADVENTURES",
+                "TRAVELLER",
+                "WEREWOLF_THE_APOCALYPSE_5TH_EDITION",
+                "CHRONICLES_OF_DARKNESS",
+                "WEREWOLF_THE_APOCALYPSE_20TH_ANNIVERSARY_EDITION",
+                "CITY_OF_MIST",
+                "WARHAMMER_40000_IMPERIUM_MALEDICTUM",
+                "HUNTER_THE_RECKONING",
+                "MUTANTS_AND_MASTERMINDS_3E",
+                "ALICE_IS_MISSING",
+                "FATE",
+                "MONSTERHEARTS_2",
+                "OUTGUNNED",
+                "THE_ONE_RING_2E",
+                "VAESEN",
+                "GURPS",
+                "STAR_TREK_ADVENTURES_SECOND_EDITION",
+                "ADVANCED_DUNGEONS_AND_DRAGONS_2E",
+                "DUNE_ADVENTURES_IN_THE_IMPERIUM",
+                "TEN_CANDLES",
+                "KIDS_ON_BROOMS",
+                "MYTHIC_BASTIONLAND",
+                "WARHAMMER_40000_ROLEPLAY",
+                "TALES_FROM_THE_LOOP",
+                "D20_MODERN",
+                "MASS_EFFECT_5E",
+                "POWER_RANGERS_ROLEPLAYING_GAME",
+                "EXALTED_3RD_EDITION",
+                "FATE_ACCELERATED",
+                "PULP_CTHULHU",
+                "TALES_OF_THE_VALIANT",
+                "TRANSFORMERS_ROLEPLAYING_GAME",
+                "DEADLANDS",
+                "LEGEND_OF_THE_FIVE_RINGS_5TH_EDITION",
+                "MORK_BORG",
+                "PLAYTEST",
+                "PLAYTEST_GAME",
+                "WARHAMMER_40000_WRATH_AND_GLORY",
+                "DRAGON_AGE",
+                "FANTASY_AGE_RPG",
+                "GRIMWILD",
+                "INTO_THE_ODD",
+                "NEVER_STOP_BLOWING_UP",
+                "OTHERSCAPE",
+                "POKEMON_THE_ROLEPLAYING_GAME",
+                "SEVENTH_SEA",
+                "DUNGEON_WORLD",
+                "PENDRAGON_6TH_EDITION",
+                "D20_OGL",
+                "DEATHWATCH",
+                "DUNGEONS_AND_DRAGONS_4E",
+                "FORBIDDEN_LANDS",
+                "GOOD_SOCIETY",
+                "KULT",
+                "STORYPATH",
+                "THE_LAND_ROLEPLAYING_SYSTEM",
+                "THE_LORD_OF_THE_RINGS_ROLEPLAYING_5E",
+                "THE_WILDSEA",
+                "BATTLETECH_RPG",
+                "BRINDLEWOOD_BAY",
+                "DARK_HERESY_2E",
+                "DC20",
+                "OLD_GODS_OF_APPALACHIA",
+                "PALLADIUM",
+                "POKEMON_TABLETOP_ADVENTURES_3",
+                "RUNEQUEST_ROLEPLAYING_IN_GLORANTHA",
+                "STARS_WITHOUT_NUMBERS_REVISED",
+                "TWILIGHT_2000",
+                "BLADE_RUNNER_THE_ROLEPLAYING_GAME",
+                "CHANGELING_THE_LOST_SECOND_EDITION",
+                "CONAN_ADVENTURES_IN_AN_AGE_UNDREAMED_OF",
+                "CURSEBORNE",
+                "CY_BORG",
+                "FOR_THE_QUEEN",
+                "MAGE_THE_AWAKENING_2ND_EDITION",
+                "ODYSSEY_OF_THE_DRAGONLORDS",
+                "SCION_2E",
+                "STAR_WARS_SAGA_EDITION",
+                "SYMBAROUM",
+                "THE_BETWEEN",
+                "TROIKA",
+                "VAMPIRE_THE_REQUIEM_2ND_EDITION",
+                "ACHTUNG_CTHULHU_2D20",
+                "APOCALYPSE_WORLD_2E",
+                "BLACK_CRUSADE",
+                "CAIRN",
+                "DUNGEONS_AND_DRAGONS_2E",
+                "GIRL_BY_MOONLIGHT",
+                "HOUSEHOLD",
+                "MISTBORN_ADVENTURE_GAME",
+                "ONE_SHOT_RPG_SYSTEM",
+                "PARANOIA",
+                "THE_WITCH_IS_DEAD",
+                "URBAN_SHADOWS_1E",
+                "AGE_OF_SIGMAR_SOULBOUND",
+                "CHANGELING_THE_DREAMING_20TH_ANNIVERSARY_EDITION",
+                "DEADLANDS_CLASSIC_20TH_ANNIVERSARY_EDITION",
+                "EARTHDAWN",
+                "EPITAPH",
+                "GLITTER_HEARTS",
+                "HEART_THE_CITY_BENEATH_RPG",
+                "LASERS_AND_FEELINGS",
+                "MAUSRITTER",
+                "RIFTS",
+                "ROLL_FOR_SHOES",
+                "SCUM_AND_VILLAINY",
+                "SPIRE_THE_CITY_MUST_FALL_RPG",
+                "TROPHY_DARK",
+                "URBAN_SHADOWS_2E",
+                "A_SONG_OF_ICE_AND_FIRE_RPG",
+                "BURN_BRYTE",
+                "COYOTE_AND_CROW",
+                "CYBERPUNK_2020",
+                "DARK_SOULS_THE_ROLEPLAYING_GAME",
+                "DEMON_THE_FALLEN",
+                "DOCTOR_WHO_RPG",
+                "FABLECRAFT",
+                "GENESYS",
+                "GHOSTBUSTERS_RPG",
+                "GODBOUND",
+                "HERO_SYSTEM",
+                "HONEY_HEIST",
+                "KING_ARTHUR_PENDRAGON_RPG",
+                "MUTANT_YEAR_ZERO",
+                "MY_LITTLE_PONY_ROLEPLAYING_GAME",
+                "PATHWAYS_TO_ADVENTURE",
+                "PERILS_AND_PRINCESSES",
+                "POLYMORPH",
+                "PUBLIC_ACCESS",
+                "STARGATE_SG_1_RPG",
+                "THE_WALKING_DEAD_UNIVERSE_ROLEPLAYING_GAME",
+                "VAMPIRE_THE_MASQUERADE_REVISED_EDITION",
+                "WANDERHOME",
+                "ABERRANT",
+                "BAND_OF_BLADES",
+                "BASIC_FANTASY",
+                "BREAK",
+                "CASTLES_AND_CRUSADES",
+                "DARK_HERESY_1E",
+                "DEATH_IN_SPACE",
+                "DUMP_QUEST",
+                "DUNGEONS_AND_DRAGONS_1E",
+                "EAT_THE_REICH",
+                "EZD6",
+                "FREE_KRIEGSSPIEL_REVOLUTION",
+                "HACKMASTER",
+                "HUNTER_THE_VIGIL",
+                "LANCER_BATTLEGROUP",
+                "LEGEND_OF_THE_FIVE_RINGS_4TH_EDITION",
+                "MARK_OF_THE_ODD",
+                "MARVEL_SUPER_HEROES_FASERIP",
+                "MODERN_AGE_RPG",
+                "MOONLIGHT_ON_ROSEVILLE_BEACH",
+                "MUTANT_CRAWL_CLASSICS",
+                "NUMENERA",
+                "RISUS_THE_ANYTHING_RPG",
+                "RIVERS_OF_LONDON",
+                "ROGUE_TRADER",
+                "ROOT_THE_ROLEPLAYING_GAME",
+                "RYUUTAMA",
+                "SCARRED_LANDS",
+                "SCION_1E",
+                "SHADOW_OF_THE_DEMON_LORD",
+                "STAR_WARS_D6",
+                "STEEL_HEARTS",
+                "STEWPOT",
+                "THE_EXPANSE_RPG",
+                "THE_WITCHER_TTRPG",
+                "TORG_ETERNITY",
+                "TRINITY_CONTINUUM",
+                "WARHAMMER_AGE_OF_SIGMAR_SOULBOUND",
+                "WILD_TALENTS",
+                "WORLDS_WITHOUT_NUMBER",
+                "THIRTEENTH_AGE",
+                "ABSURDIA",
+                "ACES_AND_EIGHTS_RELOADED",
+                "ADVENTURER_CONQUEROR_KING",
+                "ADVENTURES_IN_MIDDLE_EARTH",
+                "ADVENTURE_SKELETONS",
+                "A_FAMILIAR_PROBLEM",
+                "AFTERLIFE_WANDERING_SOULS",
+                "AGE_OF_ADVENTURE",
+                "ALL_FLESH_MUST_BE_EATEN",
+                "ARS_MAGICA_FIFTH_EDITION",
+                "ASHES_WITHOUT_NUMBER",
+                "BEAM_SABER",
+                "BIRTHRIGHT",
+                "BRAVE_ZENITH",
+                "CAIN",
+                "CAPERS",
+                "CHROME",
+                "CONAN",
+                "CORIOLIS_THE_THIRD_HORIZON",
+                "DEAD_OF_NIGHT",
+                "DIE_RPG",
+                "ELDRITCH_AUTOMATA",
+                "ELECTRIC_BASTIONLAND",
+                "EVERYDAY_HEROES",
+                "EXALTED_2ND_EDITION",
+                "EXALTED_ESSENCE",
+                "FIASCO",
+                "FUDGE",
+                "GUMSHOE",
+                "ICRPG_INDEX_CARD_RPG",
+                "INEVITABLE",
+                "IN_NOMINE",
+                "INTERSTITIAL_OUR_HEARTS_INTERTWINED",
+                "IRONSWORN",
+                "IRONSWORN_STARFORGED",
+                "KNAVE",
+                "LADY_BLACKBIRD",
+                "LAND_OF_EEM",
+                "LARP",
+                "LEGEND_OF_THE_FIVE_RINGS_FIRST_EDITION",
+                "ONLY_WAR_RPG",
+                "ORBITAL_BLUES",
+                "RAPSCALLION",
+                "ROLEMASTER",
+                "RUNARCANA",
+                "SENTINEL_COMICS",
+                "SERENITY_RPG",
+                "SLUGBLASTER",
+                "SOJOURN",
+                "TEATIME_ADVENTURES",
+                "TEENS_IN_SPACE",
+                "THE_BURNING_WHEEL",
+                "THE_DRESDEN_FILES_RPG",
+                "THE_MECHA_HACK",
+                "THE_QUIET_YEAR",
+                "THE_SILT_VERSES",
+                "THE_ULTIMATE_MICRO_RPG_BOOK",
+                "THEY_CAME_FROM",
+                "THIS_DISCORD_HAS_GHOSTS_IN_IT",
+                "TINY_SUPERS",
+                "TOON_ROLEPLAYING_GAME",
+                "TORG",
+                "TRAIL_OF_CTHULHU",
+                "TRIANGLE_AGENCY",
+                "TUNNELS_AND_TROLLS",
+                "UNKNOWN_ARMIES_3E",
+                "VALOR_THE_HEROIC_ROLEPLAY_SYSTEM",
+                "VAMPIRE_THE_DARK_AGES",
+                "VAMPIRE_THE_MASQUERADE_2ND_EDITION",
+                "WARHAMMER_THE_OLD_WORLD_ROLEPLAYING_GAME",
+                "WARLOCK",
+                "WELCOME_TO_DOLMENWOOD",
+                "WEREWOLF_THE_FORSAKEN_2E",
+                "WORLD_WIDE_WRESTLING_2E",
+                "WRAITH_THE_OBLIVION_20TH_ANNIVERSARY_EDITION",
+                "XCRAWL_CLASSICS",
+                "ZWEIHANDER",
+                "FOUR_D6",
+                "ABSOLUTE_POWER",
+                "AGE_OF_VIKINGS",
+                "AGON",
+                "AMBER_DICELESS",
+                "ANIMA_BEYOND_FANTASY",
+                "ANIME_E_SANGUE",
+                "ANTAGONIST",
+                "APOCALYPSE_KEYS",
+                "ARKHAM_HORROR",
+                "ASCENDANT",
+                "BABES_IN_THE_WOODS",
+                "BASIC_ROLEPLAYING",
+                "BETTER_ANGELS",
+                "BETWEEN_CLOUDS",
+                "BIG_EYES_SMALL_MOUTH",
+                "BLOOD_SWEAT_AND_STEEL",
+                "BOOT_HILL",
+                "BRINKWOOD_THE_BLOOD_OF_TYRANTS",
+                "BUNKERS_AND_BADASSES",
+                "BUNNIES_AND_BURROWS",
+                "CALTROP_CORE",
+                "CAPES_COWLS_AND_VILLAINS_FOUL",
+                "CARBON_2185",
+                "CASTLE_FALKENSTEIN",
+                "CHANGELING_THE_LOST_FIRST_EDITION",
+                "COGENT_ROLEPLAY",
+                "CORTEX_RPG",
+                "COVEN_AND_CRUCIBLE",
+                "DC_HEROES_ROLEPLAYING_GAME",
+                "DEATHMATCH_ISLAND",
+                "DEFINITELY_WIZARDS",
+                "DEMON_GATE",
+                "DISHONORED",
+                "DRESDEN_FILES_ACCELERATED_EDITION",
+                "DUNGEON_BOARD_GAME",
+                "ELDRITCH_RPG",
+                "ELTHOS_RPG",
+                "EMPIRE_OF_THE_PETAL_THRONE",
+                "EPYLLION",
+                "ESPER_GENESIS",
+                "FADING_SUNS",
+                "FATE_OF_CTHULHU",
+                "FATHOMLESS_GEARS",
+                "FEAR_ITSELF",
+                "FENG_SHUI_2",
+                "FINAL_FANTASY_RPG_4TH_EDITION",
+                "FIST",
+                "FRONTIER_SCUM",
+                "FUNDAMENTAL_RPG",
+                "GI_JOE_ROLEPLAYING_GAME",
+                "GLOOMHAVEN",
+                "GOBLIN_WITH_A_FAT_ASS",
+                "GOLDEN_SKY_STORIES",
+                "HARNMASTER",
+                "HEROES_AND_HARDSHIPS",
+                "HEROQUEST",
+                "HIGH_MAGIC_LOWLIVES",
+                "HIT_THE_STREETS_DEFEND_THE_BLOCK",
+                "HOLLER",
+                "ICONS_SUPERPOWERED_ROLEPLAYING",
+                "IMPULSE_DRIVE",
+                "INFINITY",
+                "IRONCLAW",
+                "KNAVE_2E",
+                "KOBOLDS_ATE_MY_BABY",
+                "LIMINAL",
+                "LOG_HORIZON",
+                "LOW_FANTASY_GAMING",
+                "LUMEN",
+                "MAGE_THE_AWAKENING_1E",
+                "MARVEL_HEROIC_ROLEPLAYING",
+                "MEMENTO_MORI",
+                "METAMORPHOSIS_ALPHA",
+                "MICROSCOPE",
+                "MIDDLE_EARTH_ROLE_PLAYING_MERP",
+                "MONAD_ECHO",
+                "MONSTERS_AND_OTHER_CHILDISH_THINGS",
+                "MOONGRAVE",
+                "MUTANTS_AND_MASTERMINDS",
+                "NEMESIS",
+                "NEVER_GOING_HOME",
+                "NOBILIS_THE_GAME_OF_SOVEREIGN_POWERS_2002_EDITION",
+                "OUTCAST_SILVER_RAIDERS",
+                "PALEOMYTHIC",
+                "PASSING",
+                "PEQUENOS_DETECTIVES_DE_MONSTRUOS",
+                "PERFECT_DRAW",
+                "PHANTASY_STAR_TABLETOP_RPG",
+                "POINT_SYSTEM_GAMING",
+                "POLARIS",
+                "PROMETHEAN_THE_CREATED_2ND_EDITION",
+                "PUNK_APOCALYPTIC",
+                "QUEST",
+                "REALMS_OF_PUGMIRE",
+                "REIGN",
+                "RIGHTEOUS_BLOOD_RUTHLESS_BLADES",
+                "S5E_SUPERHEROIC_ROLEPLAYING",
+                "SALVAGE_UNION",
+                "SENSOJI_TTRPG",
+                "SHADOW_OF_THE_WEIRD_WIZARD",
+                "SLAYERS",
+                "SPECTACULARS",
+                "SPINDLEWHEEL",
+                "STAR_FRONTIERS",
+                "TALISLANTA",
+                "TEENAGERS_FROM_OUTERSPACE",
+                "TEETH",
+                "THE_BEAST",
+                "THE_DARKEST_HOUSE",
+                "THE_DARK_EYE",
+                "THE_DEE_SANCTION",
+                "THE_ELECTRIC_STATE_ROLEPLAYING_GAME",
+                "THE_FIFTH_SEASON",
+                "THE_GRIMOIRE_OF_HEART",
+                "THE_ONE_RING_1E",
+                "THE_SPRAWL",
+                "THE_SPY_GAME",
+                "THEY_CAME_FROM_BEYOND_THE_GRAVE",
+                "THINGS_FROM_THE_FLOOD",
+                "THROUGH_THE_BREACH",
+                "TIMEWATCH",
+                "TINY_DUNGEON",
+                "TINY_GODS",
+                "TREMULUS",
+                "TRIVIA",
+                "ULTRAVIOLET_GRASSLANDS",
+                "UNBELIEVABLY_SIMPLE_ROLE_PLAYING",
+                "UNCHARTED_WORLDS",
+                "VAGABOND",
+                "VAULTS_OF_VAARN",
+                "WEIRD_FRONTIERS",
+                "WEREWOLF_THE_FORSAKEN",
+                "WICKED_ONES",
+                "XAS_IRKALLA",
+                "Z_LAND"
+              ]
+            }
+          },
+          "gamePlatforms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ABOVE_VTT",
+                "ALCHEMY",
+                "ARKENFORGE",
+                "BAG_OF_MAPPING",
+                "DND_BEYOND",
+                "DND_BEYOND_MAPS",
+                "DEMIPLANE",
+                "DISCORD",
+                "FANTASY_GROUNDS",
+                "FOUNDRY_VTT",
+                "GOOGLE_MEET",
+                "MAPTOOL",
+                "MICROSOFT_TEAMS",
+                "ONE_MORE_MULTIVERSE",
+                "OWLBEAR_RODEO",
+                "PHYSICAL_BATTLEMAP",
+                "QUEST_PORTAL",
+                "ROLE",
+                "ROLEPLAY_TV",
+                "ROLL20",
+                "RPG_SESSIONS",
+                "SHARD_TABLETOP",
+                "SIGIL",
+                "TABLEPLOP",
+                "TABLETOP_SIMULATOR",
+                "TALE_SPIRE",
+                "TARRASQUE_IO",
+                "TEXT_PLAY_BY_POST",
+                "ZOOM"
+              ]
+            }
+          }
+        },
+        "required": [
+          "eventFormats",
+          "sessionTypes",
+          "currencies",
+          "gameGenres",
+          "gameSystems",
+          "gamePlatforms"
+        ]
+      }
+    }
+  }
+}

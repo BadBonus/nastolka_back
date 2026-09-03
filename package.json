@@ -21,7 +21,8 @@
     "seed:permissions": "npx prisma db seed",
     "seed:mock": "cross-env SEED_MOCK=true npx prisma db seed",
     "prisma:generate": "prisma generate",
-    "imgproxy:generate-presets": "node scripts/generate-presets.ts"
+    "imgproxy:generate-presets": "node scripts/generate-presets.ts",
+    "openapi:generate": "ts-node -r tsconfig-paths/register scripts/generate-openapi.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
