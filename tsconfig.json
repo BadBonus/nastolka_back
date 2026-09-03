@@ -5,7 +5,7 @@
     "target": "ES2023",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "declaration": true,
     "ignoreDeprecations": "5.0",
     "removeComments": true,

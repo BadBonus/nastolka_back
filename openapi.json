@@ -211,6 +211,9 @@
           "200": {
             "description": "Пароль успешно изменен"
           },
+          "201": {
+            "description": ""
+          },
           "400": {
             "description": "Токен недействителен"
           }
@@ -474,7 +477,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -549,6 +559,7 @@
             "required": false,
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 1,
               "type": "number"
             }
@@ -558,6 +569,7 @@
             "required": false,
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 10,
               "type": "number"
             }
@@ -1262,35 +1274,43 @@
     }
   },
   "info": {
-    "title": "API",
-    "description": "",
+    "title": "Nastolka API",
+    "description": "Документация бэкенда",
     "version": "1.0",
     "contact": {}
   },
   "tags": [],
   "servers": [],
   "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "refreshToken"
+      }
+    },
     "schemas": {
       "LoginDto": {
         "type": "object",
-        "properties": {}
-      },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {}
-      },
-      "RegisterDto": {
-        "type": "object",
         "properties": {
-          "timezone": {
+          "email": {
             "type": "string",
-            "example": "Europe/Minsk"
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6
           }
-        }
-      },
-      "VerifyEmailDto": {
-        "type": "object",
-        "properties": {}
+        },
+        "required": [
+          "email",
+          "password"
+        ]
       },
       "User": {
         "type": "object",
@@ -1316,13 +1336,95 @@
           "avatar"
         ]
       },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user",
+          "accessToken"
+        ]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "timezone": {
+            "type": "string",
+            "example": "Europe/Minsk"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "confirmPassword",
+          "nickname"
+        ]
+      },
+      "VerifyEmailDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 6
+          }
+        },
+        "required": [
+          "email",
+          "code"
+        ]
+      },
       "ResetPasswordRequestDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "required": [
+          "email"
+        ]
       },
       "ResetPasswordDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "required": [
+          "token",
+          "newPassword"
+        ]
       },
       "ScheduleIntervalEntity": {
         "type": "object",
@@ -1358,31 +1460,152 @@
             "items": {
               "$ref": "#/components/schemas/ScheduleIntervalEntity"
             }
+          },
+          "id": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthdate": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "soclinks": {
+            "type": "object",
+            "nullable": true
+          },
+          "gameHistory": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "isVerified": {
+            "type": "boolean"
+          },
+          "roleId": {
+            "type": "string"
+          },
+          "isBanned": {
+            "type": "boolean"
           }
         },
         "required": [
-          "schedules"
+          "schedules",
+          "id",
+          "nickname",
+          "email",
+          "fullName",
+          "description",
+          "birthdate",
+          "slug",
+          "avatar",
+          "timezone",
+          "soclinks",
+          "gameHistory",
+          "isVerified",
+          "roleId",
+          "isBanned"
         ]
       },
       "ProfileUserWithId": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "slug": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "soclinks": {
+            "type": "object",
+            "nullable": true
+          },
+          "gameHistory": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "nickname",
+          "email",
+          "fullName",
+          "description",
+          "slug",
+          "avatar",
+          "timezone",
+          "soclinks",
+          "gameHistory"
+        ]
       },
       "ScheduleIntervalDto": {
         "type": "object",
         "properties": {
           "dayOfWeek": {
             "type": "number",
+            "minimum": 1,
+            "maximum": 7,
             "description": "День недели (1-7)",
             "example": 1
           },
           "startTime": {
             "type": "number",
+            "minimum": 0,
+            "maximum": 24,
             "description": "Время начала (в часах)",
             "example": 8
           },
           "endTime": {
             "type": "number",
+            "minimum": 0,
+            "maximum": 24,
             "description": "Время окончания (в часах)",
             "example": 12
           }
@@ -1442,13 +1665,14 @@
           },
           "email": {
             "type": "string",
+            "format": "email",
             "description": "Email организатора",
             "example": "org@example.com"
           },
           "description": {
-            "type": "object",
-            "description": "Описание организатора",
-            "nullable": true
+            "type": "string",
+            "nullable": true,
+            "description": "Описание организатора"
           },
           "avatar": {
             "type": "string",
@@ -1484,7 +1708,7 @@
             "example": "GameMaster"
           },
           "description": {
-            "type": "object",
+            "type": "string",
             "nullable": true
           },
           "avatar": {
@@ -1492,9 +1716,9 @@
             "nullable": true
           },
           "timezone": {
-            "type": "object",
-            "example": "UTC",
-            "nullable": true
+            "type": "string",
+            "nullable": true,
+            "example": "UTC"
           },
           "soclinks": {
             "type": "object",
@@ -2014,13 +2238,14 @@
           },
           "email": {
             "type": "string",
+            "format": "email",
             "description": "Email организатора",
             "example": "org@example.com"
           },
           "description": {
-            "type": "object",
-            "description": "Описание организатора",
-            "nullable": true
+            "type": "string",
+            "nullable": true,
+            "description": "Описание организатора"
           },
           "avatar": {
             "type": "string",
@@ -2064,24 +2289,28 @@
           },
           "minUsers": {
             "type": "number",
+            "minimum": 1,
             "default": 1
           },
           "maxUsers": {
-            "type": "number"
+            "type": "number",
+            "minimum": 1
           },
           "isBeginnerFriendly": {
             "type": "boolean",
             "default": true
           },
           "ageLimit": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0
           },
           "autoApprove": {
             "type": "boolean",
             "default": false
           },
           "costValue": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0
           },
           "costCurrency": {
             "type": "string",
@@ -2637,13 +2866,13 @@
             "type": "string"
           },
           "gameSystem": {
-            "type": "string"
+            "type": "object"
           },
           "format": {
-            "type": "string"
+            "type": "object"
           },
           "sessionType": {
-            "type": "string"
+            "type": "object"
           },
           "isBeginnerFriendly": {
             "type": "boolean"
@@ -2671,11 +2900,17 @@
           "genres": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object"
             }
           },
           "minUsers": {
             "type": "number"
+          },
+          "currentCountOfPlayers": {
+            "type": "number"
+          },
+          "_count": {
+            "type": "object"
           }
         },
         "required": [
@@ -2685,14 +2920,12 @@
           "format",
           "sessionType",
           "isBeginnerFriendly",
-          "addInfo",
-          "costValue",
           "startsAt",
           "maxUsers",
-          "ageLimit",
           "endsAt",
           "genres",
-          "minUsers"
+          "minUsers",
+          "currentCountOfPlayers"
         ]
       },
       "PaginationMetaDto": {
@@ -2766,24 +2999,28 @@
           },
           "minUsers": {
             "type": "number",
+            "minimum": 1,
             "default": 1
           },
           "maxUsers": {
-            "type": "number"
+            "type": "number",
+            "minimum": 1
           },
           "isBeginnerFriendly": {
             "type": "boolean",
             "default": true
           },
           "ageLimit": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0
           },
           "autoApprove": {
             "type": "boolean",
             "default": false
           },
           "costValue": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0
           },
           "costCurrency": {
             "type": "string",

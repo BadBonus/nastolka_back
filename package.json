@@ -22,7 +22,8 @@
     "seed:mock": "cross-env SEED_MOCK=true npx prisma db seed",
     "prisma:generate": "prisma generate",
     "imgproxy:generate-presets": "node scripts/generate-presets.ts",
-    "openapi:generate": "ts-node -r tsconfig-paths/register scripts/generate-openapi.ts"
+    "extract": "node scripts/extract.mjs",
+    "openapi:generate": "start-server-and-test start http://localhost:4000/api/docs-json extract"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
@@ -92,6 +93,7 @@
     "prisma": "^7.4.1",
     "prisma-json-types-generator": "^4.1.1",
     "source-map-support": "^0.5.21",
+    "start-server-and-test": "^3.0.12",
     "supertest": "^7.0.0",
     "testcontainers": "^12.0.4",
     "ts-jest": "^29.2.5",
