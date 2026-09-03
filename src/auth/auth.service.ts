@@ -11,7 +11,6 @@ import { SessionService } from '@/shared/session/session.service';
 import { MailService } from '@/auth/mail/mail.service';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
 import { ERole } from '@/common/enums/roles.enum';
-
 import {
   RegisterDto,
   LoginDto,
@@ -25,6 +24,7 @@ import * as argon2 from 'argon2';
 import slugify from 'slugify';
 import { randomBytes } from 'node:crypto';
 import { buildImagePath } from '@/utils/pathToImg';
+import { createUniqueSlug } from '@/common/utils/createUniqueSlug';
 
 @Injectable()
 export class AuthService {
@@ -191,7 +191,7 @@ export class AuthService {
           }
 
           const passwordHash = await argon2.hash(password);
-          const slug = await this.generateUniqueSlug(nickname);
+          const slug = await createUniqueSlug(nickname);
 
           const newUser = await tx.user.create({
             data: {
@@ -296,29 +296,29 @@ export class AuthService {
     }
   }
 
-  private async generateUniqueSlug(nickname: string): Promise<string> {
-    const baseSlug = slugify(nickname, { lower: true, strict: true });
+  // private async generateUniqueSlug(nickname: string): Promise<string> {
+  //   const baseSlug = slugify(nickname, { lower: true, strict: true });
 
-    const existingSlugs = await this.prisma.$queryRaw<{ slug: string }[]>`
-      SELECT slug FROM users WHERE slug ~ ${'^' + baseSlug + '(-\\d+)?$'}
-    `;
+  //   const existingSlugs = await this.prisma.$queryRaw<{ slug: string }[]>`
+  //     SELECT slug FROM users WHERE slug ~ ${'^' + baseSlug + '(-\\d+)?$'}
+  //   `;
 
-    if (existingSlugs.length === 0) {
-      return baseSlug;
-    }
+  //   if (existingSlugs.length === 0) {
+  //     return baseSlug;
+  //   }
 
-    const usedNumbers = existingSlugs.map((row: { slug: string }) => {
-      const parts = row.slug?.split('-');
+  //   const usedNumbers = existingSlugs.map((row: { slug: string }) => {
+  //     const parts = row.slug?.split('-');
 
-      if (Array.isArray(parts) && parts.length === 1) return 0;
+  //     if (Array.isArray(parts) && parts.length === 1) return 0;
 
-      const lastPart = parts[parts.length - 1];
-      return parseInt(lastPart) || 0;
-    });
+  //     const lastPart = parts[parts.length - 1];
+  //     return parseInt(lastPart) || 0;
+  //   });
 
-    const maxNumber = Math.max(...usedNumbers, 0);
-    return `${baseSlug}-${maxNumber + 1}`;
-  }
+  //   const maxNumber = Math.max(...usedNumbers, 0);
+  //   return `${baseSlug}-${maxNumber + 1}`;
+  // }
 
   async resetPasswordRequest(email: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
