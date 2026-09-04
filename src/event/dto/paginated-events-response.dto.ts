@@ -10,6 +10,17 @@ import {
 import { IsOptional } from 'class-validator';
 import { PaginationMetaDto } from '@common/dto';
 
+export class EventOrgResponseDto {
+  @ApiProperty()
+  nickname!: string;
+
+  @ApiProperty()
+  slug!: string;
+
+  @ApiProperty({ nullable: true, type: String })
+  avatar!: string | null;
+}
+
 type TEventResponse = Pick<
   EventCreateWithoutReviewsInput,
   | 'name'
@@ -26,7 +37,7 @@ type TEventResponse = Pick<
   | 'endsAt'
   | 'genres'
   | 'minUsers'
-> & { currentCountOfPlayers: number };
+> & { currentCountOfPlayers: number; org: EventOrgResponseDto };
 
 export class EventResponseDto implements TEventResponse {
   @ApiProperty()
@@ -77,6 +88,10 @@ export class EventResponseDto implements TEventResponse {
   @Expose()
   @Transform(({ obj }) => obj._count?.requests ?? 0)
   currentCountOfPlayers!: number;
+
+  @ApiProperty({ type: EventOrgResponseDto })
+  @Type(() => EventOrgResponseDto)
+  org!: EventOrgResponseDto;
 
   @Exclude()
   _count?: any;

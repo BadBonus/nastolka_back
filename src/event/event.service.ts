@@ -96,6 +96,13 @@ export class EventService {
           endsAt: true,
           genres: true,
           minUsers: true,
+          org: {
+            select: {
+              nickname: true,
+              slug: true,
+              avatar: true,
+            },
+          },
           _count: {
             select: {
               requests: { where: { status: 'CONFIRMED' } },
