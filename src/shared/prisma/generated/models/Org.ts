@@ -22,8 +22,18 @@ export type OrgModel = runtime.Types.Result.DefaultSelection<Prisma.$OrgPayload>
 
 export type AggregateOrg = {
   _count: OrgCountAggregateOutputType | null
+  _avg: OrgAvgAggregateOutputType | null
+  _sum: OrgSumAggregateOutputType | null
   _min: OrgMinAggregateOutputType | null
   _max: OrgMaxAggregateOutputType | null
+}
+
+export type OrgAvgAggregateOutputType = {
+  costValue: number | null
+}
+
+export type OrgSumAggregateOutputType = {
+  costValue: number | null
 }
 
 export type OrgMinAggregateOutputType = {
@@ -32,6 +42,8 @@ export type OrgMinAggregateOutputType = {
   slug: string | null
   nickname: string | null
   description: string | null
+  costValue: number | null
+  costCurrency: $Enums.Currency | null
   createdAt: Date | null
   updatedAt: Date | null
   avatar: string | null
@@ -46,6 +58,8 @@ export type OrgMaxAggregateOutputType = {
   slug: string | null
   nickname: string | null
   description: string | null
+  costValue: number | null
+  costCurrency: $Enums.Currency | null
   createdAt: Date | null
   updatedAt: Date | null
   avatar: string | null
@@ -60,6 +74,8 @@ export type OrgCountAggregateOutputType = {
   slug: number
   nickname: number
   description: number
+  costValue: number
+  costCurrency: number
   createdAt: number
   updatedAt: number
   avatar: number
@@ -75,12 +91,22 @@ export type OrgCountAggregateOutputType = {
 }
 
 
+export type OrgAvgAggregateInputType = {
+  costValue?: true
+}
+
+export type OrgSumAggregateInputType = {
+  costValue?: true
+}
+
 export type OrgMinAggregateInputType = {
   id?: true
   userId?: true
   slug?: true
   nickname?: true
   description?: true
+  costValue?: true
+  costCurrency?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
@@ -95,6 +121,8 @@ export type OrgMaxAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
+  costValue?: true
+  costCurrency?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
@@ -109,6 +137,8 @@ export type OrgCountAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
+  costValue?: true
+  costCurrency?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
@@ -161,6 +191,18 @@ export type OrgAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: OrgAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: OrgSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: OrgMinAggregateInputType
@@ -191,6 +233,8 @@ export type OrgGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   _count?: OrgCountAggregateInputType | true
+  _avg?: OrgAvgAggregateInputType
+  _sum?: OrgSumAggregateInputType
   _min?: OrgMinAggregateInputType
   _max?: OrgMaxAggregateInputType
 }
@@ -201,6 +245,8 @@ export type OrgGroupByOutputType = {
   slug: string
   nickname: string
   description: string | null
+  costValue: number | null
+  costCurrency: $Enums.Currency | null
   createdAt: Date
   updatedAt: Date
   avatar: string | null
@@ -213,6 +259,8 @@ export type OrgGroupByOutputType = {
   preferredGenres: $Enums.GameGenres[]
   preferredFormats: $Enums.EventFormat[]
   _count: OrgCountAggregateOutputType | null
+  _avg: OrgAvgAggregateOutputType | null
+  _sum: OrgSumAggregateOutputType | null
   _min: OrgMinAggregateOutputType | null
   _max: OrgMaxAggregateOutputType | null
 }
@@ -241,6 +289,8 @@ export type OrgWhereInput = {
   slug?: Prisma.StringFilter<"Org"> | string
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
+  costValue?: Prisma.IntNullableFilter<"Org"> | number | null
+  costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
@@ -263,6 +313,8 @@ export type OrgOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  costValue?: Prisma.SortOrderInput | Prisma.SortOrder
+  costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -289,6 +341,8 @@ export type OrgWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OrgWhereInput | Prisma.OrgWhereInput[]
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
+  costValue?: Prisma.IntNullableFilter<"Org"> | number | null
+  costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
@@ -310,6 +364,8 @@ export type OrgOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  costValue?: Prisma.SortOrderInput | Prisma.SortOrder
+  costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -322,8 +378,10 @@ export type OrgOrderByWithAggregationInput = {
   preferredGenres?: Prisma.SortOrder
   preferredFormats?: Prisma.SortOrder
   _count?: Prisma.OrgCountOrderByAggregateInput
+  _avg?: Prisma.OrgAvgOrderByAggregateInput
   _max?: Prisma.OrgMaxOrderByAggregateInput
   _min?: Prisma.OrgMinOrderByAggregateInput
+  _sum?: Prisma.OrgSumOrderByAggregateInput
 }
 
 export type OrgScalarWhereWithAggregatesInput = {
@@ -335,6 +393,8 @@ export type OrgScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Org"> | string
   nickname?: Prisma.StringWithAggregatesFilter<"Org"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
+  costValue?: Prisma.IntNullableWithAggregatesFilter<"Org"> | number | null
+  costCurrency?: Prisma.EnumCurrencyNullableWithAggregatesFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
@@ -353,6 +413,8 @@ export type OrgCreateInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -375,6 +437,8 @@ export type OrgUncheckedCreateInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -395,6 +459,8 @@ export type OrgUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -417,6 +483,8 @@ export type OrgUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -438,6 +506,8 @@ export type OrgCreateManyInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -456,6 +526,8 @@ export type OrgUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -475,6 +547,8 @@ export type OrgUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -515,6 +589,8 @@ export type OrgCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  costValue?: Prisma.SortOrder
+  costCurrency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -528,12 +604,18 @@ export type OrgCountOrderByAggregateInput = {
   preferredFormats?: Prisma.SortOrder
 }
 
+export type OrgAvgOrderByAggregateInput = {
+  costValue?: Prisma.SortOrder
+}
+
 export type OrgMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  costValue?: Prisma.SortOrder
+  costCurrency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -548,12 +630,18 @@ export type OrgMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  costValue?: Prisma.SortOrder
+  costCurrency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
+}
+
+export type OrgSumOrderByAggregateInput = {
+  costValue?: Prisma.SortOrder
 }
 
 export type OrgNullableScalarRelationFilter = {
@@ -653,6 +741,8 @@ export type OrgCreateWithoutEventsInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -674,6 +764,8 @@ export type OrgUncheckedCreateWithoutEventsInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -709,6 +801,8 @@ export type OrgUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -730,6 +824,8 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -749,6 +845,8 @@ export type OrgCreateWithoutReviewsInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -770,6 +868,8 @@ export type OrgUncheckedCreateWithoutReviewsInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -805,6 +905,8 @@ export type OrgUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -826,6 +928,8 @@ export type OrgUncheckedUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -845,6 +949,8 @@ export type OrgCreateWithoutUserInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -865,6 +971,8 @@ export type OrgUncheckedCreateWithoutUserInput = {
   slug: string
   nickname: string
   description?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
@@ -901,6 +1009,8 @@ export type OrgUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -921,6 +1031,8 @@ export type OrgUncheckedUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -982,6 +1094,8 @@ export type OrgSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  costValue?: boolean
+  costCurrency?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -1005,6 +1119,8 @@ export type OrgSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  costValue?: boolean
+  costCurrency?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -1025,6 +1141,8 @@ export type OrgSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  costValue?: boolean
+  costCurrency?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -1045,6 +1163,8 @@ export type OrgSelectScalar = {
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  costValue?: boolean
+  costCurrency?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
@@ -1058,7 +1178,7 @@ export type OrgSelectScalar = {
   preferredFormats?: boolean
 }
 
-export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "preferredFormats", ExtArgs["result"]["org"]>
+export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "costValue" | "costCurrency" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "preferredFormats", ExtArgs["result"]["org"]>
 export type OrgInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
@@ -1085,6 +1205,8 @@ export type $OrgPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     slug: string
     nickname: string
     description: string | null
+    costValue: number | null
+    costCurrency: $Enums.Currency | null
     createdAt: Date
     updatedAt: Date
     avatar: string | null
@@ -1527,6 +1649,8 @@ export interface OrgFieldRefs {
   readonly slug: Prisma.FieldRef<"Org", 'String'>
   readonly nickname: Prisma.FieldRef<"Org", 'String'>
   readonly description: Prisma.FieldRef<"Org", 'String'>
+  readonly costValue: Prisma.FieldRef<"Org", 'Int'>
+  readonly costCurrency: Prisma.FieldRef<"Org", 'Currency'>
   readonly createdAt: Prisma.FieldRef<"Org", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Org", 'DateTime'>
   readonly avatar: Prisma.FieldRef<"Org", 'String'>

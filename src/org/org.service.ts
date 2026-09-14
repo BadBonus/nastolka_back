@@ -112,6 +112,8 @@ export class OrgService {
         slug: true,
         nickname: true,
         description: true,
+        costValue: true,
+        costCurrency: true,
         avatar: true,
         timezone: true,
         email: true,
@@ -160,7 +162,7 @@ export class OrgService {
     const ratingSummary: Record<KindOfRate, number> = {
       [KindOfRate.CREATIVITY]: 0,
       [KindOfRate.STORYTELLING]: 0,
-      [KindOfRate.WIKIPEDIA_RULES]: 0,
+      [KindOfRate.PLAYER_EDUCATION]: 0,
       [KindOfRate.THEATRICALISE]: 0,
     };
 

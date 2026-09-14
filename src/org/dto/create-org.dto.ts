@@ -1,18 +1,23 @@
-import { Org, Prisma } from '@pGen/client';
+import { Currency, Org, Prisma } from '@pGen/client';
 import {
   IsEmail,
+  IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsObject,
+  Min,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { ORG_AVATAR_SIZE } from './../org.contants';
 
 type CreateOrgFields = Pick<
   Org,
   'nickname' | 'description' | 'soclinks' | 'email' | 'timezone'
->;
+> &
+  Partial<Pick<Org, 'costValue' | 'costCurrency'>>;
 
 export class CreateOrgDtoReq implements CreateOrgFields {
   @ApiProperty({
@@ -35,6 +40,31 @@ export class CreateOrgDtoReq implements CreateOrgFields {
   @IsString()
   @IsOptional()
   description!: string | null;
+
+  @ApiPropertyOptional({
+    description: 'Стоимость услуг организатора',
+    example: 1500,
+    nullable: true,
+  })
+  @IsOptional()
+  @Transform(({ value }) =>
+    value === '' || value === null || value === undefined
+      ? undefined
+      : Number(value),
+  )
+  @IsInt()
+  @Min(0)
+  costValue?: number | null;
+
+  @ApiPropertyOptional({
+    description: 'Валюта стоимости услуг организатора',
+    enum: Currency,
+    nullable: true,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value === '' ? undefined : value))
+  @IsEnum(Currency)
+  costCurrency?: Currency | null;
 
   @ApiPropertyOptional({
     type: 'string',

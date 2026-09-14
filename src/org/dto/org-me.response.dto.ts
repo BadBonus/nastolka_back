@@ -1,10 +1,16 @@
 import type { OrgModel } from '@/shared/prisma/generated/models';
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { EventFormat, GameGenres, GameSystem, EventReview } from '@pGen/client';
+import {
+  Currency,
+  EventFormat,
+  EventReview,
+  GameGenres,
+  GameSystem,
+} from '@pGen/client';
 
 @Exclude()
-export class OrgMeResponseDto implements Omit<
+export class OrgListResponseDto implements Omit<
   OrgModel,
   'userId' | 'createdAt' | 'updatedAt'
 > {
@@ -23,6 +29,14 @@ export class OrgMeResponseDto implements Omit<
   @ApiPropertyOptional({ nullable: true })
   @Expose()
   description!: string | null;
+
+  @ApiPropertyOptional({ nullable: true, example: 1500 })
+  @Expose()
+  costValue!: number | null;
+
+  @ApiPropertyOptional({ enum: Currency, nullable: true })
+  @Expose()
+  costCurrency!: Currency | null;
 
   @ApiPropertyOptional({ nullable: true, type: String })
   @Expose()
@@ -59,7 +73,9 @@ export class OrgMeResponseDto implements Omit<
   @ApiProperty({ enum: EventFormat, isArray: true })
   @Expose()
   preferredFormats!: EventFormat[];
+}
 
+export class OrgMeResponseDto extends OrgListResponseDto {
   @ApiProperty()
   @Expose()
   reviews!: EventReview[];

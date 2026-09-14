@@ -50,13 +50,15 @@ export const GameGenres = {
   POSTAPOCALYPTIC: 'POSTAPOCALYPTIC',
   MODERN: 'MODERN',
   HISTORICAL: 'HISTORICAL',
-  CYBERPUNK: 'CYBERPUNK'
+  CYBERPUNK: 'CYBERPUNK',
+  OTHER: 'OTHER'
 } as const
 
 export type GameGenres = (typeof GameGenres)[keyof typeof GameGenres]
 
 
 export const GameSystem = {
+  OTHER: 'OTHER',
   DUNGEONS_AND_DRAGONS_5E: 'DUNGEONS_AND_DRAGONS_5E',
   PATHFINDER_2E: 'PATHFINDER_2E',
   DAGGERHEART: 'DAGGERHEART',
@@ -532,7 +534,8 @@ export const GamePlatform = {
   TALE_SPIRE: 'TALE_SPIRE',
   TARRASQUE_IO: 'TARRASQUE_IO',
   TEXT_PLAY_BY_POST: 'TEXT_PLAY_BY_POST',
-  ZOOM: 'ZOOM'
+  ZOOM: 'ZOOM',
+  OTHER: 'OTHER'
 } as const
 
 export type GamePlatform = (typeof GamePlatform)[keyof typeof GamePlatform]
@@ -562,7 +565,7 @@ export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 export const KindOfRate = {
   CREATIVITY: 'CREATIVITY',
   STORYTELLING: 'STORYTELLING',
-  WIKIPEDIA_RULES: 'WIKIPEDIA_RULES',
+  PLAYER_EDUCATION: 'PLAYER_EDUCATION',
   THEATRICALISE: 'THEATRICALISE'
 } as const
 

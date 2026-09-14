@@ -1633,6 +1633,8 @@ export const OrgScalarFieldEnum = {
   slug: 'slug',
   nickname: 'nickname',
   description: 'description',
+  costValue: 'costValue',
+  costCurrency: 'costCurrency',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   avatar: 'avatar',

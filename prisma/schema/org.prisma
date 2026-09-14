@@ -6,6 +6,9 @@ model Org {
   slug        String   @unique @db.VarChar(256)
   nickname    String   @map("nickname")
   description String?
+
+  costValue    Int?      @map("cost_value")
+  costCurrency Currency? @map("cost_currency")
   
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -28,7 +31,7 @@ model Org {
 enum KindOfRate {
   CREATIVITY
   STORYTELLING
-  WIKIPEDIA_RULES
+  PLAYER_EDUCATION
   THEATRICALISE
 }
 
