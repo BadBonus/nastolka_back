@@ -16,6 +16,11 @@ import { createUniqueSlug } from '@/common/utils/createUniqueSlug';
 import { ERole } from '@/common/enums/roles.enum';
 import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import { buildImagePath } from '@/utils/pathToImg';
+import {
+  FindAllOrgsQueryDto,
+  OrgSortBy,
+  SortOrder,
+} from './dto/findAllOrgsQueryDto';
 
 @Injectable()
 export class OrgService {
@@ -73,19 +78,91 @@ export class OrgService {
     });
   }
 
-  async findAll(page = 1, limit = AVERAGE_PAGES_LIMIT) {
+  async findAll(query: FindAllOrgsQueryDto) {
+    const {
+      page = 1,
+      limit = AVERAGE_PAGES_LIMIT,
+      sortBy = OrgSortBy.CREATED_AT,
+      sortOrder = SortOrder.DESC,
+      minCost,
+      maxCost,
+      minEvents,
+      preferredSystems,
+      q,
+    } = query;
+
     const skip = (page - 1) * limit;
 
     const where: Prisma.OrgWhereInput = {
       isBanned: false,
     };
 
+    if (q) {
+      where.nickname = {
+        contains: q,
+        mode: 'insensitive',
+      };
+    }
+
+    if (minCost !== undefined || maxCost !== undefined) {
+      if (minCost === undefined && maxCost !== undefined) {
+        where.OR = [{ costValue: { lte: maxCost } }, { costValue: null }];
+      } else {
+        where.costValue = {
+          ...(minCost !== undefined && { gte: minCost }),
+          ...(maxCost !== undefined && { lte: maxCost }),
+        };
+      }
+    }
+
+    if (preferredSystems && preferredSystems.length > 0) {
+      where.preferredSystems = {
+        hasSome: preferredSystems,
+      };
+    }
+
+    if (minEvents !== undefined) {
+      const groupedEvents = await this.prisma.event.groupBy({
+        by: ['orgId'],
+        having: {
+          orgId: {
+            _count: {
+              gte: minEvents,
+            },
+          },
+        },
+      });
+
+      const matchedOrgIds = groupedEvents
+        .map((item) => item.orgId)
+        .filter((id): id is string => id !== null);
+
+      where.id = {
+        in: matchedOrgIds,
+      };
+    }
+
+    let orderBy: Prisma.OrgOrderByWithRelationInput;
+
+    switch (sortBy) {
+      case OrgSortBy.EVENTS_COUNT:
+        orderBy = { events: { _count: sortOrder } };
+        break;
+      case OrgSortBy.REVIEWS_COUNT:
+        orderBy = { reviews: { _count: sortOrder } };
+        break;
+      case OrgSortBy.CREATED_AT:
+      default:
+        orderBy = { createdAt: sortOrder };
+        break;
+    }
+
     const [data, total] = await this.prisma.$transaction([
       this.prisma.org.findMany({
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: 'desc' },
+        orderBy,
       }),
       this.prisma.org.count({ where }),
     ]);
@@ -222,35 +299,6 @@ export class OrgService {
 
     return true;
   }
-
-  // async updateByAdmin(id: string, dto: UpdateOrgDto) {
-  //   const org = await this.prisma.org.findUnique({
-  //     where: { id },
-  //   });
-
-  //   if (!org) {
-  //     throw new NotFoundException('Организатор не найден');
-  //   }
-
-  //   return this.prisma.org.update({
-  //     where: { id },
-  //     data: dto,
-  //   });
-  // }
-
-  // async deleteByAdmin(id: string) {
-  //   const org = await this.prisma.org.findUnique({
-  //     where: { id },
-  //   });
-
-  //   if (!org) {
-  //     throw new NotFoundException('Организатор не найден');
-  //   }
-
-  //   return this.prisma.org.delete({
-  //     where: { id },
-  //   });
-  // }
 
   async ban(id: string) {
     const org = await this.prisma.org.findUnique({

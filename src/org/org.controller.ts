@@ -39,6 +39,7 @@ import { PaginatedOrgsResponseDto } from './dto/paginated-orgs-response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe, ImageDimensionsPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from '@/profile/profile.constants';
+import { FindAllOrgsQueryDto } from './dto/findAllOrgsQueryDto';
 
 @ApiTags('Org')
 @Controller('org')
@@ -64,33 +65,47 @@ export class OrgController {
 
   @Get()
   @ApiOperation({
-    summary: 'Получение списка организаторов с пагинацией',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    type: Number,
-    description: 'Номер страницы',
-    example: 1,
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    type: Number,
-    description: 'Количество элементов на странице',
-    example: AVERAGE_PAGES_LIMIT,
+    summary: 'Получение списка организаторов с пагинацией и фильтрацией',
   })
   @ApiOkResponse({
     description: 'Список организаторов с метаданными пагинации',
     type: PaginatedOrgsResponseDto,
   })
   findAll(
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('limit', new DefaultValuePipe(AVERAGE_PAGES_LIMIT), ParseIntPipe)
-    limit: number,
+    @Query() query: FindAllOrgsQueryDto,
   ): Promise<PaginatedOrgsResponseDto> {
-    return this.orgService.findAll(page, limit);
+    return this.orgService.findAll(query);
   }
+
+  // @Get()
+  // @ApiOperation({
+  //   summary: 'Получение списка организаторов с пагинацией',
+  // })
+  // @ApiQuery({
+  //   name: 'page',
+  //   required: false,
+  //   type: Number,
+  //   description: 'Номер страницы',
+  //   example: 1,
+  // })
+  // @ApiQuery({
+  //   name: 'limit',
+  //   required: false,
+  //   type: Number,
+  //   description: 'Количество элементов на странице',
+  //   example: AVERAGE_PAGES_LIMIT,
+  // })
+  // @ApiOkResponse({
+  //   description: 'Список организаторов с метаданными пагинации',
+  //   type: PaginatedOrgsResponseDto,
+  // })
+  // findAll(
+  //   @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+  //   @Query('limit', new DefaultValuePipe(AVERAGE_PAGES_LIMIT), ParseIntPipe)
+  //   limit: number,
+  // ): Promise<PaginatedOrgsResponseDto> {
+  //   return this.orgService.findAll(page, limit);
+  // }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
