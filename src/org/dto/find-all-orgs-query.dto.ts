@@ -2,6 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, Min, IsString } from 'class-validator';
 import { GameSystem } from '@pGen/client';
+import { BaseQueryDto } from '@/common/dto/base-query.dto';
 
 export enum OrgSortBy {
   CREATED_AT = 'createdAt',
@@ -9,34 +10,7 @@ export enum OrgSortBy {
   REVIEWS_COUNT = 'reviewsCount',
 }
 
-export enum SortOrder {
-  ASC = 'asc',
-  DESC = 'desc',
-}
-
-export class FindAllOrgsQueryDto {
-  @ApiPropertyOptional({ description: 'Поисковый запрос по никнейму' })
-  @IsOptional()
-  @IsString()
-  q?: string;
-
-  @ApiPropertyOptional({ description: 'Номер страницы', default: 1 })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  page?: number = 1;
-
-  @ApiPropertyOptional({
-    description: 'Количество элементов на странице',
-    default: 20,
-  })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  limit?: number = 20;
-
+export class FindAllOrgsQueryDto extends BaseQueryDto {
   @ApiPropertyOptional({
     enum: OrgSortBy,
     description: 'Поле сортировки',
@@ -45,15 +19,6 @@ export class FindAllOrgsQueryDto {
   @IsOptional()
   @IsEnum(OrgSortBy)
   sortBy?: OrgSortBy = OrgSortBy.CREATED_AT;
-
-  @ApiPropertyOptional({
-    enum: SortOrder,
-    description: 'Направление сортировки',
-    default: SortOrder.DESC,
-  })
-  @IsOptional()
-  @IsEnum(SortOrder)
-  sortOrder?: SortOrder = SortOrder.DESC;
 
   @ApiPropertyOptional({ description: 'Минимальная стоимость' })
   @IsOptional()

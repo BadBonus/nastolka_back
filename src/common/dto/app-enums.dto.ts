@@ -13,6 +13,11 @@ import {
   ESocLinks,
 } from '@shared/prisma/generated/client';
 
+enum EtypesSort {
+  'ASC' = 'asc',
+  'DESC' = 'desc',
+}
+
 export class AppEnumsDto {
   @ApiProperty({ enum: Currency, enumName: 'Currency' })
   currency!: Currency;
@@ -46,4 +51,7 @@ export class AppEnumsDto {
 
   @ApiProperty({ enum: ESocLinks, enumName: 'ESocLinks' })
   socLinks!: ESocLinks;
+
+  @ApiProperty({ enum: EtypesSort, enumName: 'EtypesSort' })
+  typesOfSort!: EtypesSort;
 }
