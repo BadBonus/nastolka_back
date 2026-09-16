@@ -7,7 +7,7 @@ import {
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateOrgDtoReq } from './dto/create-org.dto';
 import { UpdateOrgDto } from './dto/update-org.dto';
-import { Prisma } from '@pGen/client';
+import { Prisma, Org } from '@pGen/client';
 import { KindOfRate } from '@pGen/enums';
 import { UploadsService } from '@/common/modules/uploads/uploads.service';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
@@ -29,6 +29,10 @@ export class OrgService {
     private readonly uploadsService: UploadsService,
     private readonly imgproxyService: ImgproxyService,
   ) {}
+
+  // ---------------------------------------------------------------------
+  // Public API
+  // ---------------------------------------------------------------------
 
   async create(
     userId: string,
@@ -52,14 +56,8 @@ export class OrgService {
       userId,
     };
 
-    if (file && file.buffer) {
-      const buffer = await this.uploadsService.optimizeImage(file.buffer);
-      const avatar = await this.uploadsService.saveToDisk(
-        buffer,
-        'png',
-        PATH_UPLOADED_AVATARS,
-      );
-      data.avatar = avatar.fileName;
+    if (file?.buffer) {
+      data.avatar = await this.handleAvatarUpload(file);
     }
 
     return this.prisma.$transaction(async (tx) => {
@@ -104,6 +102,10 @@ export class OrgService {
       };
     }
 
+    // NOTE: kept the original semantics (null costValue is only included
+    // when *only* maxCost is supplied). This asymmetry looked intentional
+    // in the review but wasn't confirmed — flag with product before
+    // changing it, since it silently affects search results either way.
     if (minCost !== undefined || maxCost !== undefined) {
       if (minCost === undefined && maxCost !== undefined) {
         where.OR = [{ costValue: { lte: maxCost } }, { costValue: null }];
@@ -122,6 +124,10 @@ export class OrgService {
     }
 
     if (minEvents !== undefined) {
+      // NOTE: for large datasets this materializes every matching orgId
+      // client-side before the main query. Fine at current scale; if the
+      // orgs table grows significantly, move this into a single query
+      // (raw SQL HAVING, or a computed column) instead.
       const groupedEvents = await this.prisma.event.groupBy({
         by: ['orgId'],
         having: {
@@ -178,7 +184,7 @@ export class OrgService {
       hasPrev: page > 1,
     };
 
-    return { data, meta };
+    return { data: data.map((org) => this.withSignedAvatar(org)), meta };
   }
 
   async findMe(userId: string) {
@@ -209,14 +215,7 @@ export class OrgService {
       throw new NotFoundException('Профиль организатора не найден');
     }
 
-    if (org.avatar) {
-      org.avatar = this.imgproxyService.generateSignedUrl(
-        buildImagePath('org_avatars') + org.avatar,
-        'profile_avatar',
-      );
-    }
-
-    return org;
+    return this.withSignedAvatar(org);
   }
 
   async findOne(slug: string) {
@@ -251,10 +250,13 @@ export class OrgService {
       });
     });
 
-    const { ...orgData } = org;
+    // FIX: previously this spread the full org (reviews included) back
+    // into the response alongside ratingSummary. `reviews` is now
+    // explicitly excluded — only the aggregated ratings go out.
+    const { reviews, ...orgData } = org;
 
     return {
-      ...orgData,
+      ...this.withSignedAvatar(orgData),
       ratings: ratingSummary,
     };
   }
@@ -264,69 +266,132 @@ export class OrgService {
     dto: UpdateOrgDto,
     file?: Express.Multer.File,
   ) {
-    const org = await this.prisma.org.findUnique({
-      where: { userId },
-    });
+    const org = await this.findOrgByUserIdOrThrow(userId);
 
-    if (!org) {
-      throw new NotFoundException('Профиль организатора не найден');
+    const data: Prisma.OrgUpdateInput = { ...dto };
+    const previousAvatar = org.avatar;
+
+    if (file?.buffer) {
+      data.avatar = await this.handleAvatarUpload(file);
     }
 
-    if (file && file.buffer) {
-      const buffer = await this.uploadsService.optimizeImage(file.buffer);
-      const avatar = await this.uploadsService.saveToDisk(
-        buffer,
-        'png',
-        PATH_UPLOADED_AVATARS,
-      );
-      dto.avatar = avatar.fileName;
-    }
-
-    return this.prisma.org.update({
+    const updated = await this.prisma.org.update({
       where: { id: org.id },
-      data: dto,
+      data,
     });
+
+    // Clean up the old avatar only after the update succeeds, and only
+    // if it was actually replaced.
+    if (file?.buffer && previousAvatar && previousAvatar !== updated.avatar) {
+      // ASSUMPTION: UploadsService exposes a deletion method mirroring
+      // saveToDisk. Rename this call to match your actual API if it
+      // differs (e.g. `remove`, `deleteFile`, `unlink`).
+      await this.uploadsService
+        .deleteFromDisk(previousAvatar, PATH_UPLOADED_AVATARS)
+        .catch(() => undefined); // best-effort cleanup, don't fail the request
+    }
+
+    return updated;
   }
 
   async deleteMe(userId: string) {
-    const org = await this.prisma.org.findUnique({
-      where: { userId },
+    const org = await this.findOrgByUserIdOrThrow(userId);
+
+    // FIX: the original method verified the org existed but never
+    // deleted anything and always returned `true`. This now actually
+    // removes the record.
+    //
+    // NOTE: if `events`/`reviews` don't cascade on delete in your Prisma
+    // schema, this will throw a foreign-key constraint error for any
+    // org with existing events/reviews. Decide whether that's the
+    // desired behavior (block deletion) or whether cascading / a
+    // soft-delete flag (e.g. `isDeleted`) is more appropriate — I didn't
+    // have the schema to confirm which.
+    await this.prisma.$transaction(async (tx) => {
+      await tx.org.delete({ where: { id: org.id } });
+
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          roles: {
+            disconnect: [{ slug: ERole.ORG }],
+          },
+        },
+      });
     });
 
-    if (!org) {
-      throw new NotFoundException('Профиль организатора не найден');
+    if (org.avatar) {
+      await this.uploadsService
+        .deleteFromDisk(org.avatar, PATH_UPLOADED_AVATARS)
+        .catch(() => undefined);
     }
 
     return true;
   }
 
   async ban(id: string) {
-    const org = await this.prisma.org.findUnique({
-      where: { id },
-    });
-
-    if (!org) {
-      throw new NotFoundException('Организатор не найден');
-    }
-
-    return this.prisma.org.update({
-      where: { id },
-      data: { isBanned: true },
-    });
+    return this.setBanned(id, true);
   }
 
   async unban(id: string) {
-    const org = await this.prisma.org.findUnique({
+    return this.setBanned(id, false);
+  }
+
+  // ---------------------------------------------------------------------
+  // Private helpers
+  // ---------------------------------------------------------------------
+
+  private async setBanned(id: string, isBanned: boolean) {
+    await this.findOrgByIdOrThrow(id);
+
+    return this.prisma.org.update({
       where: { id },
+      data: { isBanned },
     });
+  }
+
+  private async findOrgByUserIdOrThrow(userId: string) {
+    const org = await this.prisma.org.findUnique({ where: { userId } });
+
+    if (!org) {
+      throw new NotFoundException('Профиль организатора не найден');
+    }
+
+    return org;
+  }
+
+  private async findOrgByIdOrThrow(id: string) {
+    const org = await this.prisma.org.findUnique({ where: { id } });
 
     if (!org) {
       throw new NotFoundException('Организатор не найден');
     }
 
-    return this.prisma.org.update({
-      where: { id },
-      data: { isBanned: false },
-    });
+    return org;
+  }
+
+  private async handleAvatarUpload(file: Express.Multer.File): Promise<string> {
+    const buffer = await this.uploadsService.optimizeImage(file.buffer);
+    const avatar = await this.uploadsService.saveToDisk(
+      buffer,
+      'png',
+      PATH_UPLOADED_AVATARS,
+    );
+    return avatar.fileName;
+  }
+
+  /** Returns a shallow copy of `org` with `avatar` replaced by a signed URL. */
+  private withSignedAvatar<T extends { avatar: string | null }>(org: T): T {
+    if (!org.avatar) {
+      return org;
+    }
+
+    return {
+      ...org,
+      avatar: this.imgproxyService.generateSignedUrl(
+        buildImagePath('org_avatars') + org.avatar,
+        'profile_avatar',
+      ),
+    };
   }
 }

@@ -53,4 +53,39 @@ export class UploadsService {
       relativePath: filePath,
     };
   }
+
+  /**
+   * Deletes a previously saved file from disk.
+   * Signature mirrors `saveToDisk`: takes the file name and the folder it
+   * lives in (not a full path), so callers pass the same values they'd
+   * pass when saving.
+   *
+   * Idempotent: a missing file is treated as success, since the desired
+   * end state ("file is gone") is already true — callers doing cleanup
+   * after a rename/replace shouldn't have to special-case ENOENT.
+   */
+  async deleteFromDisk(
+    fileName: string,
+    pathToSave = process.env.DEFAULT_PATH_UPLOADED_FOLDER,
+  ): Promise<void> {
+    if (!pathToSave) throw new Error('Путь для сохранения файла не указан');
+
+    // Guard against a fileName that escapes the target folder
+    // (e.g. "../../etc/passwd"). Generated names are UUID-based so this
+    // should never trigger in practice, but it's cheap insurance since
+    // this method takes a bare name, not a vetted path.
+    const filePath = path.join(pathToSave, fileName);
+    if (path.dirname(filePath) !== path.normalize(pathToSave)) {
+      throw new Error('Некорректное имя файла');
+    }
+
+    try {
+      await fs.unlink(filePath);
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+        return;
+      }
+      throw err;
+    }
+  }
 }
