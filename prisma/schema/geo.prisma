@@ -1,0 +1,33 @@
+model Country {
+  geonameId Int    @id @map("geoname_id")
+  isoCode   String @unique @map("iso_code") @db.Char(2)
+  name      String
+  cities    City[]
+
+  @@map("countries")
+}
+
+model City {
+  geonameId      Int             @id @map("geoname_id")
+  countryId      Int             @map("country_id")
+  country        Country         @relation(fields: [countryId], references: [geonameId])
+  name           String
+  alternateNames AlternateName[]
+
+  @@index([countryId])
+  @@map("cities")
+}
+
+model AlternateName {
+  id              Int     @id
+  cityId          Int     @map("city_id")
+  city            City    @relation(fields: [cityId], references: [geonameId])
+  lang            String  @db.VarChar(10)
+  name            String
+  isPreferredName Boolean @default(false) @map("is_preferred_name")
+  isShortName     Boolean @default(false) @map("is_short_name")
+
+  @@index([cityId, lang])
+  @@index([name])
+  @@map("alternate_names")
+}

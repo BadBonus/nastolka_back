@@ -1810,6 +1810,132 @@
           "Dictionaries"
         ]
       }
+    },
+    "/geo/countries": {
+      "get": {
+        "operationId": "GeoController_findCountries",
+        "parameters": [
+          {
+            "name": "isoCode",
+            "required": false,
+            "in": "query",
+            "description": "ISO 3166-1 alpha-2 country code",
+            "schema": {
+              "minLength": 2,
+              "maxLength": 2,
+              "example": "BY",
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Поиск по русскому названию страны",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Список стран (без городов, название на русском)",
+        "tags": [
+          "Geo"
+        ]
+      }
+    },
+    "/geo/cities": {
+      "get": {
+        "operationId": "GeoController_findCities",
+        "parameters": [
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Поисковый запрос по названию",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Номер страницы",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Количество элементов на странице",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Направление сортировки",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "countryId",
+            "required": false,
+            "in": "query",
+            "description": "geonameId страны",
+            "schema": {
+              "minimum": 1,
+              "example": 630336,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedCitiesResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Список городов по countryId (пагинация, q)",
+        "tags": [
+          "Geo"
+        ]
+      }
     }
   },
   "info": {
@@ -5296,6 +5422,68 @@
           "gameGenres",
           "gameSystems",
           "gamePlatforms"
+        ]
+      },
+      "CountryDto": {
+        "type": "object",
+        "properties": {
+          "geonameId": {
+            "type": "number",
+            "example": 630336
+          },
+          "isoCode": {
+            "type": "string",
+            "example": "BY"
+          },
+          "name": {
+            "type": "string",
+            "example": "Беларусь"
+          }
+        },
+        "required": [
+          "geonameId",
+          "isoCode",
+          "name"
+        ]
+      },
+      "CityListItemDto": {
+        "type": "object",
+        "properties": {
+          "geonameId": {
+            "type": "number",
+            "example": 630468
+          },
+          "name": {
+            "type": "string",
+            "example": "Бобруйск"
+          },
+          "countryId": {
+            "type": "number",
+            "example": 630336
+          }
+        },
+        "required": [
+          "geonameId",
+          "name",
+          "countryId"
+        ]
+      },
+      "PaginatedCitiesResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CityListItemDto"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMetaDto"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
         ]
       },
       "Currency": {

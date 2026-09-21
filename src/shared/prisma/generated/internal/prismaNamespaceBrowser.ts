@@ -54,6 +54,9 @@ export const ModelName = {
   Account: 'Account',
   Event: 'Event',
   EventRequest: 'EventRequest',
+  Country: 'Country',
+  City: 'City',
+  AlternateName: 'AlternateName',
   Org: 'Org',
   EventReview: 'EventReview',
   Role: 'Role',
@@ -142,6 +145,36 @@ export const EventRequestScalarFieldEnum = {
 } as const
 
 export type EventRequestScalarFieldEnum = (typeof EventRequestScalarFieldEnum)[keyof typeof EventRequestScalarFieldEnum]
+
+
+export const CountryScalarFieldEnum = {
+  geonameId: 'geonameId',
+  isoCode: 'isoCode',
+  name: 'name'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
+
+
+export const CityScalarFieldEnum = {
+  geonameId: 'geonameId',
+  countryId: 'countryId',
+  name: 'name'
+} as const
+
+export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
+
+
+export const AlternateNameScalarFieldEnum = {
+  id: 'id',
+  cityId: 'cityId',
+  lang: 'lang',
+  name: 'name',
+  isPreferredName: 'isPreferredName',
+  isShortName: 'isShortName'
+} as const
+
+export type AlternateNameScalarFieldEnum = (typeof AlternateNameScalarFieldEnum)[keyof typeof AlternateNameScalarFieldEnum]
 
 
 export const OrgScalarFieldEnum = {

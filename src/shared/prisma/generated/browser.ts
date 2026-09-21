@@ -33,6 +33,21 @@ export type Event = Prisma.EventModel
  */
 export type EventRequest = Prisma.EventRequestModel
 /**
+ * Model Country
+ * 
+ */
+export type Country = Prisma.CountryModel
+/**
+ * Model City
+ * 
+ */
+export type City = Prisma.CityModel
+/**
+ * Model AlternateName
+ * 
+ */
+export type AlternateName = Prisma.AlternateNameModel
+/**
  * Model Org
  * 
  */
