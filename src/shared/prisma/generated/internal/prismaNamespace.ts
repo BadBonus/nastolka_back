@@ -1900,7 +1900,9 @@ export const OrgScalarFieldEnum = {
   isBanned: 'isBanned',
   preferredSystems: 'preferredSystems',
   preferredGenres: 'preferredGenres',
-  preferredFormats: 'preferredFormats'
+  formatMode: 'formatMode',
+  countryId: 'countryId',
+  cityId: 'cityId'
 } as const
 
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]
@@ -2274,6 +2276,20 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'OrgFormatMode'
+ */
+export type EnumOrgFormatModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrgFormatMode'>
+    
+
+
+/**
+ * Reference to a field of type 'OrgFormatMode[]'
+ */
+export type ListEnumOrgFormatModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrgFormatMode[]'>
     
 
 

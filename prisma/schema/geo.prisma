@@ -3,6 +3,7 @@ model Country {
   isoCode   String @unique @map("iso_code") @db.Char(2)
   name      String
   cities    City[]
+  orgs      Org[]
 
   @@map("countries")
 }
@@ -13,6 +14,7 @@ model City {
   country        Country         @relation(fields: [countryId], references: [geonameId])
   name           String
   alternateNames AlternateName[]
+  orgs           Org[]
 
   @@index([countryId])
   @@map("cities")

@@ -208,6 +208,7 @@ export type CityWhereInput = {
   name?: Prisma.StringFilter<"City"> | string
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   alternateNames?: Prisma.AlternateNameListRelationFilter
+  orgs?: Prisma.OrgListRelationFilter
 }
 
 export type CityOrderByWithRelationInput = {
@@ -216,6 +217,7 @@ export type CityOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   country?: Prisma.CountryOrderByWithRelationInput
   alternateNames?: Prisma.AlternateNameOrderByRelationAggregateInput
+  orgs?: Prisma.OrgOrderByRelationAggregateInput
 }
 
 export type CityWhereUniqueInput = Prisma.AtLeast<{
@@ -227,6 +229,7 @@ export type CityWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"City"> | string
   country?: Prisma.XOR<Prisma.CountryScalarRelationFilter, Prisma.CountryWhereInput>
   alternateNames?: Prisma.AlternateNameListRelationFilter
+  orgs?: Prisma.OrgListRelationFilter
 }, "geonameId">
 
 export type CityOrderByWithAggregationInput = {
@@ -254,6 +257,7 @@ export type CityCreateInput = {
   name: string
   country: Prisma.CountryCreateNestedOneWithoutCitiesInput
   alternateNames?: Prisma.AlternateNameCreateNestedManyWithoutCityInput
+  orgs?: Prisma.OrgCreateNestedManyWithoutCityInput
 }
 
 export type CityUncheckedCreateInput = {
@@ -261,6 +265,7 @@ export type CityUncheckedCreateInput = {
   countryId: number
   name: string
   alternateNames?: Prisma.AlternateNameUncheckedCreateNestedManyWithoutCityInput
+  orgs?: Prisma.OrgUncheckedCreateNestedManyWithoutCityInput
 }
 
 export type CityUpdateInput = {
@@ -268,6 +273,7 @@ export type CityUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.CountryUpdateOneRequiredWithoutCitiesNestedInput
   alternateNames?: Prisma.AlternateNameUpdateManyWithoutCityNestedInput
+  orgs?: Prisma.OrgUpdateManyWithoutCityNestedInput
 }
 
 export type CityUncheckedUpdateInput = {
@@ -275,6 +281,7 @@ export type CityUncheckedUpdateInput = {
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alternateNames?: Prisma.AlternateNameUncheckedUpdateManyWithoutCityNestedInput
+  orgs?: Prisma.OrgUncheckedUpdateManyWithoutCityNestedInput
 }
 
 export type CityCreateManyInput = {
@@ -337,6 +344,11 @@ export type CityScalarRelationFilter = {
   isNot?: Prisma.CityWhereInput
 }
 
+export type CityNullableScalarRelationFilter = {
+  is?: Prisma.CityWhereInput | null
+  isNot?: Prisma.CityWhereInput | null
+}
+
 export type CityCreateNestedManyWithoutCountryInput = {
   create?: Prisma.XOR<Prisma.CityCreateWithoutCountryInput, Prisma.CityUncheckedCreateWithoutCountryInput> | Prisma.CityCreateWithoutCountryInput[] | Prisma.CityUncheckedCreateWithoutCountryInput[]
   connectOrCreate?: Prisma.CityCreateOrConnectWithoutCountryInput | Prisma.CityCreateOrConnectWithoutCountryInput[]
@@ -393,16 +405,34 @@ export type CityUpdateOneRequiredWithoutAlternateNamesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CityUpdateToOneWithWhereWithoutAlternateNamesInput, Prisma.CityUpdateWithoutAlternateNamesInput>, Prisma.CityUncheckedUpdateWithoutAlternateNamesInput>
 }
 
+export type CityCreateNestedOneWithoutOrgsInput = {
+  create?: Prisma.XOR<Prisma.CityCreateWithoutOrgsInput, Prisma.CityUncheckedCreateWithoutOrgsInput>
+  connectOrCreate?: Prisma.CityCreateOrConnectWithoutOrgsInput
+  connect?: Prisma.CityWhereUniqueInput
+}
+
+export type CityUpdateOneWithoutOrgsNestedInput = {
+  create?: Prisma.XOR<Prisma.CityCreateWithoutOrgsInput, Prisma.CityUncheckedCreateWithoutOrgsInput>
+  connectOrCreate?: Prisma.CityCreateOrConnectWithoutOrgsInput
+  upsert?: Prisma.CityUpsertWithoutOrgsInput
+  disconnect?: Prisma.CityWhereInput | boolean
+  delete?: Prisma.CityWhereInput | boolean
+  connect?: Prisma.CityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CityUpdateToOneWithWhereWithoutOrgsInput, Prisma.CityUpdateWithoutOrgsInput>, Prisma.CityUncheckedUpdateWithoutOrgsInput>
+}
+
 export type CityCreateWithoutCountryInput = {
   geonameId: number
   name: string
   alternateNames?: Prisma.AlternateNameCreateNestedManyWithoutCityInput
+  orgs?: Prisma.OrgCreateNestedManyWithoutCityInput
 }
 
 export type CityUncheckedCreateWithoutCountryInput = {
   geonameId: number
   name: string
   alternateNames?: Prisma.AlternateNameUncheckedCreateNestedManyWithoutCityInput
+  orgs?: Prisma.OrgUncheckedCreateNestedManyWithoutCityInput
 }
 
 export type CityCreateOrConnectWithoutCountryInput = {
@@ -444,12 +474,14 @@ export type CityCreateWithoutAlternateNamesInput = {
   geonameId: number
   name: string
   country: Prisma.CountryCreateNestedOneWithoutCitiesInput
+  orgs?: Prisma.OrgCreateNestedManyWithoutCityInput
 }
 
 export type CityUncheckedCreateWithoutAlternateNamesInput = {
   geonameId: number
   countryId: number
   name: string
+  orgs?: Prisma.OrgUncheckedCreateNestedManyWithoutCityInput
 }
 
 export type CityCreateOrConnectWithoutAlternateNamesInput = {
@@ -472,12 +504,58 @@ export type CityUpdateWithoutAlternateNamesInput = {
   geonameId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.CountryUpdateOneRequiredWithoutCitiesNestedInput
+  orgs?: Prisma.OrgUpdateManyWithoutCityNestedInput
 }
 
 export type CityUncheckedUpdateWithoutAlternateNamesInput = {
   geonameId?: Prisma.IntFieldUpdateOperationsInput | number
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  orgs?: Prisma.OrgUncheckedUpdateManyWithoutCityNestedInput
+}
+
+export type CityCreateWithoutOrgsInput = {
+  geonameId: number
+  name: string
+  country: Prisma.CountryCreateNestedOneWithoutCitiesInput
+  alternateNames?: Prisma.AlternateNameCreateNestedManyWithoutCityInput
+}
+
+export type CityUncheckedCreateWithoutOrgsInput = {
+  geonameId: number
+  countryId: number
+  name: string
+  alternateNames?: Prisma.AlternateNameUncheckedCreateNestedManyWithoutCityInput
+}
+
+export type CityCreateOrConnectWithoutOrgsInput = {
+  where: Prisma.CityWhereUniqueInput
+  create: Prisma.XOR<Prisma.CityCreateWithoutOrgsInput, Prisma.CityUncheckedCreateWithoutOrgsInput>
+}
+
+export type CityUpsertWithoutOrgsInput = {
+  update: Prisma.XOR<Prisma.CityUpdateWithoutOrgsInput, Prisma.CityUncheckedUpdateWithoutOrgsInput>
+  create: Prisma.XOR<Prisma.CityCreateWithoutOrgsInput, Prisma.CityUncheckedCreateWithoutOrgsInput>
+  where?: Prisma.CityWhereInput
+}
+
+export type CityUpdateToOneWithWhereWithoutOrgsInput = {
+  where?: Prisma.CityWhereInput
+  data: Prisma.XOR<Prisma.CityUpdateWithoutOrgsInput, Prisma.CityUncheckedUpdateWithoutOrgsInput>
+}
+
+export type CityUpdateWithoutOrgsInput = {
+  geonameId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.CountryUpdateOneRequiredWithoutCitiesNestedInput
+  alternateNames?: Prisma.AlternateNameUpdateManyWithoutCityNestedInput
+}
+
+export type CityUncheckedUpdateWithoutOrgsInput = {
+  geonameId?: Prisma.IntFieldUpdateOperationsInput | number
+  countryId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  alternateNames?: Prisma.AlternateNameUncheckedUpdateManyWithoutCityNestedInput
 }
 
 export type CityCreateManyCountryInput = {
@@ -489,12 +567,14 @@ export type CityUpdateWithoutCountryInput = {
   geonameId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alternateNames?: Prisma.AlternateNameUpdateManyWithoutCityNestedInput
+  orgs?: Prisma.OrgUpdateManyWithoutCityNestedInput
 }
 
 export type CityUncheckedUpdateWithoutCountryInput = {
   geonameId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alternateNames?: Prisma.AlternateNameUncheckedUpdateManyWithoutCityNestedInput
+  orgs?: Prisma.OrgUncheckedUpdateManyWithoutCityNestedInput
 }
 
 export type CityUncheckedUpdateManyWithoutCountryInput = {
@@ -509,10 +589,12 @@ export type CityUncheckedUpdateManyWithoutCountryInput = {
 
 export type CityCountOutputType = {
   alternateNames: number
+  orgs: number
 }
 
 export type CityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   alternateNames?: boolean | CityCountOutputTypeCountAlternateNamesArgs
+  orgs?: boolean | CityCountOutputTypeCountOrgsArgs
 }
 
 /**
@@ -532,6 +614,13 @@ export type CityCountOutputTypeCountAlternateNamesArgs<ExtArgs extends runtime.T
   where?: Prisma.AlternateNameWhereInput
 }
 
+/**
+ * CityCountOutputType without action
+ */
+export type CityCountOutputTypeCountOrgsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrgWhereInput
+}
+
 
 export type CitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   geonameId?: boolean
@@ -539,6 +628,7 @@ export type CitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   alternateNames?: boolean | Prisma.City$alternateNamesArgs<ExtArgs>
+  orgs?: boolean | Prisma.City$orgsArgs<ExtArgs>
   _count?: boolean | Prisma.CityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["city"]>
 
@@ -566,6 +656,7 @@ export type CityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type CityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   country?: boolean | Prisma.CountryDefaultArgs<ExtArgs>
   alternateNames?: boolean | Prisma.City$alternateNamesArgs<ExtArgs>
+  orgs?: boolean | Prisma.City$orgsArgs<ExtArgs>
   _count?: boolean | Prisma.CityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -580,6 +671,7 @@ export type $CityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     country: Prisma.$CountryPayload<ExtArgs>
     alternateNames: Prisma.$AlternateNamePayload<ExtArgs>[]
+    orgs: Prisma.$OrgPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     geonameId: number
@@ -981,6 +1073,7 @@ export interface Prisma__CityClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   country<T extends Prisma.CountryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CountryDefaultArgs<ExtArgs>>): Prisma.Prisma__CountryClient<runtime.Types.Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   alternateNames<T extends Prisma.City$alternateNamesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.City$alternateNamesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AlternateNamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orgs<T extends Prisma.City$orgsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.City$orgsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrgPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1430,6 +1523,30 @@ export type City$alternateNamesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.AlternateNameScalarFieldEnum | Prisma.AlternateNameScalarFieldEnum[]
+}
+
+/**
+ * City.orgs
+ */
+export type City$orgsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Org
+   */
+  select?: Prisma.OrgSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Org
+   */
+  omit?: Prisma.OrgOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrgInclude<ExtArgs> | null
+  where?: Prisma.OrgWhereInput
+  orderBy?: Prisma.OrgOrderByWithRelationInput | Prisma.OrgOrderByWithRelationInput[]
+  cursor?: Prisma.OrgWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrgScalarFieldEnum | Prisma.OrgScalarFieldEnum[]
 }
 
 /**

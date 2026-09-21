@@ -1,6 +1,6 @@
-import { Currency, Prisma } from '@pGen/client';
+import { Currency, OrgFormatMode, Prisma } from '@pGen/client';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -13,7 +13,6 @@ import {
 } from 'class-validator';
 import { ORG_AVATAR_SIZE } from '../org.contants';
 
-// dto/update-org.dto.ts
 export class UpdateOrgDto {
   @ApiProperty({
     description: 'Отображаемое имя организатора',
@@ -88,4 +87,39 @@ export class UpdateOrgDto {
   @IsString()
   @IsOptional()
   timezone!: string;
+
+  @ApiPropertyOptional({
+    enum: OrgFormatMode,
+    description: 'Режим проведения: HYBRID, ONLINE, OFFLINE',
+  })
+  @IsOptional()
+  @IsEnum(OrgFormatMode)
+  formatMode?: OrgFormatMode;
+
+  @ApiPropertyOptional({
+    description: 'geonameId страны',
+    example: 630336,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  countryId?: number;
+
+  @ApiPropertyOptional({
+    description: 'geonameId города (обязателен для HYBRID/OFFLINE)',
+    example: 625144,
+    nullable: true,
+  })
+  @IsOptional()
+  @Transform(({ value }) =>
+    value === '' || value === undefined
+      ? undefined
+      : value === null
+        ? null
+        : Number(value),
+  )
+  @IsInt()
+  @Min(1)
+  cityId?: number | null;
 }

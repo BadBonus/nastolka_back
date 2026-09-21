@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, Min, IsString } from 'class-validator';
-import { GameSystem } from '@pGen/client';
+import { IsEnum, IsInt, IsOptional, Min } from 'class-validator';
+import { GameSystem, OrgFormatMode } from '@pGen/client';
 import { BaseQueryDto } from '@/common/dto/base-query.dto';
 
 export enum OrgSortBy {
@@ -56,4 +56,27 @@ export class FindAllOrgsQueryDto extends BaseQueryDto {
   })
   @IsEnum(GameSystem, { each: true })
   preferredSystems?: GameSystem[];
+
+  @ApiPropertyOptional({
+    enum: OrgFormatMode,
+    description:
+      'ONLINE → ONLINE+HYBRID; OFFLINE → OFFLINE+HYBRID; без параметра — все',
+  })
+  @IsOptional()
+  @IsEnum(OrgFormatMode)
+  formatMode?: OrgFormatMode;
+
+  @ApiPropertyOptional({ description: 'geonameId страны', example: 630336 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  countryId?: number;
+
+  @ApiPropertyOptional({ description: 'geonameId города', example: 625144 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  cityId?: number;
 }

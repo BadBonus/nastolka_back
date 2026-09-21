@@ -7,6 +7,7 @@ import {
   EventStatus,
   Currency,
   EAccProviders,
+  OrgFormatMode,
 } from '../../src/shared/prisma/generated/enums';
 import { PrismaClient } from '../../src/shared/prisma/generated/client';
 import { fakerRU as faker } from '@faker-js/faker';
@@ -36,6 +37,17 @@ export async function seedMocks(prisma: PrismaClient) {
   await prisma.account.deleteMany({});
   await prisma.user.deleteMany({});
 
+  const country = await prisma.country.findFirst({
+    where: { isoCode: 'BY' },
+    include: { cities: { take: 20 } },
+  });
+
+  if (!country || country.cities.length === 0) {
+    throw new Error(
+      'Geo seed required before mock seed (country BY with cities)',
+    );
+  }
+
   const passwordHash = await argon2.hash('12341234');
   const createdOrgs: { id: string }[] = [];
 
@@ -44,6 +56,14 @@ export async function seedMocks(prisma: PrismaClient) {
       faker.internet.username() + Math.floor(Math.random() * 1000);
     const email = faker.internet.email({ firstName: nickname }).toLowerCase();
     const userSlug = createUniqueSlug(nickname);
+    const formatMode = getRandomEnum(OrgFormatMode);
+    const randomCity = faker.helpers.arrayElement(country.cities);
+    const cityId =
+      formatMode === OrgFormatMode.ONLINE
+        ? faker.datatype.boolean()
+          ? randomCity.geonameId
+          : null
+        : randomCity.geonameId;
 
     const user = await prisma.user.create({
       data: {
@@ -70,7 +90,9 @@ export async function seedMocks(prisma: PrismaClient) {
             description: faker.lorem.paragraph(),
             preferredSystems: getRandomEnums(GameSystem, 2),
             preferredGenres: getRandomEnums(GameGenres, 3),
-            preferredFormats: getRandomEnums(EventFormat, 1),
+            formatMode,
+            countryId: country.geonameId,
+            cityId,
           },
         },
       },

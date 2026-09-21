@@ -1,15 +1,21 @@
+enum OrgFormatMode {
+  HYBRID
+  ONLINE
+  OFFLINE
+}
+
 model Org {
   id          String   @id @default(uuid())
   userId      String   @unique @map("user_id")
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   slug        String   @unique @db.VarChar(256)
   nickname    String   @map("nickname")
   description String?
 
   costValue    Int?      @map("cost_value")
   costCurrency Currency? @map("cost_currency")
-  
+
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   avatar             String?             @map("avatar_url")
@@ -23,8 +29,16 @@ model Org {
 
   preferredSystems GameSystem[]  @map("preferred_systems")
   preferredGenres  GameGenres[]  @map("preferred_genres")
-  preferredFormats EventFormat[] @map("preferred_formats")
 
+  formatMode OrgFormatMode @default(HYBRID) @map("format_mode")
+  countryId  Int           @map("country_id")
+  country    Country       @relation(fields: [countryId], references: [geonameId])
+  cityId     Int?          @map("city_id")
+  city       City?         @relation(fields: [cityId], references: [geonameId])
+
+  @@index([countryId])
+  @@index([cityId])
+  @@index([formatMode])
   @@map("orgs")
 }
 

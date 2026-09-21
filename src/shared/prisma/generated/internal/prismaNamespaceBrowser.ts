@@ -195,7 +195,9 @@ export const OrgScalarFieldEnum = {
   isBanned: 'isBanned',
   preferredSystems: 'preferredSystems',
   preferredGenres: 'preferredGenres',
-  preferredFormats: 'preferredFormats'
+  formatMode: 'formatMode',
+  countryId: 'countryId',
+  cityId: 'cityId'
 } as const
 
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]

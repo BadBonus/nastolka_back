@@ -3,11 +3,12 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateOrgDtoReq } from './dto/create-org.dto';
 import { UpdateOrgDto } from './dto/update-org.dto';
-import { Prisma, Org } from '@pGen/client';
+import { Prisma, OrgFormatMode } from '@pGen/client';
 import { KindOfRate } from '@pGen/enums';
 import { UploadsService } from '@/common/modules/uploads/uploads.service';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
@@ -18,6 +19,29 @@ import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import { buildImagePath } from '@/utils/pathToImg';
 import { FindAllOrgsQueryDto, OrgSortBy } from './dto/find-all-orgs-query.dto';
 import { SortOrder } from '@common/dto';
+
+const orgGeoInclude = {
+  country: {
+    select: { geonameId: true, isoCode: true, name: true },
+  },
+  city: {
+    select: {
+      geonameId: true,
+      name: true,
+      alternateNames: {
+        where: { lang: 'ru' },
+        orderBy: [
+          { isPreferredName: 'desc' as const },
+          { name: 'asc' as const },
+        ],
+        take: 1,
+        select: { name: true },
+      },
+    },
+  },
+} satisfies Prisma.OrgInclude;
+
+type OrgWithGeo = Prisma.OrgGetPayload<{ include: typeof orgGeoInclude }>;
 
 @Injectable()
 export class OrgService {
@@ -47,8 +71,21 @@ export class OrgService {
       );
     }
 
+    const formatMode = dto.formatMode ?? OrgFormatMode.HYBRID;
+    const cityId = dto.cityId ?? null;
+
+    await this.assertOrgLocation({
+      formatMode,
+      countryId: dto.countryId,
+      cityId,
+    });
+
+    const { avatar: _avatar, formatMode: _fm, cityId: _cid, ...rest } = dto;
+
     const data: Prisma.OrgUncheckedCreateInput = {
-      ...dto,
+      ...rest,
+      formatMode,
+      cityId,
       slug: createUniqueSlug(dto.nickname),
       userId,
     };
@@ -58,7 +95,10 @@ export class OrgService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      const org = await tx.org.create({ data });
+      const org = await tx.org.create({
+        data,
+        include: orgGeoInclude,
+      });
 
       await tx.user.update({
         where: { id: userId },
@@ -69,7 +109,7 @@ export class OrgService {
         },
       });
 
-      return org;
+      return this.mapOrgResponse(org);
     });
   }
 
@@ -83,6 +123,9 @@ export class OrgService {
       maxCost,
       minEvents,
       preferredSystems,
+      formatMode,
+      countryId,
+      cityId,
       q,
     } = query;
 
@@ -99,10 +142,6 @@ export class OrgService {
       };
     }
 
-    // NOTE: kept the original semantics (null costValue is only included
-    // when *only* maxCost is supplied). This asymmetry looked intentional
-    // in the review but wasn't confirmed — flag with product before
-    // changing it, since it silently affects search results either way.
     if (minCost !== undefined || maxCost !== undefined) {
       if (minCost === undefined && maxCost !== undefined) {
         where.OR = [{ costValue: { lte: maxCost } }, { costValue: null }];
@@ -120,11 +159,23 @@ export class OrgService {
       };
     }
 
+    if (formatMode === OrgFormatMode.ONLINE) {
+      where.formatMode = { in: [OrgFormatMode.ONLINE, OrgFormatMode.HYBRID] };
+    } else if (formatMode === OrgFormatMode.OFFLINE) {
+      where.formatMode = { in: [OrgFormatMode.OFFLINE, OrgFormatMode.HYBRID] };
+    } else if (formatMode === OrgFormatMode.HYBRID) {
+      where.formatMode = OrgFormatMode.HYBRID;
+    }
+
+    if (countryId !== undefined) {
+      where.countryId = countryId;
+    }
+
+    if (cityId !== undefined) {
+      where.cityId = cityId;
+    }
+
     if (minEvents !== undefined) {
-      // NOTE: for large datasets this materializes every matching orgId
-      // client-side before the main query. Fine at current scale; if the
-      // orgs table grows significantly, move this into a single query
-      // (raw SQL HAVING, or a computed column) instead.
       const groupedEvents = await this.prisma.event.groupBy({
         by: ['orgId'],
         having: {
@@ -166,13 +217,14 @@ export class OrgService {
         skip,
         take: limit,
         orderBy,
+        include: orgGeoInclude,
       }),
       this.prisma.org.count({ where }),
     ]);
 
     const totalPages = Math.ceil(total / limit);
 
-    const meta: TPaginationMeta = {
+    const meta = {
       total,
       page,
       limit,
@@ -181,28 +233,17 @@ export class OrgService {
       hasPrev: page > 1,
     };
 
-    return { data: data.map((org) => this.withSignedAvatar(org)), meta };
+    return {
+      data: data.map((org) => this.mapOrgResponse(org)),
+      meta,
+    };
   }
 
   async findMe(userId: string) {
     const org = await this.prisma.org.findUnique({
       where: { userId },
-      select: {
-        id: true,
-        slug: true,
-        nickname: true,
-        description: true,
-        costValue: true,
-        costCurrency: true,
-        avatar: true,
-        timezone: true,
-        email: true,
-        isBanned: true,
-        preferredSystems: true,
-        preferredGenres: true,
-        preferredFormats: true,
-        gameHistory: true,
-        soclinks: true,
+      include: {
+        ...orgGeoInclude,
         reviews: true,
         events: true,
       },
@@ -212,13 +253,14 @@ export class OrgService {
       throw new NotFoundException('Профиль организатора не найден');
     }
 
-    return this.withSignedAvatar(org);
+    return this.mapOrgResponse(org);
   }
 
   async findOne(slug: string) {
     const org = await this.prisma.org.findUnique({
       where: { slug },
       include: {
+        ...orgGeoInclude,
         events: true,
         reviews: {
           select: {
@@ -247,13 +289,10 @@ export class OrgService {
       });
     });
 
-    // FIX: previously this spread the full org (reviews included) back
-    // into the response alongside ratingSummary. `reviews` is now
-    // explicitly excluded — only the aggregated ratings go out.
-    const { reviews, ...orgData } = org;
+    const { reviews: _reviews, ...orgData } = org;
 
     return {
-      ...this.withSignedAvatar(orgData),
+      ...this.mapOrgResponse(orgData),
       ratings: ratingSummary,
     };
   }
@@ -265,7 +304,32 @@ export class OrgService {
   ) {
     const org = await this.findOrgByUserIdOrThrow(userId);
 
-    const data: Prisma.OrgUpdateInput = { ...dto };
+    const formatMode = dto.formatMode ?? org.formatMode;
+    const countryId = dto.countryId ?? org.countryId;
+    const cityId =
+      dto.cityId !== undefined ? dto.cityId : org.cityId;
+
+    await this.assertOrgLocation({
+      formatMode,
+      countryId,
+      cityId,
+    });
+
+    const {
+      avatar: _avatar,
+      formatMode: _fm,
+      countryId: _co,
+      cityId: _ci,
+      ...rest
+    } = dto;
+
+    const data: Prisma.OrgUncheckedUpdateInput = {
+      ...rest,
+      ...(dto.formatMode !== undefined && { formatMode: dto.formatMode }),
+      ...(dto.countryId !== undefined && { countryId: dto.countryId }),
+      ...(dto.cityId !== undefined && { cityId: dto.cityId }),
+    };
+
     const previousAvatar = org.avatar;
 
     if (file?.buffer) {
@@ -275,6 +339,7 @@ export class OrgService {
     const updated = await this.prisma.org.update({
       where: { id: org.id },
       data,
+      include: orgGeoInclude,
     });
 
     if (file?.buffer && previousAvatar && previousAvatar !== updated.avatar) {
@@ -283,22 +348,12 @@ export class OrgService {
         .catch(() => undefined);
     }
 
-    return updated;
+    return this.mapOrgResponse(updated);
   }
 
   async deleteMe(userId: string) {
     const org = await this.findOrgByUserIdOrThrow(userId);
 
-    // FIX: the original method verified the org existed but never
-    // deleted anything and always returned `true`. This now actually
-    // removes the record.
-    //
-    // NOTE: if `events`/`reviews` don't cascade on delete in your Prisma
-    // schema, this will throw a foreign-key constraint error for any
-    // org with existing events/reviews. Decide whether that's the
-    // desired behavior (block deletion) or whether cascading / a
-    // soft-delete flag (e.g. `isDeleted`) is more appropriate — I didn't
-    // have the schema to confirm which.
     await this.prisma.$transaction(async (tx) => {
       await tx.org.delete({ where: { id: org.id } });
 
@@ -333,12 +388,74 @@ export class OrgService {
   // Private helpers
   // ---------------------------------------------------------------------
 
+  private async assertOrgLocation(params: {
+    formatMode: OrgFormatMode;
+    countryId: number;
+    cityId?: number | null;
+  }): Promise<void> {
+    const country = await this.prisma.country.findUnique({
+      where: { geonameId: params.countryId },
+      select: { geonameId: true },
+    });
+
+    if (!country) {
+      throw new NotFoundException('Страна не найдена');
+    }
+
+    const needsCity =
+      params.formatMode === OrgFormatMode.HYBRID ||
+      params.formatMode === OrgFormatMode.OFFLINE;
+
+    if (needsCity && params.cityId == null) {
+      throw new BadRequestException(
+        'Для HYBRID/OFFLINE необходимо указать город',
+      );
+    }
+
+    if (params.cityId != null) {
+      const city = await this.prisma.city.findUnique({
+        where: { geonameId: params.cityId },
+        select: { geonameId: true, countryId: true },
+      });
+
+      if (!city) {
+        throw new NotFoundException('Город не найден');
+      }
+
+      if (city.countryId !== params.countryId) {
+        throw new BadRequestException(
+          'Город не принадлежит указанной стране',
+        );
+      }
+    }
+  }
+
+  private mapOrgResponse<T extends OrgWithGeo>(org: T) {
+    const { country, city, countryId: _c, cityId: _ci, ...rest } = org;
+
+    return this.withSignedAvatar({
+      ...rest,
+      country: {
+        geonameId: country.geonameId,
+        isoCode: country.isoCode,
+        name: country.name,
+      },
+      city: city
+        ? {
+            geonameId: city.geonameId,
+            name: city.alternateNames[0]?.name ?? city.name,
+          }
+        : null,
+    });
+  }
+
   private async setBanned(id: string, isBanned: boolean) {
     await this.findOrgByIdOrThrow(id);
 
     return this.prisma.org.update({
       where: { id },
       data: { isBanned },
+      include: orgGeoInclude,
     });
   }
 

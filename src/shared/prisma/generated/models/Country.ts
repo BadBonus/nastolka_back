@@ -203,6 +203,7 @@ export type CountryWhereInput = {
   isoCode?: Prisma.StringFilter<"Country"> | string
   name?: Prisma.StringFilter<"Country"> | string
   cities?: Prisma.CityListRelationFilter
+  orgs?: Prisma.OrgListRelationFilter
 }
 
 export type CountryOrderByWithRelationInput = {
@@ -210,6 +211,7 @@ export type CountryOrderByWithRelationInput = {
   isoCode?: Prisma.SortOrder
   name?: Prisma.SortOrder
   cities?: Prisma.CityOrderByRelationAggregateInput
+  orgs?: Prisma.OrgOrderByRelationAggregateInput
 }
 
 export type CountryWhereUniqueInput = Prisma.AtLeast<{
@@ -220,6 +222,7 @@ export type CountryWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CountryWhereInput | Prisma.CountryWhereInput[]
   name?: Prisma.StringFilter<"Country"> | string
   cities?: Prisma.CityListRelationFilter
+  orgs?: Prisma.OrgListRelationFilter
 }, "geonameId" | "isoCode">
 
 export type CountryOrderByWithAggregationInput = {
@@ -247,6 +250,7 @@ export type CountryCreateInput = {
   isoCode: string
   name: string
   cities?: Prisma.CityCreateNestedManyWithoutCountryInput
+  orgs?: Prisma.OrgCreateNestedManyWithoutCountryInput
 }
 
 export type CountryUncheckedCreateInput = {
@@ -254,6 +258,7 @@ export type CountryUncheckedCreateInput = {
   isoCode: string
   name: string
   cities?: Prisma.CityUncheckedCreateNestedManyWithoutCountryInput
+  orgs?: Prisma.OrgUncheckedCreateNestedManyWithoutCountryInput
 }
 
 export type CountryUpdateInput = {
@@ -261,6 +266,7 @@ export type CountryUpdateInput = {
   isoCode?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cities?: Prisma.CityUpdateManyWithoutCountryNestedInput
+  orgs?: Prisma.OrgUpdateManyWithoutCountryNestedInput
 }
 
 export type CountryUncheckedUpdateInput = {
@@ -268,6 +274,7 @@ export type CountryUncheckedUpdateInput = {
   isoCode?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   cities?: Prisma.CityUncheckedUpdateManyWithoutCountryNestedInput
+  orgs?: Prisma.OrgUncheckedUpdateManyWithoutCountryNestedInput
 }
 
 export type CountryCreateManyInput = {
@@ -333,16 +340,32 @@ export type CountryUpdateOneRequiredWithoutCitiesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CountryUpdateToOneWithWhereWithoutCitiesInput, Prisma.CountryUpdateWithoutCitiesInput>, Prisma.CountryUncheckedUpdateWithoutCitiesInput>
 }
 
+export type CountryCreateNestedOneWithoutOrgsInput = {
+  create?: Prisma.XOR<Prisma.CountryCreateWithoutOrgsInput, Prisma.CountryUncheckedCreateWithoutOrgsInput>
+  connectOrCreate?: Prisma.CountryCreateOrConnectWithoutOrgsInput
+  connect?: Prisma.CountryWhereUniqueInput
+}
+
+export type CountryUpdateOneRequiredWithoutOrgsNestedInput = {
+  create?: Prisma.XOR<Prisma.CountryCreateWithoutOrgsInput, Prisma.CountryUncheckedCreateWithoutOrgsInput>
+  connectOrCreate?: Prisma.CountryCreateOrConnectWithoutOrgsInput
+  upsert?: Prisma.CountryUpsertWithoutOrgsInput
+  connect?: Prisma.CountryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CountryUpdateToOneWithWhereWithoutOrgsInput, Prisma.CountryUpdateWithoutOrgsInput>, Prisma.CountryUncheckedUpdateWithoutOrgsInput>
+}
+
 export type CountryCreateWithoutCitiesInput = {
   geonameId: number
   isoCode: string
   name: string
+  orgs?: Prisma.OrgCreateNestedManyWithoutCountryInput
 }
 
 export type CountryUncheckedCreateWithoutCitiesInput = {
   geonameId: number
   isoCode: string
   name: string
+  orgs?: Prisma.OrgUncheckedCreateNestedManyWithoutCountryInput
 }
 
 export type CountryCreateOrConnectWithoutCitiesInput = {
@@ -365,12 +388,58 @@ export type CountryUpdateWithoutCitiesInput = {
   geonameId?: Prisma.IntFieldUpdateOperationsInput | number
   isoCode?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  orgs?: Prisma.OrgUpdateManyWithoutCountryNestedInput
 }
 
 export type CountryUncheckedUpdateWithoutCitiesInput = {
   geonameId?: Prisma.IntFieldUpdateOperationsInput | number
   isoCode?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  orgs?: Prisma.OrgUncheckedUpdateManyWithoutCountryNestedInput
+}
+
+export type CountryCreateWithoutOrgsInput = {
+  geonameId: number
+  isoCode: string
+  name: string
+  cities?: Prisma.CityCreateNestedManyWithoutCountryInput
+}
+
+export type CountryUncheckedCreateWithoutOrgsInput = {
+  geonameId: number
+  isoCode: string
+  name: string
+  cities?: Prisma.CityUncheckedCreateNestedManyWithoutCountryInput
+}
+
+export type CountryCreateOrConnectWithoutOrgsInput = {
+  where: Prisma.CountryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CountryCreateWithoutOrgsInput, Prisma.CountryUncheckedCreateWithoutOrgsInput>
+}
+
+export type CountryUpsertWithoutOrgsInput = {
+  update: Prisma.XOR<Prisma.CountryUpdateWithoutOrgsInput, Prisma.CountryUncheckedUpdateWithoutOrgsInput>
+  create: Prisma.XOR<Prisma.CountryCreateWithoutOrgsInput, Prisma.CountryUncheckedCreateWithoutOrgsInput>
+  where?: Prisma.CountryWhereInput
+}
+
+export type CountryUpdateToOneWithWhereWithoutOrgsInput = {
+  where?: Prisma.CountryWhereInput
+  data: Prisma.XOR<Prisma.CountryUpdateWithoutOrgsInput, Prisma.CountryUncheckedUpdateWithoutOrgsInput>
+}
+
+export type CountryUpdateWithoutOrgsInput = {
+  geonameId?: Prisma.IntFieldUpdateOperationsInput | number
+  isoCode?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  cities?: Prisma.CityUpdateManyWithoutCountryNestedInput
+}
+
+export type CountryUncheckedUpdateWithoutOrgsInput = {
+  geonameId?: Prisma.IntFieldUpdateOperationsInput | number
+  isoCode?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  cities?: Prisma.CityUncheckedUpdateManyWithoutCountryNestedInput
 }
 
 
@@ -380,10 +449,12 @@ export type CountryUncheckedUpdateWithoutCitiesInput = {
 
 export type CountryCountOutputType = {
   cities: number
+  orgs: number
 }
 
 export type CountryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | CountryCountOutputTypeCountCitiesArgs
+  orgs?: boolean | CountryCountOutputTypeCountOrgsArgs
 }
 
 /**
@@ -403,12 +474,20 @@ export type CountryCountOutputTypeCountCitiesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.CityWhereInput
 }
 
+/**
+ * CountryCountOutputType without action
+ */
+export type CountryCountOutputTypeCountOrgsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrgWhereInput
+}
+
 
 export type CountrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   geonameId?: boolean
   isoCode?: boolean
   name?: boolean
   cities?: boolean | Prisma.Country$citiesArgs<ExtArgs>
+  orgs?: boolean | Prisma.Country$orgsArgs<ExtArgs>
   _count?: boolean | Prisma.CountryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["country"]>
 
@@ -433,6 +512,7 @@ export type CountrySelectScalar = {
 export type CountryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"geonameId" | "isoCode" | "name", ExtArgs["result"]["country"]>
 export type CountryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cities?: boolean | Prisma.Country$citiesArgs<ExtArgs>
+  orgs?: boolean | Prisma.Country$orgsArgs<ExtArgs>
   _count?: boolean | Prisma.CountryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CountryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -442,6 +522,7 @@ export type $CountryPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Country"
   objects: {
     cities: Prisma.$CityPayload<ExtArgs>[]
+    orgs: Prisma.$OrgPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     geonameId: number
@@ -842,6 +923,7 @@ readonly fields: CountryFieldRefs;
 export interface Prisma__CountryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cities<T extends Prisma.Country$citiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Country$citiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orgs<T extends Prisma.Country$orgsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Country$orgsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrgPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1283,6 +1365,30 @@ export type Country$citiesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.CityScalarFieldEnum | Prisma.CityScalarFieldEnum[]
+}
+
+/**
+ * Country.orgs
+ */
+export type Country$orgsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Org
+   */
+  select?: Prisma.OrgSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Org
+   */
+  omit?: Prisma.OrgOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrgInclude<ExtArgs> | null
+  where?: Prisma.OrgWhereInput
+  orderBy?: Prisma.OrgOrderByWithRelationInput | Prisma.OrgOrderByWithRelationInput[]
+  cursor?: Prisma.OrgWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrgScalarFieldEnum | Prisma.OrgScalarFieldEnum[]
 }
 
 /**

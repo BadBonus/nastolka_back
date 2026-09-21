@@ -1,19 +1,34 @@
-import type { OrgModel } from '@/shared/prisma/generated/models';
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   Currency,
-  EventFormat,
   EventReview,
   GameGenres,
   GameSystem,
+  OrgFormatMode,
 } from '@pGen/client';
 
+export class OrgCountryDto {
+  @ApiProperty({ example: 630336 })
+  geonameId!: number;
+
+  @ApiProperty({ example: 'BY' })
+  isoCode!: string;
+
+  @ApiProperty({ example: 'Беларусь' })
+  name!: string;
+}
+
+export class OrgCityDto {
+  @ApiProperty({ example: 625144 })
+  geonameId!: number;
+
+  @ApiProperty({ example: 'Минск' })
+  name!: string;
+}
+
 @Exclude()
-export class OrgListResponseDto implements Omit<
-  OrgModel,
-  'userId' | 'createdAt' | 'updatedAt'
-> {
+export class OrgListResponseDto {
   @ApiProperty()
   @Expose()
   id!: string;
@@ -70,9 +85,19 @@ export class OrgListResponseDto implements Omit<
   @Expose()
   preferredGenres!: GameGenres[];
 
-  @ApiProperty({ enum: EventFormat, isArray: true })
+  @ApiProperty({ enum: OrgFormatMode, example: OrgFormatMode.HYBRID })
   @Expose()
-  preferredFormats!: EventFormat[];
+  formatMode!: OrgFormatMode;
+
+  @ApiProperty({ type: OrgCountryDto })
+  @Expose()
+  @Type(() => OrgCountryDto)
+  country!: OrgCountryDto;
+
+  @ApiPropertyOptional({ type: OrgCityDto, nullable: true })
+  @Expose()
+  @Type(() => OrgCityDto)
+  city!: OrgCityDto | null;
 }
 
 export class OrgMeResponseDto extends OrgListResponseDto {
