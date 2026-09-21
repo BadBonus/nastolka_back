@@ -16,11 +16,8 @@ import { createUniqueSlug } from '@/common/utils/createUniqueSlug';
 import { ERole } from '@/common/enums/roles.enum';
 import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import { buildImagePath } from '@/utils/pathToImg';
-import {
-  FindAllOrgsQueryDto,
-  OrgSortBy,
-  SortOrder,
-} from './dto/findAllOrgsQueryDto';
+import { FindAllOrgsQueryDto, OrgSortBy } from './dto/find-all-orgs-query.dto';
+import { SortOrder } from '@common/dto';
 
 @Injectable()
 export class OrgService {
@@ -280,15 +277,10 @@ export class OrgService {
       data,
     });
 
-    // Clean up the old avatar only after the update succeeds, and only
-    // if it was actually replaced.
     if (file?.buffer && previousAvatar && previousAvatar !== updated.avatar) {
-      // ASSUMPTION: UploadsService exposes a deletion method mirroring
-      // saveToDisk. Rename this call to match your actual API if it
-      // differs (e.g. `remove`, `deleteFile`, `unlink`).
       await this.uploadsService
         .deleteFromDisk(previousAvatar, PATH_UPLOADED_AVATARS)
-        .catch(() => undefined); // best-effort cleanup, don't fail the request
+        .catch(() => undefined);
     }
 
     return updated;

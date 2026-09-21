@@ -39,7 +39,7 @@ import { PaginatedOrgsResponseDto } from './dto/paginated-orgs-response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe, ImageDimensionsPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from '@/profile/profile.constants';
-import { FindAllOrgsQueryDto } from './dto/findAllOrgsQueryDto';
+import { FindAllOrgsQueryDto } from './dto/find-all-orgs-query.dto';
 
 @ApiTags('Org')
 @Controller('org')
