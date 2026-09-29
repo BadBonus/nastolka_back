@@ -1,0 +1,16 @@
+---
+description: Соглашения кодовой базы Nastolka backend
+alwaysApply: true
+---
+
+# Соглашения проекта
+
+- Фича — папка `src/<feature>/` с `*.module.ts`, `*.controller.ts`, `*.service.ts` и `dto/`.
+- Импорты между модулями через алиасы: `@/`, `@pGen/*`, `@common/*`, `@shared/*`. Внутри модуля относительные импорты допустимы.
+- Prisma-клиент только из `@pGen/client` и `@pGen/enums`. `src/shared/prisma/generated` не править вручную. Схема — в `prisma/schema/`.
+- DTO: `class-validator` + `ApiProperty` / `ApiPropertyOptional`, поля с `!`. Описания Swagger и сообщения `HttpException` — на русском.
+- Ответы через `ClassSerializerInterceptor`: класс с `@Exclude()`, поля с `@Expose()`.
+- Списки: query расширяет `BaseQueryDto`, ответ — `{ data, meta: PaginationMetaDto }`.
+- Глобальный `ValidationPipe` (`whitelist`, `forbidNonWhitelisted`, `transform`) уже в `src/main.ts` — в контроллерах его не дублировать.
+- Prettier: одинарные кавычки, trailing comma.
+- Именование файлов DTO — в правиле dto-files. Имена классов не унифицировать: `CreateOrgDtoReq`, `UpdateOrgDto` и `FindAllOrgsQueryDto` допустимы рядом.

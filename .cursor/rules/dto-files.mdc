@@ -1,0 +1,26 @@
+---
+description: Именование файлов DTO — входящие *.query.dto.ts, ответы *.response.dto.ts
+globs: src/**/dto/**/*.ts
+alwaysApply: false
+---
+
+# Файлы DTO
+
+Точка перед ролью файла, не дефис: `paginated-orgs.response.dto.ts`, не `paginated-orgs-response.dto.ts`.
+
+- Входящий DTO (тело запроса или query-параметры) — `название.query.dto.ts`.
+- Исходящее тело — `название.response.dto.ts`.
+
+DTO создаётся только если у запроса есть вход или у ответа есть тело:
+
+- Нет входных полей — файла `*.query.dto.ts` нет. Пример: `GET org/me`, `DELETE org/me`.
+- Нет тела ответа — файла `*.response.dto.ts` нет.
+- Есть только вход, только выход или оба — ровно те файлы, которые нужны.
+
+Примеры из `org`:
+
+- `create-org.query.dto.ts`, `update-org.query.dto.ts` — тело.
+- `find-all-orgs.query.dto.ts` — query-параметры.
+- `org-me.response.dto.ts`, `paginated-orgs.response.dto.ts` — ответ. Соседние классы ответа (`OrgListResponseDto`, `OrgCountryDto`) можно держать в том же response-файле.
+
+Новые DTO в любом модуле сразу называть по этой схеме. Старые файлы вроде `create-event.dto.ts` и `paginated-events-response.dto.ts` не переименовывать, пока не будет отдельной задачи.
