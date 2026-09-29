@@ -382,7 +382,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -939,6 +946,42 @@
                 ]
               }
             }
+          },
+          {
+            "name": "formatMode",
+            "required": false,
+            "in": "query",
+            "description": "ONLINE → ONLINE+HYBRID; OFFLINE → OFFLINE+HYBRID; без параметра — все",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HYBRID",
+                "ONLINE",
+                "OFFLINE"
+              ]
+            }
+          },
+          {
+            "name": "countryId",
+            "required": false,
+            "in": "query",
+            "description": "geonameId страны",
+            "schema": {
+              "minimum": 1,
+              "example": 630336,
+              "type": "number"
+            }
+          },
+          {
+            "name": "cityId",
+            "required": false,
+            "in": "query",
+            "description": "geonameId города",
+            "schema": {
+              "minimum": 1,
+              "example": 625144,
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -1003,7 +1046,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -2370,11 +2420,74 @@
           "timezone": {
             "type": "string",
             "example": "UTC"
+          },
+          "formatMode": {
+            "type": "string",
+            "enum": [
+              "HYBRID",
+              "ONLINE",
+              "OFFLINE"
+            ],
+            "default": "HYBRID",
+            "description": "Режим проведения: HYBRID (по умолчанию), ONLINE, OFFLINE"
+          },
+          "countryId": {
+            "type": "number",
+            "minimum": 1,
+            "description": "geonameId страны",
+            "example": 630336
+          },
+          "cityId": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "description": "geonameId города (обязателен для HYBRID/OFFLINE)",
+            "example": 625144
           }
         },
         "required": [
           "nickname",
-          "email"
+          "email",
+          "countryId"
+        ]
+      },
+      "OrgCountryDto": {
+        "type": "object",
+        "properties": {
+          "geonameId": {
+            "type": "number",
+            "example": 630336
+          },
+          "isoCode": {
+            "type": "string",
+            "example": "BY"
+          },
+          "name": {
+            "type": "string",
+            "example": "Беларусь"
+          }
+        },
+        "required": [
+          "geonameId",
+          "isoCode",
+          "name"
+        ]
+      },
+      "OrgCityDto": {
+        "type": "object",
+        "properties": {
+          "geonameId": {
+            "type": "number",
+            "example": 625144
+          },
+          "name": {
+            "type": "string",
+            "example": "Минск"
+          }
+        },
+        "required": [
+          "geonameId",
+          "name"
         ]
       },
       "OrgListResponseDto": {
@@ -2390,7 +2503,7 @@
             "type": "string",
             "example": "GameMaster"
           },
-          "description": {
+          "previewDescr": {
             "type": "string",
             "nullable": true
           },
@@ -2417,20 +2530,6 @@
             "type": "string",
             "nullable": true,
             "example": "UTC"
-          },
-          "soclinks": {
-            "type": "object",
-            "nullable": true
-          },
-          "gameHistory": {
-            "type": "object"
-          },
-          "email": {
-            "type": "string",
-            "example": "org@example.com"
-          },
-          "isBanned": {
-            "type": "boolean"
           },
           "preferredSystems": {
             "type": "array",
@@ -2882,43 +2981,34 @@
               ]
             }
           },
-          "preferredGenres": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "FANTASY",
-                "HORROR",
-                "SCIFI",
-                "POSTAPOCALYPTIC",
-                "MODERN",
-                "HISTORICAL",
-                "CYBERPUNK",
-                "OTHER"
-              ]
-            }
+          "formatMode": {
+            "type": "string",
+            "enum": [
+              "HYBRID",
+              "ONLINE",
+              "OFFLINE"
+            ],
+            "example": "HYBRID"
           },
-          "preferredFormats": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "ONLINE",
-                "OFFLINE"
-              ]
-            }
+          "country": {
+            "$ref": "#/components/schemas/OrgCountryDto"
+          },
+          "city": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrgCityDto"
+              }
+            ]
           }
         },
         "required": [
           "id",
           "slug",
           "nickname",
-          "gameHistory",
-          "email",
-          "isBanned",
           "preferredSystems",
-          "preferredGenres",
-          "preferredFormats"
+          "formatMode",
+          "country"
         ]
       },
       "PaginationMetaDto": {
@@ -2987,6 +3077,14 @@
             "type": "string",
             "nullable": true
           },
+          "previewDescr": {
+            "type": "string",
+            "nullable": true
+          },
+          "gameStyleDescr": {
+            "type": "string",
+            "nullable": true
+          },
           "costValue": {
             "type": "number",
             "nullable": true,
@@ -3491,15 +3589,25 @@
               ]
             }
           },
-          "preferredFormats": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "ONLINE",
-                "OFFLINE"
-              ]
-            }
+          "formatMode": {
+            "type": "string",
+            "enum": [
+              "HYBRID",
+              "ONLINE",
+              "OFFLINE"
+            ],
+            "example": "HYBRID"
+          },
+          "country": {
+            "$ref": "#/components/schemas/OrgCountryDto"
+          },
+          "city": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrgCityDto"
+              }
+            ]
           },
           "reviews": {
             "type": "array",
@@ -3517,7 +3625,8 @@
           "isBanned",
           "preferredSystems",
           "preferredGenres",
-          "preferredFormats",
+          "formatMode",
+          "country",
           "reviews"
         ]
       },
@@ -3571,6 +3680,28 @@
           "timezone": {
             "type": "string",
             "example": "UTC"
+          },
+          "formatMode": {
+            "type": "string",
+            "enum": [
+              "HYBRID",
+              "ONLINE",
+              "OFFLINE"
+            ],
+            "description": "Режим проведения: HYBRID, ONLINE, OFFLINE"
+          },
+          "countryId": {
+            "type": "number",
+            "minimum": 1,
+            "description": "geonameId страны",
+            "example": 630336
+          },
+          "cityId": {
+            "type": "number",
+            "nullable": true,
+            "minimum": 1,
+            "description": "geonameId города (обязателен для HYBRID/OFFLINE)",
+            "example": 625144
           }
         },
         "required": [

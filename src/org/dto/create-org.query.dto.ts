@@ -11,7 +11,7 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { ORG_AVATAR_SIZE } from './../org.contants';
+import { ORG_AVATAR_SIZE } from '../org.contants';
 
 type CreateOrgFields = Pick<
   Org,

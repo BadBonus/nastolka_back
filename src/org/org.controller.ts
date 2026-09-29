@@ -15,8 +15,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { OrgService } from './org.service';
-import { CreateOrgDtoReq } from './dto/create-org.dto';
-import { UpdateOrgDto } from './dto/update-org.dto';
+import { CreateOrgDtoReq } from './dto/create-org.query.dto';
+import { UpdateOrgDto } from './dto/update-org.query.dto';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
 // import { PermissionsGuard } from '@/common/guards/permissions.guard';
 // import { RequirePermissions } from '@/common/decorators/require-permissions.decorator';
@@ -35,11 +35,11 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { OrgMeResponseDto } from './dto/org-me.response.dto';
-import { PaginatedOrgsResponseDto } from './dto/paginated-orgs-response.dto';
+import { PaginatedOrgsResponseDto } from './dto/paginated-orgs.response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe, ImageDimensionsPipe } from '@/common/pipes';
 import { PROFILE_AVATAR_SIZE } from '@/profile/profile.constants';
-import { FindAllOrgsQueryDto } from './dto/find-all-orgs-query.dto';
+import { FindAllOrgsQueryDto } from './dto/find-all-orgs.query.dto';
 
 @ApiTags('Org')
 @Controller('org')

@@ -6,8 +6,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
-import { CreateOrgDtoReq } from './dto/create-org.dto';
-import { UpdateOrgDto } from './dto/update-org.dto';
+import { CreateOrgDtoReq } from './dto/create-org.query.dto';
+import { UpdateOrgDto } from './dto/update-org.query.dto';
 import { Prisma, OrgFormatMode } from '@pGen/client';
 import { KindOfRate } from '@pGen/enums';
 import { UploadsService } from '@/common/modules/uploads/uploads.service';
@@ -17,7 +17,7 @@ import { createUniqueSlug } from '@/common/utils/createUniqueSlug';
 import { ERole } from '@/common/enums/roles.enum';
 import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import { buildImagePath } from '@/utils/pathToImg';
-import { FindAllOrgsQueryDto, OrgSortBy } from './dto/find-all-orgs-query.dto';
+import { FindAllOrgsQueryDto, OrgSortBy } from './dto/find-all-orgs.query.dto';
 import { SortOrder } from '@common/dto';
 
 const orgGeoInclude = {
@@ -306,8 +306,7 @@ export class OrgService {
 
     const formatMode = dto.formatMode ?? org.formatMode;
     const countryId = dto.countryId ?? org.countryId;
-    const cityId =
-      dto.cityId !== undefined ? dto.cityId : org.cityId;
+    const cityId = dto.cityId !== undefined ? dto.cityId : org.cityId;
 
     await this.assertOrgLocation({
       formatMode,
@@ -423,9 +422,7 @@ export class OrgService {
       }
 
       if (city.countryId !== params.countryId) {
-        throw new BadRequestException(
-          'Город не принадлежит указанной стране',
-        );
+        throw new BadRequestException('Город не принадлежит указанной стране');
       }
     }
   }
