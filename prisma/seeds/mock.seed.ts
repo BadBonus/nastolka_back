@@ -88,6 +88,8 @@ export async function seedMocks(prisma: PrismaClient) {
             email: `org_${email}`,
             slug: createUniqueSlug(`org-${nickname}`),
             description: faker.lorem.paragraph(),
+            previewDescr: faker.lorem.sentence(),
+            gameStyleDescr: faker.lorem.paragraph(),
             preferredSystems: getRandomEnums(GameSystem, 2),
             preferredGenres: getRandomEnums(GameGenres, 3),
             formatMode,

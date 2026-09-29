@@ -12,6 +12,8 @@ model Org {
   slug        String   @unique @db.VarChar(256)
   nickname    String   @map("nickname")
   description String?
+  previewDescr   String?  @map("preview_descr")
+  gameStyleDescr String?  @map("game_style_descr")
 
   costValue    Int?      @map("cost_value")
   costCurrency Currency? @map("cost_currency")

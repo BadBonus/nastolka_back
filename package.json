@@ -24,7 +24,8 @@
     "prisma:generate": "prisma generate",
     "imgproxy:generate-presets": "node scripts/generate-presets.ts",
     "extract": "node scripts/extract.mjs",
-    "openapi:generate": "start-server-and-test start http://localhost:4000/api/docs-json extract"
+    "openapi:generate": "start-server-and-test start http://localhost:4000/api/docs-json extract",
+    "prisma:migrate-dev": "npx prisma migrate dev"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",

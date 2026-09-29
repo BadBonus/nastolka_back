@@ -234,7 +234,7 @@ export class OrgService {
     };
 
     return {
-      data: data.map((org) => this.mapOrgResponse(org)),
+      data: data.map((org) => this.mapOrgListResponse(org)),
       meta,
     };
   }
@@ -447,6 +447,25 @@ export class OrgService {
           }
         : null,
     });
+  }
+
+  private mapOrgListResponse<T extends OrgWithGeo>(org: T) {
+    const mapped = this.mapOrgResponse(org);
+
+    return {
+      id: mapped.id,
+      slug: mapped.slug,
+      nickname: mapped.nickname,
+      previewDescr: mapped.previewDescr,
+      costValue: mapped.costValue,
+      costCurrency: mapped.costCurrency,
+      avatar: mapped.avatar,
+      timezone: mapped.timezone,
+      preferredSystems: mapped.preferredSystems,
+      formatMode: mapped.formatMode,
+      country: mapped.country,
+      city: mapped.city,
+    };
   }
 
   private async setBanned(id: string, isBanned: boolean) {

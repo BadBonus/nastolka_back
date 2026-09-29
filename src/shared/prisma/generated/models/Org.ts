@@ -46,6 +46,8 @@ export type OrgMinAggregateOutputType = {
   slug: string | null
   nickname: string | null
   description: string | null
+  previewDescr: string | null
+  gameStyleDescr: string | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
   createdAt: Date | null
@@ -65,6 +67,8 @@ export type OrgMaxAggregateOutputType = {
   slug: string | null
   nickname: string | null
   description: string | null
+  previewDescr: string | null
+  gameStyleDescr: string | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
   createdAt: Date | null
@@ -84,6 +88,8 @@ export type OrgCountAggregateOutputType = {
   slug: number
   nickname: number
   description: number
+  previewDescr: number
+  gameStyleDescr: number
   costValue: number
   costCurrency: number
   createdAt: number
@@ -121,6 +127,8 @@ export type OrgMinAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
+  previewDescr?: true
+  gameStyleDescr?: true
   costValue?: true
   costCurrency?: true
   createdAt?: true
@@ -140,6 +148,8 @@ export type OrgMaxAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
+  previewDescr?: true
+  gameStyleDescr?: true
   costValue?: true
   costCurrency?: true
   createdAt?: true
@@ -159,6 +169,8 @@ export type OrgCountAggregateInputType = {
   slug?: true
   nickname?: true
   description?: true
+  previewDescr?: true
+  gameStyleDescr?: true
   costValue?: true
   costCurrency?: true
   createdAt?: true
@@ -269,6 +281,8 @@ export type OrgGroupByOutputType = {
   slug: string
   nickname: string
   description: string | null
+  previewDescr: string | null
+  gameStyleDescr: string | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
   createdAt: Date
@@ -315,6 +329,8 @@ export type OrgWhereInput = {
   slug?: Prisma.StringFilter<"Org"> | string
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
+  previewDescr?: Prisma.StringNullableFilter<"Org"> | string | null
+  gameStyleDescr?: Prisma.StringNullableFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
@@ -343,6 +359,8 @@ export type OrgOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  previewDescr?: Prisma.SortOrderInput | Prisma.SortOrder
+  gameStyleDescr?: Prisma.SortOrderInput | Prisma.SortOrder
   costValue?: Prisma.SortOrderInput | Prisma.SortOrder
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -375,6 +393,8 @@ export type OrgWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OrgWhereInput | Prisma.OrgWhereInput[]
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
+  previewDescr?: Prisma.StringNullableFilter<"Org"> | string | null
+  gameStyleDescr?: Prisma.StringNullableFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
@@ -402,6 +422,8 @@ export type OrgOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  previewDescr?: Prisma.SortOrderInput | Prisma.SortOrder
+  gameStyleDescr?: Prisma.SortOrderInput | Prisma.SortOrder
   costValue?: Prisma.SortOrderInput | Prisma.SortOrder
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -433,6 +455,8 @@ export type OrgScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Org"> | string
   nickname?: Prisma.StringWithAggregatesFilter<"Org"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
+  previewDescr?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
+  gameStyleDescr?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableWithAggregatesFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableWithAggregatesFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
@@ -455,6 +479,8 @@ export type OrgCreateInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -481,6 +507,8 @@ export type OrgUncheckedCreateInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -505,6 +533,8 @@ export type OrgUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -531,6 +561,8 @@ export type OrgUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -556,6 +588,8 @@ export type OrgCreateManyInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -578,6 +612,8 @@ export type OrgUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -599,6 +635,8 @@ export type OrgUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -645,6 +683,8 @@ export type OrgCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  previewDescr?: Prisma.SortOrder
+  gameStyleDescr?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -674,6 +714,8 @@ export type OrgMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  previewDescr?: Prisma.SortOrder
+  gameStyleDescr?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -693,6 +735,8 @@ export type OrgMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   nickname?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  previewDescr?: Prisma.SortOrder
+  gameStyleDescr?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -888,6 +932,8 @@ export type OrgCreateWithoutEventsInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -913,6 +959,8 @@ export type OrgUncheckedCreateWithoutEventsInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -952,6 +1000,8 @@ export type OrgUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -977,6 +1027,8 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1000,6 +1052,8 @@ export type OrgCreateWithoutCountryInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1025,6 +1079,8 @@ export type OrgUncheckedCreateWithoutCountryInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1078,6 +1134,8 @@ export type OrgScalarWhereInput = {
   slug?: Prisma.StringFilter<"Org"> | string
   nickname?: Prisma.StringFilter<"Org"> | string
   description?: Prisma.StringNullableFilter<"Org"> | string | null
+  previewDescr?: Prisma.StringNullableFilter<"Org"> | string | null
+  gameStyleDescr?: Prisma.StringNullableFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
@@ -1100,6 +1158,8 @@ export type OrgCreateWithoutCityInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1125,6 +1185,8 @@ export type OrgUncheckedCreateWithoutCityInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1174,6 +1236,8 @@ export type OrgCreateWithoutReviewsInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1199,6 +1263,8 @@ export type OrgUncheckedCreateWithoutReviewsInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1238,6 +1304,8 @@ export type OrgUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1263,6 +1331,8 @@ export type OrgUncheckedUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1286,6 +1356,8 @@ export type OrgCreateWithoutUserInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1310,6 +1382,8 @@ export type OrgUncheckedCreateWithoutUserInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1350,6 +1424,8 @@ export type OrgUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1374,6 +1450,8 @@ export type OrgUncheckedUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1399,6 +1477,8 @@ export type OrgCreateManyCountryInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1420,6 +1500,8 @@ export type OrgUpdateWithoutCountryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1445,6 +1527,8 @@ export type OrgUncheckedUpdateWithoutCountryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1469,6 +1553,8 @@ export type OrgUncheckedUpdateManyWithoutCountryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1491,6 +1577,8 @@ export type OrgCreateManyCityInput = {
   slug: string
   nickname: string
   description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
   createdAt?: Date | string
@@ -1512,6 +1600,8 @@ export type OrgUpdateWithoutCityInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1537,6 +1627,8 @@ export type OrgUncheckedUpdateWithoutCityInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1561,6 +1653,8 @@ export type OrgUncheckedUpdateManyWithoutCityInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   nickname?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1623,6 +1717,8 @@ export type OrgSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  previewDescr?: boolean
+  gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
   createdAt?: boolean
@@ -1652,6 +1748,8 @@ export type OrgSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  previewDescr?: boolean
+  gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
   createdAt?: boolean
@@ -1678,6 +1776,8 @@ export type OrgSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  previewDescr?: boolean
+  gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
   createdAt?: boolean
@@ -1704,6 +1804,8 @@ export type OrgSelectScalar = {
   slug?: boolean
   nickname?: boolean
   description?: boolean
+  previewDescr?: boolean
+  gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
   createdAt?: boolean
@@ -1721,7 +1823,7 @@ export type OrgSelectScalar = {
   cityId?: boolean
 }
 
-export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "costValue" | "costCurrency" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "formatMode" | "countryId" | "cityId", ExtArgs["result"]["org"]>
+export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "previewDescr" | "gameStyleDescr" | "costValue" | "costCurrency" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "formatMode" | "countryId" | "cityId", ExtArgs["result"]["org"]>
 export type OrgInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
@@ -1756,6 +1858,8 @@ export type $OrgPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     slug: string
     nickname: string
     description: string | null
+    previewDescr: string | null
+    gameStyleDescr: string | null
     costValue: number | null
     costCurrency: $Enums.Currency | null
     createdAt: Date
@@ -2204,6 +2308,8 @@ export interface OrgFieldRefs {
   readonly slug: Prisma.FieldRef<"Org", 'String'>
   readonly nickname: Prisma.FieldRef<"Org", 'String'>
   readonly description: Prisma.FieldRef<"Org", 'String'>
+  readonly previewDescr: Prisma.FieldRef<"Org", 'String'>
+  readonly gameStyleDescr: Prisma.FieldRef<"Org", 'String'>
   readonly costValue: Prisma.FieldRef<"Org", 'Int'>
   readonly costCurrency: Prisma.FieldRef<"Org", 'Currency'>
   readonly createdAt: Prisma.FieldRef<"Org", 'DateTime'>

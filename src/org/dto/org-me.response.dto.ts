@@ -43,7 +43,68 @@ export class OrgListResponseDto {
 
   @ApiPropertyOptional({ nullable: true })
   @Expose()
+  previewDescr!: string | null;
+
+  @ApiPropertyOptional({ nullable: true, example: 1500 })
+  @Expose()
+  costValue!: number | null;
+
+  @ApiPropertyOptional({ enum: Currency, nullable: true })
+  @Expose()
+  costCurrency!: Currency | null;
+
+  @ApiPropertyOptional({ nullable: true, type: String })
+  @Expose()
+  avatar!: string | null;
+
+  @ApiPropertyOptional({ example: 'UTC', nullable: true })
+  @Expose()
+  timezone!: string | null;
+
+  @ApiProperty({ enum: GameSystem, isArray: true })
+  @Expose()
+  preferredSystems!: GameSystem[];
+
+  @ApiProperty({ enum: OrgFormatMode, example: OrgFormatMode.HYBRID })
+  @Expose()
+  formatMode!: OrgFormatMode;
+
+  @ApiProperty({ type: OrgCountryDto })
+  @Expose()
+  @Type(() => OrgCountryDto)
+  country!: OrgCountryDto;
+
+  @ApiPropertyOptional({ type: OrgCityDto, nullable: true })
+  @Expose()
+  @Type(() => OrgCityDto)
+  city!: OrgCityDto | null;
+}
+
+@Exclude()
+export class OrgMeResponseDto {
+  @ApiProperty()
+  @Expose()
+  id!: string;
+
+  @ApiProperty()
+  @Expose()
+  slug!: string;
+
+  @ApiProperty({ example: 'GameMaster' })
+  @Expose()
+  nickname!: string;
+
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
   description!: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  previewDescr!: string | null;
+
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  gameStyleDescr!: string | null;
 
   @ApiPropertyOptional({ nullable: true, example: 1500 })
   @Expose()
@@ -98,9 +159,7 @@ export class OrgListResponseDto {
   @Expose()
   @Type(() => OrgCityDto)
   city!: OrgCityDto | null;
-}
 
-export class OrgMeResponseDto extends OrgListResponseDto {
   @ApiProperty()
   @Expose()
   reviews!: EventReview[];
