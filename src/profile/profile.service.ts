@@ -6,10 +6,10 @@ import {
   // BadRequestException,
   // NotFoundException,
 } from '@nestjs/common';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.query.dto';
 import { PrismaService } from '@/prisma/prisma.service';
 import { UploadsService } from '@/common/modules/uploads/uploads.service';
-import { CreateProfileDto } from './dto/create-profile.dto';
+import { CreateProfileDto } from './dto/create-profile.query.dto';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
 import { buildImagePath } from '@/utils/pathToImg';
 import { PATH_UPLOADED_AVATARS } from './profile.constants';

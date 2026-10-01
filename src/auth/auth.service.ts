@@ -16,7 +16,7 @@ import {
   LoginDto,
   VerifyEmailDto,
   ResetPasswordDto,
-} from './dto/auth.dto';
+} from './dto/auth.query.dto';
 import { Prisma } from '@pGen/client';
 import type { User } from '@pGenTypes';
 import type { TUser } from '@shared/types';

@@ -23,4 +23,4 @@ DTO создаётся только если у запроса есть вход
 - `find-all-orgs.query.dto.ts` — query-параметры.
 - `org-me.response.dto.ts`, `paginated-orgs.response.dto.ts` — ответ. Соседние классы ответа (`OrgListResponseDto`, `OrgCountryDto`) можно держать в том же response-файле.
 
-Новые DTO в любом модуле сразу называть по этой схеме. Старые файлы вроде `create-event.dto.ts` и `paginated-events-response.dto.ts` не переименовывать, пока не будет отдельной задачи.
+Схема действует во всех модулях. `app-enums.dto.ts` — схемы enum для Swagger, не тело запроса и не тело ответа, поэтому без суффикса `.query` / `.response`.

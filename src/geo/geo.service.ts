@@ -3,12 +3,8 @@ import { Prisma } from '@pGen/client';
 import { PrismaService } from '@/prisma/prisma.service';
 import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import { PaginationMetaDto } from '@/common/dto';
-import {
-  CityListItemDto,
-  CountryDto,
-  GeoCitiesQueryDto,
-  GeoCountriesQueryDto,
-} from './dto/geo.dto';
+import { GeoCitiesQueryDto, GeoCountriesQueryDto } from './dto/geo.query.dto';
+import { CityListItemDto, CountryDto } from './dto/geo.response.dto';
 
 @Injectable()
 export class GeoService {

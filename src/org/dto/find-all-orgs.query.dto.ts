@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, Min } from 'class-validator';
 import { GameSystem, OrgFormatMode } from '@pGen/client';
-import { BaseQueryDto } from '@/common/dto/base-query.dto';
+import { BaseQueryDto } from '@/common/dto/base.query.dto';
 
 export enum OrgSortBy {
   CREATED_AT = 'createdAt',

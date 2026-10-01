@@ -27,10 +27,10 @@ import {
   VerifyEmailDto,
   ResetPasswordRequestDto,
   ResetPasswordDto,
-} from './dto/auth.dto';
+} from './dto/auth.query.dto';
 import { WEEK_IN_MS } from '@/utils/vars';
 import type { TUser } from '@shared/types';
-import { LoginResponse } from './dto/login-response.dto';
+import { LoginResponse } from './dto/login.response.dto';
 import { User } from './entities/user.entity';
 import { CurrentUser, Cookies } from '@/common/decorators/index';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';

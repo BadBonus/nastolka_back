@@ -14,7 +14,7 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.query.dto';
 import { PermissionsGuard } from '../common/guards/permissions.guard';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
 import { PrismaService } from '@/prisma/prisma.service';

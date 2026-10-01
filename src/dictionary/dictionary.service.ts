@@ -7,7 +7,7 @@ import {
   GameSystem,
   GamePlatform,
 } from '@pGen/client';
-import { DictionariesDtoRes } from './dto/dictionaries.dto';
+import { DictionariesDtoRes } from './dto/dictionaries.response.dto';
 
 @Injectable()
 export class DictionaryService {

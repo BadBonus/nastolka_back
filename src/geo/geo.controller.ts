@@ -1,12 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GeoService } from './geo.service';
-import {
-  CountryDto,
-  GeoCitiesQueryDto,
-  GeoCountriesQueryDto,
-  PaginatedCitiesResponseDto,
-} from './dto/geo.dto';
+import { GeoCitiesQueryDto, GeoCountriesQueryDto } from './dto/geo.query.dto';
+import { CountryDto, PaginatedCitiesResponseDto } from './dto/geo.response.dto';
 
 @ApiTags('Geo')
 @Controller('geo')

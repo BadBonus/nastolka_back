@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { DictionaryService } from './dictionary.service';
-import { DictionariesDtoRes } from './dto/dictionaries.dto';
+import { DictionariesDtoRes } from './dto/dictionaries.response.dto';
 
 @ApiTags('Dictionaries')
 @Controller('dictionaries')
