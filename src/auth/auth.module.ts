@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TokenService } from '@/shared/token/token.service';
 import { MailService } from '@/auth/mail/mail.service';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from './jwt/optional-jwt-auth.guard';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { ImgproxyModule } from '@/common/modules/imgproxy/imgproxy.module';
 @Module({
@@ -36,8 +37,9 @@ import { ImgproxyModule } from '@/common/modules/imgproxy/imgproxy.module';
     TokenService,
     JwtStrategy,
     JwtAuthGuard,
+    OptionalJwtAuthGuard,
     MailService,
   ],
-  exports: [AuthService, JwtAuthGuard],
+  exports: [AuthService, JwtAuthGuard, OptionalJwtAuthGuard],
 })
 export class AuthModule {}

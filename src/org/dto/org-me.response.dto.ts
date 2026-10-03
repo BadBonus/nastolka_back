@@ -78,6 +78,12 @@ export class OrgListResponseDto {
   @Expose()
   @Type(() => OrgCityDto)
   city!: OrgCityDto | null;
+
+  @ApiProperty({
+    description: 'Подписан ли текущий пользователь на организатора',
+  })
+  @Expose()
+  isSubscribed!: boolean;
 }
 
 @Exclude()

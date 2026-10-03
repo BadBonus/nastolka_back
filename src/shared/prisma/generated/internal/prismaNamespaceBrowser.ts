@@ -63,8 +63,12 @@ export const ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Session: 'Session',
+  UserSubscription: 'UserSubscription',
+  Notification: 'Notification',
   SupportTicket: 'SupportTicket',
   SupportMessage: 'SupportMessage',
+  TelegramAccount: 'TelegramAccount',
+  EventTelegramMessage: 'EventTelegramMessage',
   User: 'User',
   UserSchedule: 'UserSchedule',
   VerificationCode: 'VerificationCode',
@@ -257,6 +261,27 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const UserSubscriptionScalarFieldEnum = {
+  subscriberId: 'subscriberId',
+  organizerId: 'organizerId',
+  createdAt: 'createdAt'
+} as const
+
+export type UserSubscriptionScalarFieldEnum = (typeof UserSubscriptionScalarFieldEnum)[keyof typeof UserSubscriptionScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  payload: 'payload',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
 export const SupportTicketScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -277,6 +302,26 @@ export const SupportMessageScalarFieldEnum = {
 } as const
 
 export type SupportMessageScalarFieldEnum = (typeof SupportMessageScalarFieldEnum)[keyof typeof SupportMessageScalarFieldEnum]
+
+
+export const TelegramAccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  telegramChatId: 'telegramChatId',
+  isActive: 'isActive'
+} as const
+
+export type TelegramAccountScalarFieldEnum = (typeof TelegramAccountScalarFieldEnum)[keyof typeof TelegramAccountScalarFieldEnum]
+
+
+export const EventTelegramMessageScalarFieldEnum = {
+  eventId: 'eventId',
+  subscriberId: 'subscriberId',
+  telegramMessageId: 'telegramMessageId',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventTelegramMessageScalarFieldEnum = (typeof EventTelegramMessageScalarFieldEnum)[keyof typeof EventTelegramMessageScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

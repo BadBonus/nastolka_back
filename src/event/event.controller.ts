@@ -14,6 +14,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
+import { Request } from 'express';
 import {
   ApiTags,
   ApiConsumes,
@@ -32,6 +33,7 @@ import {
   PaginatedEventsResponseDto,
 } from './dto/index';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '@/auth/jwt/optional-jwt-auth.guard';
 import { PermissionsGuard } from '@/common/guards/permissions.guard';
 import { PrismaService } from '@/prisma/prisma.service';
 import { RequirePermissions } from '@/common/decorators/require-permissions.decorator';
@@ -39,7 +41,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe, ImageDimensionsPipe } from '@/common/pipes';
 import { permission } from '@/common/enums/permissions.enum';
 import { EVENT_PREVIEW_IMAGE_SIZE } from './event.constants';
-import { PaginationMetaDto } from '@/common/dto';
 
 @ApiTags('Events')
 @Controller('events')
@@ -73,6 +74,8 @@ export class EventController {
   }
 
   @Get()
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Получение списка ивентов с фильтрацией и пагинацией',
   })
@@ -83,8 +86,9 @@ export class EventController {
   })
   async findAll(
     @Query() filters: FilterEventsDto,
+    @Req() req: Request & { user?: { userId: string } },
   ): Promise<PaginatedEventsResponseDto> {
-    return this.eventService.findAll(filters);
+    return this.eventService.findAll(filters, req.user?.userId);
   }
 
   @Get(':slug')
@@ -98,6 +102,38 @@ export class EventController {
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Ивент не найден' })
   async findOneBySlug(@Param('slug') slug: string) {
     return this.eventService.findBySlug(slug);
+  }
+
+  @Patch(':id/publish')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Публикация ивента (PREPARE → ACTIVE)' })
+  @ApiParam({ name: 'id', description: 'ID ивента' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Ивент опубликован, подписчики уведомлены',
+    type: EventResponseDto,
+  })
+  async publish(@Param('id') id: string, @Req() req: RequestWithUser) {
+    return this.eventService.publish(id, req.user.userId);
+  }
+
+  @Patch(':id/cancel')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Отмена ивента организатором' })
+  @ApiParam({ name: 'id', description: 'ID ивента' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Статус ивента изменен на CANCELED',
+    type: EventResponseDto,
+  })
+  async cancel(
+    @Param('id') id: string,
+    @Req() req: RequestWithUser,
+    @Body() dto: CancelEventDto,
+  ) {
+    return this.eventService.cancel(id, req.user.userId, dto);
   }
 
   @Patch(':id')
@@ -120,24 +156,6 @@ export class EventController {
     @Body() dto: UpdateEventDto,
   ) {
     return this.eventService.update(id, req.user.userId, dto);
-  }
-
-  @Patch(':id/cancel')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Отмена ивента организатором' })
-  @ApiParam({ name: 'id', description: 'ID ивента' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Статус ивента изменен на CANCELED',
-    type: EventResponseDto,
-  })
-  async cancel(
-    @Param('id') id: string,
-    @Req() req: RequestWithUser,
-    @Body() dto: CancelEventDto,
-  ) {
-    return this.eventService.cancel(id, req.user.userId, dto);
   }
 
   @Delete(':id')

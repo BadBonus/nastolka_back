@@ -1,0 +1,18 @@
+model TelegramAccount {
+  id             String  @id @default(uuid())
+  userId         String  @unique @map("user_id")
+  telegramChatId String  @unique @map("telegram_chat_id")
+  isActive       Boolean @default(true) @map("is_active")
+
+  @@map("telegram_accounts")
+}
+
+model EventTelegramMessage {
+  eventId           String   @map("event_id")
+  subscriberId      String   @map("subscriber_id")
+  telegramMessageId Int      @map("telegram_message_id")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@id([eventId, subscriberId])
+  @@map("event_telegram_messages")
+}

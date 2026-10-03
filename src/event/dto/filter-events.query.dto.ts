@@ -51,4 +51,16 @@ export class FilterEventsDto {
   })
   @IsBoolean()
   isBeginnerFriendly?: boolean;
+
+  @ApiPropertyOptional({
+    description:
+      'Только ивенты организаторов, на которых подписан текущий пользователь (нужен JWT)',
+  })
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === undefined) return undefined;
+    return value === 'true' || value === true;
+  })
+  @IsBoolean()
+  subscribedOnly?: boolean;
 }

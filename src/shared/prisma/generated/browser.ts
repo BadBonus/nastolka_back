@@ -78,6 +78,16 @@ export type RolePermission = Prisma.RolePermissionModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model UserSubscription
+ * 
+ */
+export type UserSubscription = Prisma.UserSubscriptionModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
  * Model SupportTicket
  * 
  */
@@ -87,6 +97,16 @@ export type SupportTicket = Prisma.SupportTicketModel
  * 
  */
 export type SupportMessage = Prisma.SupportMessageModel
+/**
+ * Model TelegramAccount
+ * 
+ */
+export type TelegramAccount = Prisma.TelegramAccountModel
+/**
+ * Model EventTelegramMessage
+ * 
+ */
+export type EventTelegramMessage = Prisma.EventTelegramMessageModel
 /**
  * Model User
  * 

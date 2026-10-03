@@ -14,10 +14,12 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { OrgService } from './org.service';
 import { CreateOrgDtoReq } from './dto/create-org.query.dto';
 import { UpdateOrgDto } from './dto/update-org.query.dto';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '@/auth/jwt/optional-jwt-auth.guard';
 // import { PermissionsGuard } from '@/common/guards/permissions.guard';
 // import { RequirePermissions } from '@/common/decorators/require-permissions.decorator';
 // import { permission } from '@/common/enums/permissions.enum';
@@ -30,11 +32,12 @@ import {
   ApiOkResponse,
   ApiBearerAuth,
   ApiQuery,
-  // ApiParam,
+  ApiParam,
   ApiBody,
   ApiConsumes,
 } from '@nestjs/swagger';
 import { OrgMeResponseDto } from './dto/org-me.response.dto';
+import { OrgPublicResponseDto } from './dto/org-public.response.dto';
 import { PaginatedOrgsResponseDto } from './dto/paginated-orgs.response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImageValidationPipe, ImageDimensionsPipe } from '@/common/pipes';
@@ -64,6 +67,8 @@ export class OrgController {
   }
 
   @Get()
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Получение списка организаторов с пагинацией и фильтрацией',
   })
@@ -73,8 +78,9 @@ export class OrgController {
   })
   findAll(
     @Query() query: FindAllOrgsQueryDto,
+    @Req() req: Request & { user?: { userId: string } },
   ): Promise<PaginatedOrgsResponseDto> {
-    return this.orgService.findAll(query);
+    return this.orgService.findAll(query, req.user?.userId);
   }
 
   // @Get()
@@ -162,8 +168,28 @@ export class OrgController {
   // }
 
   @Get(':slug')
-  findOne(@Param('slug') slug: string) {
-    return this.orgService.findOne(slug);
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Публичный профиль организатора по slug',
+  })
+  @ApiParam({
+    name: 'slug',
+    description: 'Уникальный URL-идентификатор организатора',
+  })
+  @ApiOkResponse({
+    description: 'Публичные данные организатора',
+    type: OrgPublicResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Организатор не найден',
+  })
+  findOne(
+    @Param('slug') slug: string,
+    @Req() req: Request & { user?: { userId: string } },
+  ): Promise<OrgPublicResponseDto> {
+    return this.orgService.findOne(slug, req.user?.userId);
   }
 
   // @Patch(':id')

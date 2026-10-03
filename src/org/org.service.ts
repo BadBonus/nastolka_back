@@ -19,6 +19,8 @@ import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import { buildImagePath } from '@/utils/pathToImg';
 import { FindAllOrgsQueryDto, OrgSortBy } from './dto/find-all-orgs.query.dto';
 import { SortOrder } from '@common/dto';
+import { OrgPublicResponseDto } from './dto/org-public.response.dto';
+import { plainToInstance } from 'class-transformer';
 
 const orgGeoInclude = {
   country: {
@@ -113,7 +115,7 @@ export class OrgService {
     });
   }
 
-  async findAll(query: FindAllOrgsQueryDto) {
+  async findAll(query: FindAllOrgsQueryDto, userId?: string) {
     const {
       page = 1,
       limit = AVERAGE_PAGES_LIMIT,
@@ -222,6 +224,22 @@ export class OrgService {
       this.prisma.org.count({ where }),
     ]);
 
+    const subscribedIds = new Set<string>();
+
+    if (userId && data.length > 0) {
+      const subscriptions = await this.prisma.userSubscription.findMany({
+        where: {
+          subscriberId: userId,
+          organizerId: { in: data.map((org) => org.id) },
+        },
+        select: { organizerId: true },
+      });
+
+      for (const row of subscriptions) {
+        subscribedIds.add(row.organizerId);
+      }
+    }
+
     const totalPages = Math.ceil(total / limit);
 
     const meta = {
@@ -234,7 +252,9 @@ export class OrgService {
     };
 
     return {
-      data: data.map((org) => this.mapOrgListResponse(org)),
+      data: data.map((org) =>
+        this.mapOrgListResponse(org, subscribedIds.has(org.id)),
+      ),
       meta,
     };
   }
@@ -256,7 +276,7 @@ export class OrgService {
     return this.mapOrgResponse(org);
   }
 
-  async findOne(slug: string) {
+  async findOne(slug: string, userId?: string): Promise<OrgPublicResponseDto> {
     const org = await this.prisma.org.findUnique({
       where: { slug },
       include: {
@@ -289,12 +309,15 @@ export class OrgService {
       });
     });
 
-    const { reviews: _reviews, ...orgData } = org;
+    const { reviews: _reviews, events: _events, ...orgData } = org;
+    const mapped = this.mapOrgResponse(orgData);
+    const isSubscribed = await this.isSubscribedToOrg(userId, mapped.id);
 
-    return {
-      ...this.mapOrgResponse(orgData),
+    return plainToInstance(OrgPublicResponseDto, {
+      ...mapped,
       ratings: ratingSummary,
-    };
+      isSubscribed,
+    });
   }
 
   async updateMe(
@@ -387,6 +410,27 @@ export class OrgService {
   // Private helpers
   // ---------------------------------------------------------------------
 
+  private async isSubscribedToOrg(
+    userId: string | undefined,
+    organizerId: string,
+  ): Promise<boolean> {
+    if (!userId) {
+      return false;
+    }
+
+    const subscription = await this.prisma.userSubscription.findUnique({
+      where: {
+        subscriberId_organizerId: {
+          subscriberId: userId,
+          organizerId,
+        },
+      },
+      select: { organizerId: true },
+    });
+
+    return Boolean(subscription);
+  }
+
   private async assertOrgLocation(params: {
     formatMode: OrgFormatMode;
     countryId: number;
@@ -446,7 +490,10 @@ export class OrgService {
     });
   }
 
-  private mapOrgListResponse<T extends OrgWithGeo>(org: T) {
+  private mapOrgListResponse<T extends OrgWithGeo>(
+    org: T,
+    isSubscribed = false,
+  ) {
     const mapped = this.mapOrgResponse(org);
 
     return {
@@ -462,6 +509,7 @@ export class OrgService {
       formatMode: mapped.formatMode,
       country: mapped.country,
       city: mapped.city,
+      isSubscribed,
     };
   }
 
