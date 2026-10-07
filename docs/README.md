@@ -7,4 +7,4 @@
 
 ## Инфраструктура
 
-Каталог `docs/infrastructure/` зарезервирован для технических руководств.
+- [Формирование OpenAPI](infrastructure/openapi.md)
