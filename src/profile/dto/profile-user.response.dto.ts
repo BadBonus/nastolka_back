@@ -1,4 +1,5 @@
 import type { UserModel } from '@/shared/prisma/generated/models';
+import type { TSoclinksObject } from '@/shared/types/global';
 import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -27,7 +28,7 @@ export class ProfileUserMe implements Omit<UserModel, 'sub'> {
   @Expose() slug!: string;
   @Expose() avatar!: string | null;
   @Expose() timezone!: string;
-  @Expose() soclinks!: Record<string, string> | null;
+  @Expose() soclinks!: TSoclinksObject | null;
   @Expose() gameHistory!: Array<unknown>;
   @Expose() isVerified!: boolean;
   @Expose() roleId!: string;
@@ -54,6 +55,6 @@ export class ProfileUserWithId implements Omit<
   @Expose() slug!: string;
   @Expose() avatar!: string | null;
   @Expose() timezone!: string;
-  @Expose() soclinks!: Record<string, string> | null;
+  @Expose() soclinks!: TSoclinksObject | null;
   @Expose() gameHistory!: Array<unknown>;
 }

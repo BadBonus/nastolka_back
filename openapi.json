@@ -2732,8 +2732,8 @@
           },
           "soclinks": {
             "type": "string",
-            "description": "JSON-строка с соцсетями",
-            "example": "{\"VK\": \"https://vk.com/id1\"}"
+            "description": "JSON-строка с соцсетями (VK, TELEGRAM, DISCORD, INSTAGRAM, REDDIT, YOUTUBE, THREADS)",
+            "example": "{\"VK\":\"https://vk.com/id1\",\"TELEGRAM\":\"https://t.me/username\",\"YOUTUBE\":\"https://youtube.com/@channel\"}"
           },
           "schedules": {
             "description": "Массив интервалов расписания доступности",
@@ -2788,7 +2788,12 @@
           },
           "soclinks": {
             "type": "object",
-            "description": "Объект ссылок на соцсети",
+            "description": "Объект ссылок на соцсети (VK, TELEGRAM, DISCORD, INSTAGRAM, REDDIT, YOUTUBE, THREADS)",
+            "example": {
+              "VK": "https://vk.com/club1",
+              "TELEGRAM": "https://t.me/org",
+              "THREADS": "https://www.threads.net/@org"
+            },
             "nullable": true
           },
           "timezone": {
@@ -4053,7 +4058,12 @@
           },
           "soclinks": {
             "type": "object",
-            "description": "Объект ссылок на соцсети",
+            "description": "Объект ссылок на соцсети (VK, TELEGRAM, DISCORD, INSTAGRAM, REDDIT, YOUTUBE, THREADS)",
+            "example": {
+              "VK": "https://vk.com/club1",
+              "INSTAGRAM": "https://instagram.com/org",
+              "YOUTUBE": "https://youtube.com/@org"
+            },
             "nullable": true
           },
           "timezone": {
@@ -7251,8 +7261,9 @@
           "TELEGRAM",
           "DISCORD",
           "INSTAGRAM",
-          "X",
-          "REDDIT"
+          "REDDIT",
+          "YOUTUBE",
+          "THREADS"
         ]
       },
       "EtypesSort": {

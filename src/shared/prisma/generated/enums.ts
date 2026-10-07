@@ -595,8 +595,9 @@ export const ESocLinks = {
   TELEGRAM: 'TELEGRAM',
   DISCORD: 'DISCORD',
   INSTAGRAM: 'INSTAGRAM',
-  X: 'X',
-  REDDIT: 'REDDIT'
+  REDDIT: 'REDDIT',
+  YOUTUBE: 'YOUTUBE',
+  THREADS: 'THREADS'
 } as const
 
 export type ESocLinks = (typeof ESocLinks)[keyof typeof ESocLinks]

@@ -11,6 +11,7 @@ import {
   IsEnum,
   Min,
 } from 'class-validator';
+import { IsSoclinks } from '@/utils/decorators/is-soclinks.decorator';
 import { ORG_AVATAR_SIZE } from '../org.contants';
 
 export class UpdateOrgDto {
@@ -76,10 +77,27 @@ export class UpdateOrgDto {
   avatar?: any;
 
   @ApiPropertyOptional({
-    description: 'Объект ссылок на соцсети',
+    description:
+      'Объект ссылок на соцсети (VK, TELEGRAM, DISCORD, INSTAGRAM, REDDIT, YOUTUBE, THREADS)',
+    example: {
+      VK: 'https://vk.com/club1',
+      INSTAGRAM: 'https://instagram.com/org',
+      YOUTUBE: 'https://youtube.com/@org',
+    },
     nullable: true,
   })
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
   @IsObject()
+  @IsSoclinks()
   @IsOptional()
   soclinks!: Prisma.JsonValue | undefined | null;
 

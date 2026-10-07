@@ -1,13 +1,6 @@
 import { Request } from 'express';
 import type { TActiveUser } from '@/auth/types/active-user';
-export enum ESocLinks {
-  VK = 'vk',
-  TELEGRAM = 'telegram',
-  DISCORD = 'discord',
-  INSTAGRAM = 'instagram',
-  X = 'x',
-  REDDIT = 'reddit',
-}
+import type { ESocLinks } from '@pGen/enums';
 
 declare global {
   interface RequestWithUser extends Request {

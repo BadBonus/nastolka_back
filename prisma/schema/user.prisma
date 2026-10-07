@@ -42,6 +42,7 @@ enum ESocLinks {
   TELEGRAM
   DISCORD
   INSTAGRAM
-  X
   REDDIT
+  YOUTUBE
+  THREADS
 }

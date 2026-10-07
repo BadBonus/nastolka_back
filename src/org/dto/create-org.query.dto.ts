@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
+import { IsSoclinks } from '@/utils/decorators/is-soclinks.decorator';
 import { ORG_AVATAR_SIZE } from '../org.contants';
 
 type CreateOrgFields = Pick<
@@ -81,10 +82,27 @@ export class CreateOrgDtoReq implements CreateOrgFields {
   avatar?: any;
 
   @ApiPropertyOptional({
-    description: 'Объект ссылок на соцсети',
+    description:
+      'Объект ссылок на соцсети (VK, TELEGRAM, DISCORD, INSTAGRAM, REDDIT, YOUTUBE, THREADS)',
+    example: {
+      VK: 'https://vk.com/club1',
+      TELEGRAM: 'https://t.me/org',
+      THREADS: 'https://www.threads.net/@org',
+    },
     nullable: true,
   })
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
   @IsObject()
+  @IsSoclinks()
   @IsOptional()
   soclinks!: Prisma.JsonValue | undefined | null;
 

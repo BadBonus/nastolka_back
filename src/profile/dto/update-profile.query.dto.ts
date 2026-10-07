@@ -11,6 +11,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
+import { IsSoclinks } from '@/utils/decorators/is-soclinks.decorator';
 import { PROFILE_AVATAR_SIZE } from './../profile.constants';
 
 export class ScheduleIntervalDto {
@@ -75,8 +76,10 @@ export class UpdateProfileDto {
 
   @ApiPropertyOptional({
     type: 'string',
-    description: 'JSON-строка с соцсетями',
-    example: '{"VK": "https://vk.com/id1"}',
+    description:
+      'JSON-строка с соцсетями (VK, TELEGRAM, DISCORD, INSTAGRAM, REDDIT, YOUTUBE, THREADS)',
+    example:
+      '{"VK":"https://vk.com/id1","TELEGRAM":"https://t.me/username","YOUTUBE":"https://youtube.com/@channel"}',
   })
   @Transform(({ value }) => {
     if (typeof value === 'string') {
@@ -89,8 +92,9 @@ export class UpdateProfileDto {
     return value;
   })
   @IsObject()
+  @IsSoclinks()
   @IsOptional()
-  soclinks?: Record<string, any>;
+  soclinks?: Record<string, string>;
 
   @ApiPropertyOptional({
     type: [ScheduleIntervalDto],
