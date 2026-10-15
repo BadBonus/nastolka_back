@@ -10,6 +10,8 @@ export const permission = {
   ORG_DELETE_ANY: 'org-delete-any',
   ORG_APPROVE: 'org-approve',
   ORG_MODERATE: 'org-moderate',
+  REVIEW_EDIT_ANY: 'review-edit-any',
+  REVIEW_DELETE_ANY: 'review-delete-any',
 } as const;
 
 export type AppPermission = (typeof permission)[keyof typeof permission];

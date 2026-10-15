@@ -2360,6 +2360,287 @@
           "Telegram"
         ]
       }
+    },
+    "/event-reviews": {
+      "post": {
+        "operationId": "EventReviewController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventReviewDtoReq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Обзор создан",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventReviewResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ивент не завершён или нет контента"
+          },
+          "403": {
+            "description": "Пользователь не посещал ивент"
+          },
+          "409": {
+            "description": "Обзор уже существует"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Создать обзор на завершённый ивент",
+        "tags": [
+          "Event Reviews"
+        ]
+      }
+    },
+    "/event-reviews/event/{slug}": {
+      "get": {
+        "operationId": "EventReviewController_findByEvent",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "description": "Slug ивента",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Поисковый запрос по названию",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Номер страницы",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Количество элементов на странице",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Направление сортировки",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedEventReviewsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Список обзоров ивента",
+        "tags": [
+          "Event Reviews"
+        ]
+      }
+    },
+    "/event-reviews/org/{slug}": {
+      "get": {
+        "operationId": "EventReviewController_findByOrg",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "description": "Slug организатора",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Поисковый запрос по названию",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Номер страницы",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Количество элементов на странице",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Направление сортировки",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedEventReviewsResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Список обзоров организатора",
+        "tags": [
+          "Event Reviews"
+        ]
+      }
+    },
+    "/event-reviews/{id}": {
+      "patch": {
+        "operationId": "EventReviewController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID обзора",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventReviewDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Обзор обновлён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventReviewResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав или истёк срок редактирования"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Редактировать обзор (автор — в течение 1 часа, админ — всегда)",
+        "tags": [
+          "Event Reviews"
+        ]
+      },
+      "delete": {
+        "operationId": "EventReviewController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID обзора",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Обзор удалён"
+          },
+          "403": {
+            "description": "Нет прав на удаление"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Удалить обзор (автор или админ)",
+        "tags": [
+          "Event Reviews"
+        ]
+      }
     }
   },
   "info": {
@@ -6699,6 +6980,143 @@
           "url",
           "expiresIn"
         ]
+      },
+      "CreateEventReviewDtoReq": {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID ивента"
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 5000,
+            "description": "Текст обзора"
+          },
+          "rates": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Оценки атрибутов мастера",
+            "maxItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "CREATIVITY",
+                "STORYTELLING",
+                "PLAYER_EDUCATION",
+                "THEATRICALISE"
+              ]
+            }
+          }
+        },
+        "required": [
+          "eventId"
+        ]
+      },
+      "EventReviewAuthorDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "nickname"
+        ]
+      },
+      "EventReviewResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "rates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CREATIVITY",
+                "STORYTELLING",
+                "PLAYER_EDUCATION",
+                "THEATRICALISE"
+              ]
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "author": {
+            "$ref": "#/components/schemas/EventReviewAuthorDto"
+          }
+        },
+        "required": [
+          "id",
+          "rates",
+          "createdAt",
+          "author"
+        ]
+      },
+      "PaginatedEventReviewsResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventReviewResponseDto"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMetaDto"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "UpdateEventReviewDto": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 5000,
+            "description": "Текст обзора"
+          },
+          "rates": {
+            "type": "array",
+            "uniqueItems": true,
+            "description": "Оценки атрибутов мастера",
+            "maxItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "CREATIVITY",
+                "STORYTELLING",
+                "PLAYER_EDUCATION",
+                "THEATRICALISE"
+              ]
+            }
+          }
+        }
       },
       "Currency": {
         "type": "string",
