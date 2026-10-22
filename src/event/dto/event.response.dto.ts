@@ -1,3 +1,4 @@
+import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   EventFormat,
@@ -8,97 +9,104 @@ import {
   GameSystem,
   EventStatus,
 } from '@pGen/client';
+import { EventOrgResponseDto } from './paginated-events.response.dto';
 
-class EventCountDto {
-  @ApiProperty({ description: 'Количество подтвержденных участников' })
-  requests!: number;
-}
-
-export class EventResponseDto {
+@Exclude()
+export class EventDetailResponseDto {
   @ApiProperty()
+  @Expose()
   id!: string;
 
   @ApiProperty()
+  @Expose()
   slug!: string;
 
   @ApiProperty()
-  org_id!: string;
+  @Expose()
+  orgId!: string;
 
   @ApiProperty()
+  @Expose()
   name!: string;
 
-  @ApiPropertyOptional()
-  description?: string;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  description!: string | null;
 
-  @ApiPropertyOptional()
-  add_info?: string;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  addInfo!: string | null;
 
-  @ApiPropertyOptional()
-  preview_url?: string;
-
-  @ApiProperty()
-  min_users!: number;
-
-  @ApiPropertyOptional()
-  max_users?: number;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  preview!: string | null;
 
   @ApiProperty()
-  is_beginner_friendly!: boolean;
+  @Expose()
+  minUsers!: number;
 
-  @ApiPropertyOptional()
-  age_limit?: number;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  maxUsers!: number | null;
 
   @ApiProperty()
-  auto_approve!: boolean;
+  @Expose()
+  isBeginnerFriendly!: boolean;
 
-  @ApiPropertyOptional()
-  cost_value?: number;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  ageLimit!: number | null;
 
-  @ApiPropertyOptional({ enum: Currency })
-  cost_currency?: Currency;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  costValue!: number | null;
+
+  @ApiPropertyOptional({ enum: Currency, nullable: true })
+  @Expose()
+  costCurrency!: Currency | null;
 
   @ApiProperty({ enum: EventFormat })
+  @Expose()
   format!: EventFormat;
 
   @ApiProperty({ enum: SessionType })
-  session_type!: SessionType;
+  @Expose()
+  sessionType!: SessionType;
 
-  @ApiPropertyOptional()
-  address?: string;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  address!: string | null;
 
-  @ApiPropertyOptional()
-  map_url?: string;
+  @ApiPropertyOptional({ nullable: true })
+  @Expose()
+  mapUrl!: string | null;
 
   @ApiProperty({ enum: EventStatus })
+  @Expose()
   status!: EventStatus;
 
   @ApiProperty()
-  starts_at!: Date;
+  @Expose()
+  startsAt!: Date;
 
   @ApiProperty()
-  ends_at!: Date;
+  @Expose()
+  endsAt!: Date;
 
-  @ApiPropertyOptional()
-  canceled_at?: Date;
+  @ApiProperty({ enum: GameGenres, isArray: true })
+  @Expose()
+  genres!: GameGenres[];
 
-  @ApiPropertyOptional()
-  cancel_reason?: string;
-
-  @ApiProperty()
-  created_at!: Date;
-
-  @ApiProperty()
-  updated_at!: Date;
-
-  @ApiPropertyOptional({ enum: GameGenres, isArray: true })
-  genres?: GameGenres[];
-
-  @ApiPropertyOptional({ enum: GamePlatform, isArray: true })
-  platforms?: GamePlatform[];
+  @ApiProperty({ enum: GamePlatform, isArray: true })
+  @Expose()
+  platforms!: GamePlatform[];
 
   @ApiProperty({ enum: GameSystem })
-  game_system!: GameSystem;
+  @Expose()
+  gameSystem!: GameSystem;
 
-  @ApiPropertyOptional({ type: EventCountDto })
-  _count?: EventCountDto;
+  @ApiProperty({ type: EventOrgResponseDto })
+  @Expose()
+  @Type(() => EventOrgResponseDto)
+  org!: EventOrgResponseDto;
 }

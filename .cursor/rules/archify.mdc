@@ -1,0 +1,16 @@
+---
+description: Правила генерации архитектурных диаграмм с помощью утилиты Archify
+globs:
+  - "**/*.json"
+  - "docs/architecture/**/*"
+alwaysApply: false
+---
+
+# Archify Diagram Generator
+
+При запросе на создание архитектурной диаграммы:
+1. Проанализируй целевые файлы кодовой базы.
+2. Сформируй валидный JSON-файл спецификации Archify IR.
+3. Выполни локальную команду генерации:
+   `npx archify render diagram.json -o docs/architecture/view.html`
+4. Предоставь путь к сгенерированному HTML-файлу.

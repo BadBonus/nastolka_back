@@ -30,6 +30,7 @@ import {
   FilterEventsDto,
   CancelEventDto,
   EventResponseDto,
+  EventDetailResponseDto,
   PaginatedEventsResponseDto,
 } from './dto/index';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
@@ -97,10 +98,12 @@ export class EventController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Данные ивента',
-    type: EventResponseDto,
+    type: EventDetailResponseDto,
   })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Ивент не найден' })
-  async findOneBySlug(@Param('slug') slug: string) {
+  async findOneBySlug(
+    @Param('slug') slug: string,
+  ): Promise<EventDetailResponseDto> {
     return this.eventService.findBySlug(slug);
   }
 

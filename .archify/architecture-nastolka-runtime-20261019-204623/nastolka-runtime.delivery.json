@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d668d03f-b289-4e87-b776-d2ad440853b3",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "E:\\work\\Nastolka\\Nastolka_backend\\.archify\\architecture-nastolka-runtime-20261019-204623\\candidate.json",
+  "output": "E:\\work\\Nastolka\\Nastolka_backend\\.archify\\architecture-nastolka-runtime-20261019-204623\\nastolka-runtime.html",
+  "specification": {
+    "sha256": "eec2df7480ccd1fe7e2b195d29095d4ae5018dafeb0dbaaf73fd3e4c7f7b47bd",
+    "bytes": 49868
+  },
+  "artifact": {
+    "sha256": "0475e48ae18f210a2b789516101183a47871b87cd9e2a162dbf36d58c439e767",
+    "bytes": 848417
+  }
+}

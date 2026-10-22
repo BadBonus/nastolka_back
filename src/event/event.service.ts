@@ -17,6 +17,7 @@ import {
   UpdateEventDto,
   PaginatedEventsResponseDto,
   EventResponseDto,
+  EventDetailResponseDto,
 } from './dto/index';
 import { buildImagePath } from '@/utils/pathToImg';
 import { PATH_UPLOADED_EVENTS_PREVIEW } from './event.constants';
@@ -123,6 +124,7 @@ export class EventService {
         select: {
           name: true,
           slug: true,
+          preview: true,
           gameSystem: true,
           format: true,
           sessionType: true,
@@ -166,21 +168,32 @@ export class EventService {
     return { data: formattedData, meta };
   }
 
-  async findBySlug(slug: string) {
+  async findBySlug(slug: string): Promise<EventDetailResponseDto> {
     const event = await this.prisma.event.findUnique({
       where: { slug },
+      omit: {
+        createdAt: true,
+        updatedAt: true,
+        cancelReason: true,
+        canceledAt: true,
+        autoApprove: true,
+      },
       include: {
-        _count: {
-          select: { requests: { where: { status: 'CONFIRMED' } } },
+        org: {
+          select: {
+            nickname: true,
+            slug: true,
+            avatar: true,
+          },
         },
       },
     });
 
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException('Ивент не найден');
     }
 
-    return event;
+    return plainToInstance(EventDetailResponseDto, event);
   }
 
   async update(id: string, userId: string, dto: UpdateEventDto) {

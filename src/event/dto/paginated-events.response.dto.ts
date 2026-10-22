@@ -37,6 +37,7 @@ type TEventResponse = Pick<
   | 'endsAt'
   | 'genres'
   | 'minUsers'
+  | 'preview'
 > & { currentCountOfPlayers: number; org: EventOrgResponseDto };
 
 export class EventResponseDto implements TEventResponse {
@@ -45,6 +46,9 @@ export class EventResponseDto implements TEventResponse {
 
   @ApiProperty()
   slug!: string;
+
+  @ApiProperty({ nullable: true, type: String })
+  preview!: string | null;
 
   @ApiProperty()
   gameSystem!: GameSystem;

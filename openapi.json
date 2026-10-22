@@ -5590,6 +5590,10 @@
           "slug": {
             "type": "string"
           },
+          "preview": {
+            "type": "string",
+            "nullable": true
+          },
           "gameSystem": {
             "type": "object"
           },
@@ -5644,6 +5648,7 @@
         "required": [
           "name",
           "slug",
+          "preview",
           "gameSystem",
           "format",
           "sessionType",
