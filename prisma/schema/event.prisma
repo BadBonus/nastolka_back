@@ -53,6 +53,7 @@ model Event {
 
   requests           EventRequest[]
   reviews            EventReview[]
+  favorites          EventFavorite[]
 
   genres             GameGenres[]
   platforms          GamePlatform[]

@@ -109,4 +109,10 @@ export class EventDetailResponseDto {
   @Expose()
   @Type(() => EventOrgResponseDto)
   org!: EventOrgResponseDto;
+
+  @ApiProperty({
+    description: 'В избранном у текущего пользователя (для гостя всегда false)',
+  })
+  @Expose()
+  isFavorite!: boolean;
 }

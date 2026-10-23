@@ -63,4 +63,16 @@ export class FilterEventsDto {
   })
   @IsBoolean()
   subscribedOnly?: boolean;
+
+  @ApiPropertyOptional({
+    description:
+      'Только избранные ивенты текущего пользователя (нужен JWT)',
+  })
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === undefined) return undefined;
+    return value === 'true' || value === true;
+  })
+  @IsBoolean()
+  favoriteOnly?: boolean;
 }

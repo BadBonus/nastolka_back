@@ -409,6 +409,7 @@ export type EventWhereInput = {
   org?: Prisma.XOR<Prisma.OrgScalarRelationFilter, Prisma.OrgWhereInput>
   requests?: Prisma.EventRequestListRelationFilter
   reviews?: Prisma.EventReviewListRelationFilter
+  favorites?: Prisma.EventFavoriteListRelationFilter
 }
 
 export type EventOrderByWithRelationInput = {
@@ -443,6 +444,7 @@ export type EventOrderByWithRelationInput = {
   org?: Prisma.OrgOrderByWithRelationInput
   requests?: Prisma.EventRequestOrderByRelationAggregateInput
   reviews?: Prisma.EventReviewOrderByRelationAggregateInput
+  favorites?: Prisma.EventFavoriteOrderByRelationAggregateInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -480,6 +482,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   org?: Prisma.XOR<Prisma.OrgScalarRelationFilter, Prisma.OrgWhereInput>
   requests?: Prisma.EventRequestListRelationFilter
   reviews?: Prisma.EventReviewListRelationFilter
+  favorites?: Prisma.EventFavoriteListRelationFilter
 }, "id" | "slug">
 
 export type EventOrderByWithAggregationInput = {
@@ -583,6 +586,7 @@ export type EventCreateInput = {
   org: Prisma.OrgCreateNestedOneWithoutEventsInput
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -616,6 +620,7 @@ export type EventUncheckedCreateInput = {
   gameSystem: $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventUpdateInput = {
@@ -649,6 +654,7 @@ export type EventUpdateInput = {
   org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -682,6 +688,7 @@ export type EventUncheckedUpdateInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyInput = {
@@ -986,6 +993,20 @@ export type EventUpdateOneRequiredWithoutRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutRequestsInput, Prisma.EventUpdateWithoutRequestsInput>, Prisma.EventUncheckedUpdateWithoutRequestsInput>
 }
 
+export type EventCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.EventWhereUniqueInput
+}
+
+export type EventUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.EventUpsertWithoutReviewsInput
+  connect?: Prisma.EventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutReviewsInput, Prisma.EventUpdateWithoutReviewsInput>, Prisma.EventUncheckedUpdateWithoutReviewsInput>
+}
+
 export type EventCreateNestedManyWithoutOrgInput = {
   create?: Prisma.XOR<Prisma.EventCreateWithoutOrgInput, Prisma.EventUncheckedCreateWithoutOrgInput> | Prisma.EventCreateWithoutOrgInput[] | Prisma.EventUncheckedCreateWithoutOrgInput[]
   connectOrCreate?: Prisma.EventCreateOrConnectWithoutOrgInput | Prisma.EventCreateOrConnectWithoutOrgInput[]
@@ -1028,18 +1049,18 @@ export type EventUncheckedUpdateManyWithoutOrgNestedInput = {
   deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
-export type EventCreateNestedOneWithoutReviewsInput = {
-  create?: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
-  connectOrCreate?: Prisma.EventCreateOrConnectWithoutReviewsInput
+export type EventCreateNestedOneWithoutFavoritesInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutFavoritesInput, Prisma.EventUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutFavoritesInput
   connect?: Prisma.EventWhereUniqueInput
 }
 
-export type EventUpdateOneRequiredWithoutReviewsNestedInput = {
-  create?: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
-  connectOrCreate?: Prisma.EventCreateOrConnectWithoutReviewsInput
-  upsert?: Prisma.EventUpsertWithoutReviewsInput
+export type EventUpdateOneRequiredWithoutFavoritesNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutFavoritesInput, Prisma.EventUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutFavoritesInput
+  upsert?: Prisma.EventUpsertWithoutFavoritesInput
   connect?: Prisma.EventWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutReviewsInput, Prisma.EventUpdateWithoutReviewsInput>, Prisma.EventUncheckedUpdateWithoutReviewsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutFavoritesInput, Prisma.EventUpdateWithoutFavoritesInput>, Prisma.EventUncheckedUpdateWithoutFavoritesInput>
 }
 
 export type EventCreateWithoutRequestsInput = {
@@ -1072,6 +1093,7 @@ export type EventCreateWithoutRequestsInput = {
   gameSystem: $Enums.GameSystem
   org: Prisma.OrgCreateNestedOneWithoutEventsInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutRequestsInput = {
@@ -1104,6 +1126,7 @@ export type EventUncheckedCreateWithoutRequestsInput = {
   platforms?: Prisma.EventCreateplatformsInput | $Enums.GamePlatform[]
   gameSystem: $Enums.GameSystem
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutRequestsInput = {
@@ -1152,6 +1175,7 @@ export type EventUpdateWithoutRequestsInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutRequestsInput = {
@@ -1184,6 +1208,155 @@ export type EventUncheckedUpdateWithoutRequestsInput = {
   platforms?: Prisma.EventUpdateplatformsInput | $Enums.GamePlatform[]
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventCreateWithoutReviewsInput = {
+  id?: string
+  slug: string
+  name: string
+  description?: string | null
+  addInfo?: string | null
+  preview?: string | null
+  minUsers?: number
+  maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
+  format: $Enums.EventFormat
+  sessionType: $Enums.SessionType
+  address?: string | null
+  mapUrl?: string | null
+  status?: $Enums.EventStatus
+  startsAt: Date | string
+  endsAt: Date | string
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  genres?: Prisma.EventCreategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventCreateplatformsInput | $Enums.GamePlatform[]
+  gameSystem: $Enums.GameSystem
+  org: Prisma.OrgCreateNestedOneWithoutEventsInput
+  requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  slug: string
+  orgId: string
+  name: string
+  description?: string | null
+  addInfo?: string | null
+  preview?: string | null
+  minUsers?: number
+  maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
+  format: $Enums.EventFormat
+  sessionType: $Enums.SessionType
+  address?: string | null
+  mapUrl?: string | null
+  status?: $Enums.EventStatus
+  startsAt: Date | string
+  endsAt: Date | string
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  genres?: Prisma.EventCreategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventCreateplatformsInput | $Enums.GamePlatform[]
+  gameSystem: $Enums.GameSystem
+  requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
+}
+
+export type EventUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutReviewsInput, Prisma.EventUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.EventWhereInput
+}
+
+export type EventUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.EventWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutReviewsInput, Prisma.EventUncheckedUpdateWithoutReviewsInput>
+}
+
+export type EventUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minUsers?: Prisma.IntFieldUpdateOperationsInput | number
+  maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.EventUpdategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventUpdateplatformsInput | $Enums.GamePlatform[]
+  gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
+  org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
+  requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  orgId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minUsers?: Prisma.IntFieldUpdateOperationsInput | number
+  maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.EventUpdategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventUpdateplatformsInput | $Enums.GamePlatform[]
+  gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
+  requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutOrgInput = {
@@ -1216,6 +1389,7 @@ export type EventCreateWithoutOrgInput = {
   gameSystem: $Enums.GameSystem
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutOrgInput = {
@@ -1248,6 +1422,7 @@ export type EventUncheckedCreateWithoutOrgInput = {
   gameSystem: $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutOrgInput = {
@@ -1310,7 +1485,7 @@ export type EventScalarWhereInput = {
   gameSystem?: Prisma.EnumGameSystemFilter<"Event"> | $Enums.GameSystem
 }
 
-export type EventCreateWithoutReviewsInput = {
+export type EventCreateWithoutFavoritesInput = {
   id?: string
   slug: string
   name: string
@@ -1340,9 +1515,10 @@ export type EventCreateWithoutReviewsInput = {
   gameSystem: $Enums.GameSystem
   org: Prisma.OrgCreateNestedOneWithoutEventsInput
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
+  reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
 }
 
-export type EventUncheckedCreateWithoutReviewsInput = {
+export type EventUncheckedCreateWithoutFavoritesInput = {
   id?: string
   slug: string
   orgId: string
@@ -1372,25 +1548,26 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   platforms?: Prisma.EventCreateplatformsInput | $Enums.GamePlatform[]
   gameSystem: $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
+  reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
 }
 
-export type EventCreateOrConnectWithoutReviewsInput = {
+export type EventCreateOrConnectWithoutFavoritesInput = {
   where: Prisma.EventWhereUniqueInput
-  create: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutFavoritesInput, Prisma.EventUncheckedCreateWithoutFavoritesInput>
 }
 
-export type EventUpsertWithoutReviewsInput = {
-  update: Prisma.XOR<Prisma.EventUpdateWithoutReviewsInput, Prisma.EventUncheckedUpdateWithoutReviewsInput>
-  create: Prisma.XOR<Prisma.EventCreateWithoutReviewsInput, Prisma.EventUncheckedCreateWithoutReviewsInput>
+export type EventUpsertWithoutFavoritesInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutFavoritesInput, Prisma.EventUncheckedUpdateWithoutFavoritesInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutFavoritesInput, Prisma.EventUncheckedCreateWithoutFavoritesInput>
   where?: Prisma.EventWhereInput
 }
 
-export type EventUpdateToOneWithWhereWithoutReviewsInput = {
+export type EventUpdateToOneWithWhereWithoutFavoritesInput = {
   where?: Prisma.EventWhereInput
-  data: Prisma.XOR<Prisma.EventUpdateWithoutReviewsInput, Prisma.EventUncheckedUpdateWithoutReviewsInput>
+  data: Prisma.XOR<Prisma.EventUpdateWithoutFavoritesInput, Prisma.EventUncheckedUpdateWithoutFavoritesInput>
 }
 
-export type EventUpdateWithoutReviewsInput = {
+export type EventUpdateWithoutFavoritesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1420,9 +1597,10 @@ export type EventUpdateWithoutReviewsInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
 }
 
-export type EventUncheckedUpdateWithoutReviewsInput = {
+export type EventUncheckedUpdateWithoutFavoritesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1452,6 +1630,7 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   platforms?: Prisma.EventUpdateplatformsInput | $Enums.GamePlatform[]
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyOrgInput = {
@@ -1514,6 +1693,7 @@ export type EventUpdateWithoutOrgInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutOrgInput = {
@@ -1546,6 +1726,7 @@ export type EventUncheckedUpdateWithoutOrgInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutOrgInput = {
@@ -1586,11 +1767,13 @@ export type EventUncheckedUpdateManyWithoutOrgInput = {
 export type EventCountOutputType = {
   requests: number
   reviews: number
+  favorites: number
 }
 
 export type EventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requests?: boolean | EventCountOutputTypeCountRequestsArgs
   reviews?: boolean | EventCountOutputTypeCountReviewsArgs
+  favorites?: boolean | EventCountOutputTypeCountFavoritesArgs
 }
 
 /**
@@ -1615,6 +1798,13 @@ export type EventCountOutputTypeCountRequestsArgs<ExtArgs extends runtime.Types.
  */
 export type EventCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EventReviewWhereInput
+}
+
+/**
+ * EventCountOutputType without action
+ */
+export type EventCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventFavoriteWhereInput
 }
 
 
@@ -1650,6 +1840,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   org?: boolean | Prisma.OrgDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Event$requestsArgs<ExtArgs>
   reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
+  favorites?: boolean | Prisma.Event$favoritesArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -1753,6 +1944,7 @@ export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   org?: boolean | Prisma.OrgDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Event$requestsArgs<ExtArgs>
   reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
+  favorites?: boolean | Prisma.Event$favoritesArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1768,6 +1960,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     org: Prisma.$OrgPayload<ExtArgs>
     requests: Prisma.$EventRequestPayload<ExtArgs>[]
     reviews: Prisma.$EventReviewPayload<ExtArgs>[]
+    favorites: Prisma.$EventFavoritePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2195,6 +2388,7 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
   org<T extends Prisma.OrgDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrgDefaultArgs<ExtArgs>>): Prisma.Prisma__OrgClient<runtime.Types.Result.GetResult<Prisma.$OrgPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   requests<T extends Prisma.Event$requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Event$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorites<T extends Prisma.Event$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2693,6 +2887,30 @@ export type Event$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.EventReviewScalarFieldEnum | Prisma.EventReviewScalarFieldEnum[]
+}
+
+/**
+ * Event.favorites
+ */
+export type Event$favoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventFavorite
+   */
+  select?: Prisma.EventFavoriteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventFavorite
+   */
+  omit?: Prisma.EventFavoriteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventFavoriteInclude<ExtArgs> | null
+  where?: Prisma.EventFavoriteWhereInput
+  orderBy?: Prisma.EventFavoriteOrderByWithRelationInput | Prisma.EventFavoriteOrderByWithRelationInput[]
+  cursor?: Prisma.EventFavoriteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventFavoriteScalarFieldEnum | Prisma.EventFavoriteScalarFieldEnum[]
 }
 
 /**

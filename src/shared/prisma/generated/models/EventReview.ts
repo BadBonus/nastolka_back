@@ -417,6 +417,15 @@ export type EventReviewUncheckedUpdateManyWithoutEventNestedInput = {
   deleteMany?: Prisma.EventReviewScalarWhereInput | Prisma.EventReviewScalarWhereInput[]
 }
 
+export type EventReviewCreateratesInput = {
+  set: $Enums.KindOfRate[]
+}
+
+export type EventReviewUpdateratesInput = {
+  set?: $Enums.KindOfRate[]
+  push?: $Enums.KindOfRate | $Enums.KindOfRate[]
+}
+
 export type EventReviewCreateNestedManyWithoutOrgInput = {
   create?: Prisma.XOR<Prisma.EventReviewCreateWithoutOrgInput, Prisma.EventReviewUncheckedCreateWithoutOrgInput> | Prisma.EventReviewCreateWithoutOrgInput[] | Prisma.EventReviewUncheckedCreateWithoutOrgInput[]
   connectOrCreate?: Prisma.EventReviewCreateOrConnectWithoutOrgInput | Prisma.EventReviewCreateOrConnectWithoutOrgInput[]
@@ -457,15 +466,6 @@ export type EventReviewUncheckedUpdateManyWithoutOrgNestedInput = {
   update?: Prisma.EventReviewUpdateWithWhereUniqueWithoutOrgInput | Prisma.EventReviewUpdateWithWhereUniqueWithoutOrgInput[]
   updateMany?: Prisma.EventReviewUpdateManyWithWhereWithoutOrgInput | Prisma.EventReviewUpdateManyWithWhereWithoutOrgInput[]
   deleteMany?: Prisma.EventReviewScalarWhereInput | Prisma.EventReviewScalarWhereInput[]
-}
-
-export type EventReviewCreateratesInput = {
-  set: $Enums.KindOfRate[]
-}
-
-export type EventReviewUpdateratesInput = {
-  set?: $Enums.KindOfRate[]
-  push?: $Enums.KindOfRate | $Enums.KindOfRate[]
 }
 
 export type EventReviewCreateNestedManyWithoutUserInput = {

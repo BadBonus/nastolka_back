@@ -93,6 +93,8 @@ export class EventController {
   }
 
   @Get(':slug')
+  @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Получение детальной информации об ивенте по slug' })
   @ApiParam({ name: 'slug', description: 'Уникальный URL-идентификатор' })
   @ApiResponse({
@@ -103,8 +105,9 @@ export class EventController {
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Ивент не найден' })
   async findOneBySlug(
     @Param('slug') slug: string,
+    @Req() req: Request & { user?: { userId: string } },
   ): Promise<EventDetailResponseDto> {
-    return this.eventService.findBySlug(slug);
+    return this.eventService.findBySlug(slug, req.user?.userId);
   }
 
   @Patch(':id/publish')

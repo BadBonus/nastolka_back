@@ -54,16 +54,17 @@ export const ModelName = {
   Account: 'Account',
   Event: 'Event',
   EventRequest: 'EventRequest',
+  EventReview: 'EventReview',
   Country: 'Country',
   City: 'City',
   AlternateName: 'AlternateName',
   Org: 'Org',
-  EventReview: 'EventReview',
   Role: 'Role',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Session: 'Session',
   UserSubscription: 'UserSubscription',
+  EventFavorite: 'EventFavorite',
   Notification: 'Notification',
   SupportTicket: 'SupportTicket',
   SupportMessage: 'SupportMessage',
@@ -151,6 +152,19 @@ export const EventRequestScalarFieldEnum = {
 export type EventRequestScalarFieldEnum = (typeof EventRequestScalarFieldEnum)[keyof typeof EventRequestScalarFieldEnum]
 
 
+export const EventReviewScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  userId: 'userId',
+  orgId: 'orgId',
+  comment: 'comment',
+  rates: 'rates',
+  createdAt: 'createdAt'
+} as const
+
+export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[keyof typeof EventReviewScalarFieldEnum]
+
+
 export const CountryScalarFieldEnum = {
   geonameId: 'geonameId',
   isoCode: 'isoCode',
@@ -209,19 +223,6 @@ export const OrgScalarFieldEnum = {
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]
 
 
-export const EventReviewScalarFieldEnum = {
-  id: 'id',
-  eventId: 'eventId',
-  userId: 'userId',
-  orgId: 'orgId',
-  comment: 'comment',
-  rates: 'rates',
-  createdAt: 'createdAt'
-} as const
-
-export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[keyof typeof EventReviewScalarFieldEnum]
-
-
 export const RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -268,6 +269,15 @@ export const UserSubscriptionScalarFieldEnum = {
 } as const
 
 export type UserSubscriptionScalarFieldEnum = (typeof UserSubscriptionScalarFieldEnum)[keyof typeof UserSubscriptionScalarFieldEnum]
+
+
+export const EventFavoriteScalarFieldEnum = {
+  userId: 'userId',
+  eventId: 'eventId',
+  createdAt: 'createdAt'
+} as const
+
+export type EventFavoriteScalarFieldEnum = (typeof EventFavoriteScalarFieldEnum)[keyof typeof EventFavoriteScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

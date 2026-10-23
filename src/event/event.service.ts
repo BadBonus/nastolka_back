@@ -114,6 +114,36 @@ export class EventService {
       where.orgId = { in: organizerIds };
     }
 
+    if (filters.favoriteOnly) {
+      if (!userId) {
+        throw new UnauthorizedException(
+          'Для фильтра favoriteOnly необходима авторизация',
+        );
+      }
+
+      const favorites = await this.prisma.eventFavorite.findMany({
+        where: { userId },
+        select: { eventId: true },
+      });
+
+      const eventIds = favorites.map((f) => f.eventId);
+
+      if (eventIds.length === 0) {
+        const meta = {
+          total: 0,
+          page,
+          limit,
+          totalPages: 0,
+          hasNext: false,
+          hasPrev: false,
+        } satisfies PaginationMetaDto;
+
+        return { data: [], meta };
+      }
+
+      where.id = { in: eventIds };
+    }
+
     const [total, data] = await Promise.all([
       this.prisma.event.count({ where }),
       this.prisma.event.findMany({
@@ -122,6 +152,7 @@ export class EventService {
         take: limit,
         orderBy: { createdAt: 'desc' },
         select: {
+          id: true,
           name: true,
           slug: true,
           preview: true,
@@ -153,6 +184,22 @@ export class EventService {
       }),
     ]);
 
+    const favoriteIds = new Set<string>();
+
+    if (userId && data.length > 0) {
+      const favorites = await this.prisma.eventFavorite.findMany({
+        where: {
+          userId,
+          eventId: { in: data.map((event) => event.id) },
+        },
+        select: { eventId: true },
+      });
+
+      for (const row of favorites) {
+        favoriteIds.add(row.eventId);
+      }
+    }
+
     const totalPages = Math.ceil(total / limit);
     const meta = {
       total,
@@ -163,12 +210,21 @@ export class EventService {
       hasPrev: page > 1,
     };
 
-    const formattedData = plainToInstance(EventResponseDto, data);
+    const formattedData = plainToInstance(
+      EventResponseDto,
+      data.map((event) => ({
+        ...event,
+        isFavorite: favoriteIds.has(event.id),
+      })),
+    );
 
     return { data: formattedData, meta };
   }
 
-  async findBySlug(slug: string): Promise<EventDetailResponseDto> {
+  async findBySlug(
+    slug: string,
+    userId?: string,
+  ): Promise<EventDetailResponseDto> {
     const event = await this.prisma.event.findUnique({
       where: { slug },
       omit: {
@@ -193,7 +249,12 @@ export class EventService {
       throw new NotFoundException('Ивент не найден');
     }
 
-    return plainToInstance(EventDetailResponseDto, event);
+    const isFavorite = await this.isEventFavorite(userId, event.id);
+
+    return plainToInstance(EventDetailResponseDto, {
+      ...event,
+      isFavorite,
+    });
   }
 
   async update(id: string, userId: string, dto: UpdateEventDto) {
@@ -268,6 +329,24 @@ export class EventService {
     await this.prisma.event.delete({
       where: { id },
     });
+  }
+
+  private async isEventFavorite(
+    userId: string | undefined,
+    eventId: string,
+  ): Promise<boolean> {
+    if (!userId) {
+      return false;
+    }
+
+    const favorite = await this.prisma.eventFavorite.findUnique({
+      where: {
+        userId_eventId: { userId, eventId },
+      },
+      select: { eventId: true },
+    });
+
+    return Boolean(favorite);
   }
 
   private async checkOwnership(id: string, userId: string) {

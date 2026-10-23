@@ -1,0 +1,124 @@
+Промпт для бэкенда:
+
+---
+
+## Задача: материалы игроков для Event
+
+Нужно добавить к событию блок **«Материалы для игроков»**: файлы (с лимитом веса) и текстовые заметки-хелперы (FAQ / инструкции мастера). Каждый элемент — отдельная сущность.
+
+### Контекст продукта
+
+На странице детали события (`GET event by slug`) игроки видят список материалов: скачиваемые файлы (лор, хаусрулы, карты, лист персонажа) и короткие текстовые заметки (что взять, как создать персонажа, правила стола).  
+Не смешивать с `description` / `addInfo` события — это отдельный контент для подготовки.
+
+### Модель данных
+
+Таблица `event_materials` (1:N к `events`):
+
+| Поле | Тип | Описание |
+|---|---|---|
+| `id` | uuid PK | |
+| `event_id` | uuid FK → events, ON DELETE CASCADE | |
+| `type` | enum `FILE` \| `NOTE` | |
+| `title` | varchar(120) NOT NULL | Заголовок («Хаусрулы», «Что взять») |
+| `sort_order` | int NOT NULL DEFAULT 0 | Порядок в UI |
+| `is_public` | boolean NOT NULL DEFAULT true | `false` = только записанным на событие |
+| `storage_key` | varchar(512) nullable | Путь в object storage (только FILE) |
+| `original_name` | varchar(255) nullable | Имя файла при загрузке |
+| `mime_type` | varchar(120) nullable | |
+| `size_bytes` | int nullable | |
+| `checksum` | varchar(64) nullable | опционально |
+| `body` | text nullable | Текст заметки (только NOTE) |
+| `created_at` / `updated_at` | timestamptz | |
+
+CHECK-ограничение:
+- `FILE` → `storage_key` + `size_bytes` обязательны, `body` IS NULL  
+- `NOTE` → `body` обязателен, file-поля IS NULL  
+
+Индекс: `(event_id, sort_order)`.
+
+**Файлы не хранить в БД** — только метаданные; байты в S3/MinIO (как у `previewImage`, если уже есть паттерн storage).
+
+Шаблоны FAQ (опционально, можно вторым этапом): таблица `material_note_templates` у org/user; при добавлении на событие — **копия** в `event_materials`, не живая ссылка.
+
+### Лимиты (конфиг + валидация на API)
+
+- max размер файла: **10 MB** (вынести в env/config)  
+- max файлов на событие: **10**  
+- max заметок на событие: **20**  
+- max длина `body`: **4000** символов  
+- max длина `title`: **120**  
+- whitelist mime: `application/pdf`, `application/vnd.openxmlformats-officedocument.wordprocessingml.document`, `application/msword`, `application/zip`, `application/x-rar-compressed`, `image/png`, `image/jpeg`, `text/plain`  
+- whitelist расширений: `pdf`, `doc`, `docx`, `zip`, `rar`, `png`, `jpg`, `jpeg`, `txt`
+
+### API
+
+CRUD только для владельца события (org / мастер). Чтение — в detail события.
+
+**В `EventDetailResponseDto` добавить:**
+
+```ts
+materials: Array<
+  | {
+      id: string
+      type: 'FILE'
+      title: string
+      sortOrder: number
+      isPublic: boolean
+      originalName: string
+      mimeType: string
+      sizeBytes: number
+      url: string // signed или публичный CDN URL, не storage_key
+    }
+  | {
+      id: string
+      type: 'NOTE'
+      title: string
+      sortOrder: number
+      isPublic: boolean
+      body: string
+    }
+>
+```
+
+Фильтрация по `is_public`: гостю и незаписанному — только `isPublic: true`; записанному игроку — все материалы события.
+
+**Эндпоинты (предложение):**
+
+```
+POST   /events/:id/materials/notes     — создать NOTE { title, body, isPublic?, sortOrder? }
+POST   /events/:id/materials/files     — multipart: file + title + isPublic?
+PATCH  /events/:id/materials/:materialId  — title, body (для NOTE), isPublic, sortOrder
+DELETE /events/:id/materials/:materialId  — удалить запись + объект из storage для FILE
+PATCH  /events/:id/materials/reorder   — { ids: string[] } обновить sort_order
+```
+
+Или вложить create notes/files в update события — но отдельный ресурс материалов предпочтительнее (upload, лимиты, удаление файла).
+
+### Поведение
+
+1. При удалении события — cascade + cleanup объектов в storage (или фоновая задача).  
+2. При удалении FILE — удалить объект из storage.  
+3. `url` для FILE генерировать при отдаче (signed URL с TTL), в БД не хранить.  
+4. `sanitizeNulls` / без `null` в строковых полях ответа, где это принято в проекте.  
+5. Ошибки: 413 при превышении размера, 400 при неверном mime, 403 если не владелец, 404 если материал чужого события.
+
+### Вне скоупа (не делать сейчас)
+
+- Ссылки на внешние ресурсы (Roll20, Drive) как отдельный тип  
+- Версионирование файлов  
+- Превью PDF в API  
+
+### Критерии готовности
+
+- [ ] Миграция + enum + CHECK  
+- [ ] Upload файла с лимитами и сохранением метаданных  
+- [ ] CRUD заметок  
+- [ ] `materials` в detail by slug с учётом `isPublic`  
+- [ ] Reorder  
+- [ ] Удаление файла чистит storage  
+- [ ] OpenAPI обновлён  
+
+---
+
+Можешь скопировать как есть в тикет/чат бэкенду. Если нужно — сузим до MVP без `isPublic` и reorder.

@@ -21,6 +21,7 @@ model User {
   org                Org?
   reviews            EventReview[]
   eventRequests      EventRequest[]
+  favorites          EventFavorite[]
   isBanned           Boolean             @default(false) @map("is_banned")
 
   @@map("users")

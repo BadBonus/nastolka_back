@@ -775,6 +775,20 @@ export type OrgUpdateOneRequiredWithoutEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrgUpdateToOneWithWhereWithoutEventsInput, Prisma.OrgUpdateWithoutEventsInput>, Prisma.OrgUncheckedUpdateWithoutEventsInput>
 }
 
+export type OrgCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.OrgCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.OrgWhereUniqueInput
+}
+
+export type OrgUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.OrgCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.OrgUpsertWithoutReviewsInput
+  connect?: Prisma.OrgWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrgUpdateToOneWithWhereWithoutReviewsInput, Prisma.OrgUpdateWithoutReviewsInput>, Prisma.OrgUncheckedUpdateWithoutReviewsInput>
+}
+
 export type OrgCreateNestedManyWithoutCountryInput = {
   create?: Prisma.XOR<Prisma.OrgCreateWithoutCountryInput, Prisma.OrgUncheckedCreateWithoutCountryInput> | Prisma.OrgCreateWithoutCountryInput[] | Prisma.OrgUncheckedCreateWithoutCountryInput[]
   connectOrCreate?: Prisma.OrgCreateOrConnectWithoutCountryInput | Prisma.OrgCreateOrConnectWithoutCountryInput[]
@@ -879,20 +893,6 @@ export type OrgUpdatepreferredGenresInput = {
 
 export type EnumOrgFormatModeFieldUpdateOperationsInput = {
   set?: $Enums.OrgFormatMode
-}
-
-export type OrgCreateNestedOneWithoutReviewsInput = {
-  create?: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
-  connectOrCreate?: Prisma.OrgCreateOrConnectWithoutReviewsInput
-  connect?: Prisma.OrgWhereUniqueInput
-}
-
-export type OrgUpdateOneRequiredWithoutReviewsNestedInput = {
-  create?: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
-  connectOrCreate?: Prisma.OrgCreateOrConnectWithoutReviewsInput
-  upsert?: Prisma.OrgUpsertWithoutReviewsInput
-  connect?: Prisma.OrgWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.OrgUpdateToOneWithWhereWithoutReviewsInput, Prisma.OrgUpdateWithoutReviewsInput>, Prisma.OrgUncheckedUpdateWithoutReviewsInput>
 }
 
 export type OrgCreateNestedOneWithoutUserInput = {
@@ -1045,6 +1045,126 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   countryId?: Prisma.IntFieldUpdateOperationsInput | number
   cityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutOrgNestedInput
+}
+
+export type OrgCreateWithoutReviewsInput = {
+  id?: string
+  slug: string
+  nickname: string
+  description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  avatar?: string | null
+  timezone?: string | null
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  email: string
+  isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  formatMode?: $Enums.OrgFormatMode
+  user: Prisma.UserCreateNestedOneWithoutOrgInput
+  events?: Prisma.EventCreateNestedManyWithoutOrgInput
+  country: Prisma.CountryCreateNestedOneWithoutOrgsInput
+  city?: Prisma.CityCreateNestedOneWithoutOrgsInput
+}
+
+export type OrgUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  userId: string
+  slug: string
+  nickname: string
+  description?: string | null
+  previewDescr?: string | null
+  gameStyleDescr?: string | null
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  avatar?: string | null
+  timezone?: string | null
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  email: string
+  isBanned?: boolean
+  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
+  formatMode?: $Enums.OrgFormatMode
+  countryId: number
+  cityId?: number | null
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
+}
+
+export type OrgCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.OrgWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
+}
+
+export type OrgUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.OrgUpdateWithoutReviewsInput, Prisma.OrgUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.OrgWhereInput
+}
+
+export type OrgUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.OrgWhereInput
+  data: Prisma.XOR<Prisma.OrgUpdateWithoutReviewsInput, Prisma.OrgUncheckedUpdateWithoutReviewsInput>
+}
+
+export type OrgUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  formatMode?: Prisma.EnumOrgFormatModeFieldUpdateOperationsInput | $Enums.OrgFormatMode
+  user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
+  events?: Prisma.EventUpdateManyWithoutOrgNestedInput
+  country?: Prisma.CountryUpdateOneRequiredWithoutOrgsNestedInput
+  city?: Prisma.CityUpdateOneWithoutOrgsNestedInput
+}
+
+export type OrgUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
+  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
+  formatMode?: Prisma.EnumOrgFormatModeFieldUpdateOperationsInput | $Enums.OrgFormatMode
+  countryId?: Prisma.IntFieldUpdateOperationsInput | number
+  cityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
 
 export type OrgCreateWithoutCountryInput = {
@@ -1229,126 +1349,6 @@ export type OrgUpdateWithWhereUniqueWithoutCityInput = {
 export type OrgUpdateManyWithWhereWithoutCityInput = {
   where: Prisma.OrgScalarWhereInput
   data: Prisma.XOR<Prisma.OrgUpdateManyMutationInput, Prisma.OrgUncheckedUpdateManyWithoutCityInput>
-}
-
-export type OrgCreateWithoutReviewsInput = {
-  id?: string
-  slug: string
-  nickname: string
-  description?: string | null
-  previewDescr?: string | null
-  gameStyleDescr?: string | null
-  costValue?: number | null
-  costCurrency?: $Enums.Currency | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  avatar?: string | null
-  timezone?: string | null
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  email: string
-  isBanned?: boolean
-  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
-  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
-  formatMode?: $Enums.OrgFormatMode
-  user: Prisma.UserCreateNestedOneWithoutOrgInput
-  events?: Prisma.EventCreateNestedManyWithoutOrgInput
-  country: Prisma.CountryCreateNestedOneWithoutOrgsInput
-  city?: Prisma.CityCreateNestedOneWithoutOrgsInput
-}
-
-export type OrgUncheckedCreateWithoutReviewsInput = {
-  id?: string
-  userId: string
-  slug: string
-  nickname: string
-  description?: string | null
-  previewDescr?: string | null
-  gameStyleDescr?: string | null
-  costValue?: number | null
-  costCurrency?: $Enums.Currency | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  avatar?: string | null
-  timezone?: string | null
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  email: string
-  isBanned?: boolean
-  preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
-  preferredGenres?: Prisma.OrgCreatepreferredGenresInput | $Enums.GameGenres[]
-  formatMode?: $Enums.OrgFormatMode
-  countryId: number
-  cityId?: number | null
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutOrgInput
-}
-
-export type OrgCreateOrConnectWithoutReviewsInput = {
-  where: Prisma.OrgWhereUniqueInput
-  create: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
-}
-
-export type OrgUpsertWithoutReviewsInput = {
-  update: Prisma.XOR<Prisma.OrgUpdateWithoutReviewsInput, Prisma.OrgUncheckedUpdateWithoutReviewsInput>
-  create: Prisma.XOR<Prisma.OrgCreateWithoutReviewsInput, Prisma.OrgUncheckedCreateWithoutReviewsInput>
-  where?: Prisma.OrgWhereInput
-}
-
-export type OrgUpdateToOneWithWhereWithoutReviewsInput = {
-  where?: Prisma.OrgWhereInput
-  data: Prisma.XOR<Prisma.OrgUpdateWithoutReviewsInput, Prisma.OrgUncheckedUpdateWithoutReviewsInput>
-}
-
-export type OrgUpdateWithoutReviewsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  nickname?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
-  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
-  formatMode?: Prisma.EnumOrgFormatModeFieldUpdateOperationsInput | $Enums.OrgFormatMode
-  user?: Prisma.UserUpdateOneRequiredWithoutOrgNestedInput
-  events?: Prisma.EventUpdateManyWithoutOrgNestedInput
-  country?: Prisma.CountryUpdateOneRequiredWithoutOrgsNestedInput
-  city?: Prisma.CityUpdateOneWithoutOrgsNestedInput
-}
-
-export type OrgUncheckedUpdateWithoutReviewsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  nickname?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  previewDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
-  preferredGenres?: Prisma.OrgUpdatepreferredGenresInput | $Enums.GameGenres[]
-  formatMode?: Prisma.EnumOrgFormatModeFieldUpdateOperationsInput | $Enums.OrgFormatMode
-  countryId?: Prisma.IntFieldUpdateOperationsInput | number
-  cityId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  events?: Prisma.EventUncheckedUpdateManyWithoutOrgNestedInput
 }
 
 export type OrgCreateWithoutUserInput = {

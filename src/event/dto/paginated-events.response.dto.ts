@@ -42,6 +42,9 @@ type TEventResponse = Pick<
 
 export class EventResponseDto implements TEventResponse {
   @ApiProperty()
+  id!: string;
+
+  @ApiProperty()
   name!: string;
 
   @ApiProperty()
@@ -88,6 +91,11 @@ export class EventResponseDto implements TEventResponse {
 
   @ApiProperty()
   minUsers!: number;
+
+  @ApiProperty({
+    description: 'В избранном у текущего пользователя (для гостя всегда false)',
+  })
+  isFavorite!: boolean;
 
   @Expose()
   @Transform(({ obj }) => obj._count?.requests ?? 0)

@@ -33,6 +33,11 @@ export type Event = Prisma.EventModel
  */
 export type EventRequest = Prisma.EventRequestModel
 /**
+ * Model EventReview
+ * 
+ */
+export type EventReview = Prisma.EventReviewModel
+/**
  * Model Country
  * 
  */
@@ -52,11 +57,6 @@ export type AlternateName = Prisma.AlternateNameModel
  * 
  */
 export type Org = Prisma.OrgModel
-/**
- * Model EventReview
- * 
- */
-export type EventReview = Prisma.EventReviewModel
 /**
  * Model Role
  * 
@@ -82,6 +82,11 @@ export type Session = Prisma.SessionModel
  * 
  */
 export type UserSubscription = Prisma.UserSubscriptionModel
+/**
+ * Model EventFavorite
+ * 
+ */
+export type EventFavorite = Prisma.EventFavoriteModel
 /**
  * Model Notification
  * 

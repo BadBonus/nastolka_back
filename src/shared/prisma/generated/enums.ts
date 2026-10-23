@@ -562,15 +562,6 @@ export const RequestStatus = {
 export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 
 
-export const OrgFormatMode = {
-  HYBRID: 'HYBRID',
-  ONLINE: 'ONLINE',
-  OFFLINE: 'OFFLINE'
-} as const
-
-export type OrgFormatMode = (typeof OrgFormatMode)[keyof typeof OrgFormatMode]
-
-
 export const KindOfRate = {
   CREATIVITY: 'CREATIVITY',
   STORYTELLING: 'STORYTELLING',
@@ -579,6 +570,15 @@ export const KindOfRate = {
 } as const
 
 export type KindOfRate = (typeof KindOfRate)[keyof typeof KindOfRate]
+
+
+export const OrgFormatMode = {
+  HYBRID: 'HYBRID',
+  ONLINE: 'ONLINE',
+  OFFLINE: 'OFFLINE'
+} as const
+
+export type OrgFormatMode = (typeof OrgFormatMode)[keyof typeof OrgFormatMode]
 
 
 export const SupportTicketStatus = {

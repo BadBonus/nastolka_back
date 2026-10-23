@@ -253,6 +253,7 @@ export type UserWhereInput = {
   org?: Prisma.XOR<Prisma.OrgNullableScalarRelationFilter, Prisma.OrgWhereInput> | null
   reviews?: Prisma.EventReviewListRelationFilter
   eventRequests?: Prisma.EventRequestListRelationFilter
+  favorites?: Prisma.EventFavoriteListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -279,6 +280,7 @@ export type UserOrderByWithRelationInput = {
   org?: Prisma.OrgOrderByWithRelationInput
   reviews?: Prisma.EventReviewOrderByRelationAggregateInput
   eventRequests?: Prisma.EventRequestOrderByRelationAggregateInput
+  favorites?: Prisma.EventFavoriteOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -308,6 +310,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   org?: Prisma.XOR<Prisma.OrgNullableScalarRelationFilter, Prisma.OrgWhereInput> | null
   reviews?: Prisma.EventReviewListRelationFilter
   eventRequests?: Prisma.EventRequestListRelationFilter
+  favorites?: Prisma.EventFavoriteListRelationFilter
 }, "id" | "email" | "slug">
 
 export type UserOrderByWithAggregationInput = {
@@ -374,6 +377,7 @@ export type UserCreateInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -400,6 +404,7 @@ export type UserUncheckedCreateInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -426,6 +431,7 @@ export type UserUpdateInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -452,6 +458,7 @@ export type UserUncheckedUpdateInput = {
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -593,20 +600,6 @@ export type UserUpdateOneRequiredWithoutEventRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEventRequestsInput, Prisma.UserUpdateWithoutEventRequestsInput>, Prisma.UserUncheckedUpdateWithoutEventRequestsInput>
 }
 
-export type UserCreateNestedOneWithoutOrgInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutOrgNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgInput
-  upsert?: Prisma.UserUpsertWithoutOrgInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrgInput, Prisma.UserUpdateWithoutOrgInput>, Prisma.UserUncheckedUpdateWithoutOrgInput>
-}
-
 export type UserCreateNestedOneWithoutReviewsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutReviewsInput, Prisma.UserUncheckedCreateWithoutReviewsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewsInput
@@ -619,6 +612,20 @@ export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutReviewsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewsInput, Prisma.UserUpdateWithoutReviewsInput>, Prisma.UserUncheckedUpdateWithoutReviewsInput>
+}
+
+export type UserCreateNestedOneWithoutOrgInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOrgNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrgInput
+  upsert?: Prisma.UserUpsertWithoutOrgInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOrgInput, Prisma.UserUpdateWithoutOrgInput>, Prisma.UserUncheckedUpdateWithoutOrgInput>
 }
 
 export type UserCreateNestedManyWithoutRolesInput = {
@@ -671,6 +678,20 @@ export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutSessionsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutFavoritesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoritesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFavoritesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoritesInput
+  upsert?: Prisma.UserUpsertWithoutFavoritesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFavoritesInput, Prisma.UserUpdateWithoutFavoritesInput>, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
 }
 
 export type UserCreateNestedOneWithoutSupportTicketsInput = {
@@ -738,6 +759,7 @@ export type UserCreateWithoutAccountsInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -763,6 +785,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -804,6 +827,7 @@ export type UserUpdateWithoutAccountsInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -829,6 +853,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEventRequestsInput = {
@@ -854,6 +879,7 @@ export type UserCreateWithoutEventRequestsInput = {
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventRequestsInput = {
@@ -879,6 +905,7 @@ export type UserUncheckedCreateWithoutEventRequestsInput = {
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventRequestsInput = {
@@ -920,6 +947,7 @@ export type UserUpdateWithoutEventRequestsInput = {
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventRequestsInput = {
@@ -945,122 +973,7 @@ export type UserUncheckedUpdateWithoutEventRequestsInput = {
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutOrgInput = {
-  fullName?: string | null
-  nickname: string
-  email: string
-  description?: string | null
-  birthdate?: Date | string | null
-  slug: string
-  avatar?: string | null
-  timezone?: string | null
-  isVerified?: boolean
-  id?: string
-  sub?:unknown
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  isBanned?: boolean
-  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
-  schedules?: Prisma.UserScheduleCreateNestedManyWithoutUserInput
-  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
-  reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
-  eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutOrgInput = {
-  fullName?: string | null
-  nickname: string
-  email: string
-  description?: string | null
-  birthdate?: Date | string | null
-  slug: string
-  avatar?: string | null
-  timezone?: string | null
-  isVerified?: boolean
-  id?: string
-  sub?:unknown
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  isBanned?: boolean
-  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
-  schedules?: Prisma.UserScheduleUncheckedCreateNestedManyWithoutUserInput
-  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
-  reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
-  eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutOrgInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
-}
-
-export type UserUpsertWithoutOrgInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutOrgInput, Prisma.UserUncheckedUpdateWithoutOrgInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutOrgInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutOrgInput, Prisma.UserUncheckedUpdateWithoutOrgInput>
-}
-
-export type UserUpdateWithoutOrgInput = {
-  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nickname?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sub?:unknown
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
-  schedules?: Prisma.UserScheduleUpdateManyWithoutUserNestedInput
-  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
-  eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutOrgInput = {
-  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nickname?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  sub?:unknown
-  soclinks?:unknown | Prisma.NullableJsonNullValueInput
-  gameHistory?:unknown
-  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
-  schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
-  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
-  reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
-  eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -1086,6 +999,7 @@ export type UserCreateWithoutReviewsInput = {
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -1111,6 +1025,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -1152,6 +1067,7 @@ export type UserUpdateWithoutReviewsInput = {
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -1177,6 +1093,127 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutOrgInput = {
+  fullName?: string | null
+  nickname: string
+  email: string
+  description?: string | null
+  birthdate?: Date | string | null
+  slug: string
+  avatar?: string | null
+  timezone?: string | null
+  isVerified?: boolean
+  id?: string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  schedules?: Prisma.UserScheduleCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
+  eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOrgInput = {
+  fullName?: string | null
+  nickname: string
+  email: string
+  description?: string | null
+  birthdate?: Date | string | null
+  slug: string
+  avatar?: string | null
+  timezone?: string | null
+  isVerified?: boolean
+  id?: string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  schedules?: Prisma.UserScheduleUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
+  eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOrgInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
+}
+
+export type UserUpsertWithoutOrgInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOrgInput, Prisma.UserUncheckedUpdateWithoutOrgInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOrgInput, Prisma.UserUncheckedCreateWithoutOrgInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOrgInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOrgInput, Prisma.UserUncheckedUpdateWithoutOrgInput>
+}
+
+export type UserUpdateWithoutOrgInput = {
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  schedules?: Prisma.UserScheduleUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
+  eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOrgInput = {
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
+  eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRolesInput = {
@@ -1202,6 +1239,7 @@ export type UserCreateWithoutRolesInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRolesInput = {
@@ -1227,6 +1265,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRolesInput = {
@@ -1293,6 +1332,7 @@ export type UserCreateWithoutSessionsInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1318,6 +1358,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1359,6 +1400,7 @@ export type UserUpdateWithoutSessionsInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1378,6 +1420,127 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
+  reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
+  eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFavoritesInput = {
+  fullName?: string | null
+  nickname: string
+  email: string
+  description?: string | null
+  birthdate?: Date | string | null
+  slug: string
+  avatar?: string | null
+  timezone?: string | null
+  isVerified?: boolean
+  id?: string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  schedules?: Prisma.UserScheduleCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  org?: Prisma.OrgCreateNestedOneWithoutUserInput
+  reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
+  eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFavoritesInput = {
+  fullName?: string | null
+  nickname: string
+  email: string
+  description?: string | null
+  birthdate?: Date | string | null
+  slug: string
+  avatar?: string | null
+  timezone?: string | null
+  isVerified?: boolean
+  id?: string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: boolean
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  schedules?: Prisma.UserScheduleUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
+  reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
+  eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFavoritesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+}
+
+export type UserUpsertWithoutFavoritesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFavoritesInput, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoritesInput, Prisma.UserUncheckedCreateWithoutFavoritesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFavoritesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFavoritesInput, Prisma.UserUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type UserUpdateWithoutFavoritesInput = {
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  schedules?: Prisma.UserScheduleUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  org?: Prisma.OrgUpdateOneWithoutUserNestedInput
+  reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
+  eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFavoritesInput = {
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nickname?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sub?:unknown
+  soclinks?:unknown | Prisma.NullableJsonNullValueInput
+  gameHistory?:unknown
+  isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   schedules?: Prisma.UserScheduleUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
@@ -1409,6 +1572,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -1434,6 +1598,7 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSupportTicketsInput = {
@@ -1475,6 +1640,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -1500,6 +1666,7 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSchedulesInput = {
@@ -1525,6 +1692,7 @@ export type UserCreateWithoutSchedulesInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSchedulesInput = {
@@ -1550,6 +1718,7 @@ export type UserUncheckedCreateWithoutSchedulesInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSchedulesInput = {
@@ -1591,6 +1760,7 @@ export type UserUpdateWithoutSchedulesInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSchedulesInput = {
@@ -1616,6 +1786,7 @@ export type UserUncheckedUpdateWithoutSchedulesInput = {
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokenInput = {
@@ -1641,6 +1812,7 @@ export type UserCreateWithoutPasswordResetTokenInput = {
   org?: Prisma.OrgCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
@@ -1666,6 +1838,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
   org?: Prisma.OrgUncheckedCreateNestedOneWithoutUserInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutUserInput
   eventRequests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokenInput = {
@@ -1707,6 +1880,7 @@ export type UserUpdateWithoutPasswordResetTokenInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
@@ -1732,6 +1906,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpdateWithoutRolesInput = {
@@ -1757,6 +1932,7 @@ export type UserUpdateWithoutRolesInput = {
   org?: Prisma.OrgUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRolesInput = {
@@ -1782,6 +1958,7 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   org?: Prisma.OrgUncheckedUpdateOneWithoutUserNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutUserNestedInput
   eventRequests?: Prisma.EventRequestUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutRolesInput = {
@@ -1814,6 +1991,7 @@ export type UserCountOutputType = {
   supportTickets: number
   reviews: number
   eventRequests: number
+  favorites: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1824,6 +2002,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
   eventRequests?: boolean | UserCountOutputTypeCountEventRequestsArgs
+  favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
 }
 
 /**
@@ -1885,6 +2064,13 @@ export type UserCountOutputTypeCountEventRequestsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.EventRequestWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventFavoriteWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   fullName?: boolean
@@ -1910,6 +2096,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   org?: boolean | Prisma.User$orgArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   eventRequests?: boolean | Prisma.User$eventRequestsArgs<ExtArgs>
+  favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1975,6 +2162,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   org?: boolean | Prisma.User$orgArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
   eventRequests?: boolean | Prisma.User$eventRequestsArgs<ExtArgs>
+  favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1992,6 +2180,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     org: Prisma.$OrgPayload<ExtArgs> | null
     reviews: Prisma.$EventReviewPayload<ExtArgs>[]
     eventRequests: Prisma.$EventRequestPayload<ExtArgs>[]
+    favorites: Prisma.$EventFavoritePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     fullName: string | null
@@ -2411,6 +2600,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   org<T extends Prisma.User$orgArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$orgArgs<ExtArgs>>): Prisma.Prisma__OrgClient<runtime.Types.Result.GetResult<Prisma.$OrgPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   eventRequests<T extends Prisma.User$eventRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$eventRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorites<T extends Prisma.User$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3045,6 +3235,30 @@ export type User$eventRequestsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.EventRequestScalarFieldEnum | Prisma.EventRequestScalarFieldEnum[]
+}
+
+/**
+ * User.favorites
+ */
+export type User$favoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventFavorite
+   */
+  select?: Prisma.EventFavoriteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventFavorite
+   */
+  omit?: Prisma.EventFavoriteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventFavoriteInclude<ExtArgs> | null
+  where?: Prisma.EventFavoriteWhereInput
+  orderBy?: Prisma.EventFavoriteOrderByWithRelationInput | Prisma.EventFavoriteOrderByWithRelationInput[]
+  cursor?: Prisma.EventFavoriteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventFavoriteScalarFieldEnum | Prisma.EventFavoriteScalarFieldEnum[]
 }
 
 /**

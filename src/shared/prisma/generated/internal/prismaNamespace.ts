@@ -387,16 +387,17 @@ export const ModelName = {
   Account: 'Account',
   Event: 'Event',
   EventRequest: 'EventRequest',
+  EventReview: 'EventReview',
   Country: 'Country',
   City: 'City',
   AlternateName: 'AlternateName',
   Org: 'Org',
-  EventReview: 'EventReview',
   Role: 'Role',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Session: 'Session',
   UserSubscription: 'UserSubscription',
+  EventFavorite: 'EventFavorite',
   Notification: 'Notification',
   SupportTicket: 'SupportTicket',
   SupportMessage: 'SupportMessage',
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "event" | "eventRequest" | "country" | "city" | "alternateName" | "org" | "eventReview" | "role" | "permission" | "rolePermission" | "session" | "userSubscription" | "notification" | "supportTicket" | "supportMessage" | "telegramAccount" | "eventTelegramMessage" | "user" | "userSchedule" | "verificationCode" | "passwordResetToken"
+    modelProps: "account" | "event" | "eventRequest" | "eventReview" | "country" | "city" | "alternateName" | "org" | "role" | "permission" | "rolePermission" | "session" | "userSubscription" | "eventFavorite" | "notification" | "supportTicket" | "supportMessage" | "telegramAccount" | "eventTelegramMessage" | "user" | "userSchedule" | "verificationCode" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -644,6 +645,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EventRequestCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EventRequestCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventReview: {
+      payload: Prisma.$EventReviewPayload<ExtArgs>
+      fields: Prisma.EventReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.EventReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
+        }
+        findMany: {
+          args: Prisma.EventReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>[]
+        }
+        create: {
+          args: Prisma.EventReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
+        }
+        createMany: {
+          args: Prisma.EventReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.EventReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
+        }
+        update: {
+          args: Prisma.EventReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.EventReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.EventReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.EventReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventReview>
+        }
+        groupBy: {
+          args: Prisma.EventReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventReviewCountAggregateOutputType> | number
         }
       }
     }
@@ -940,80 +1015,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OrgCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OrgCountAggregateOutputType> | number
-        }
-      }
-    }
-    EventReview: {
-      payload: Prisma.$EventReviewPayload<ExtArgs>
-      fields: Prisma.EventReviewFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.EventReviewFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.EventReviewFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
-        }
-        findFirst: {
-          args: Prisma.EventReviewFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.EventReviewFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
-        }
-        findMany: {
-          args: Prisma.EventReviewFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>[]
-        }
-        create: {
-          args: Prisma.EventReviewCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
-        }
-        createMany: {
-          args: Prisma.EventReviewCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.EventReviewCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>[]
-        }
-        delete: {
-          args: Prisma.EventReviewDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
-        }
-        update: {
-          args: Prisma.EventReviewUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
-        }
-        deleteMany: {
-          args: Prisma.EventReviewDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.EventReviewUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.EventReviewUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>[]
-        }
-        upsert: {
-          args: Prisma.EventReviewUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventReviewPayload>
-        }
-        aggregate: {
-          args: Prisma.EventReviewAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateEventReview>
-        }
-        groupBy: {
-          args: Prisma.EventReviewGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.EventReviewGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.EventReviewCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.EventReviewCountAggregateOutputType> | number
         }
       }
     }
@@ -1384,6 +1385,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserSubscriptionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventFavorite: {
+      payload: Prisma.$EventFavoritePayload<ExtArgs>
+      fields: Prisma.EventFavoriteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventFavoriteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventFavoriteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>
+        }
+        findFirst: {
+          args: Prisma.EventFavoriteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventFavoriteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>
+        }
+        findMany: {
+          args: Prisma.EventFavoriteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>[]
+        }
+        create: {
+          args: Prisma.EventFavoriteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>
+        }
+        createMany: {
+          args: Prisma.EventFavoriteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventFavoriteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>[]
+        }
+        delete: {
+          args: Prisma.EventFavoriteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>
+        }
+        update: {
+          args: Prisma.EventFavoriteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>
+        }
+        deleteMany: {
+          args: Prisma.EventFavoriteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventFavoriteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventFavoriteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>[]
+        }
+        upsert: {
+          args: Prisma.EventFavoriteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventFavoritePayload>
+        }
+        aggregate: {
+          args: Prisma.EventFavoriteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventFavorite>
+        }
+        groupBy: {
+          args: Prisma.EventFavoriteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventFavoriteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventFavoriteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventFavoriteCountAggregateOutputType> | number
         }
       }
     }
@@ -2152,6 +2227,19 @@ export const EventRequestScalarFieldEnum = {
 export type EventRequestScalarFieldEnum = (typeof EventRequestScalarFieldEnum)[keyof typeof EventRequestScalarFieldEnum]
 
 
+export const EventReviewScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  userId: 'userId',
+  orgId: 'orgId',
+  comment: 'comment',
+  rates: 'rates',
+  createdAt: 'createdAt'
+} as const
+
+export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[keyof typeof EventReviewScalarFieldEnum]
+
+
 export const CountryScalarFieldEnum = {
   geonameId: 'geonameId',
   isoCode: 'isoCode',
@@ -2210,19 +2298,6 @@ export const OrgScalarFieldEnum = {
 export type OrgScalarFieldEnum = (typeof OrgScalarFieldEnum)[keyof typeof OrgScalarFieldEnum]
 
 
-export const EventReviewScalarFieldEnum = {
-  id: 'id',
-  eventId: 'eventId',
-  userId: 'userId',
-  orgId: 'orgId',
-  comment: 'comment',
-  rates: 'rates',
-  createdAt: 'createdAt'
-} as const
-
-export type EventReviewScalarFieldEnum = (typeof EventReviewScalarFieldEnum)[keyof typeof EventReviewScalarFieldEnum]
-
-
 export const RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2269,6 +2344,15 @@ export const UserSubscriptionScalarFieldEnum = {
 } as const
 
 export type UserSubscriptionScalarFieldEnum = (typeof UserSubscriptionScalarFieldEnum)[keyof typeof UserSubscriptionScalarFieldEnum]
+
+
+export const EventFavoriteScalarFieldEnum = {
+  userId: 'userId',
+  eventId: 'eventId',
+  createdAt: 'createdAt'
+} as const
+
+export type EventFavoriteScalarFieldEnum = (typeof EventFavoriteScalarFieldEnum)[keyof typeof EventFavoriteScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -2609,6 +2693,20 @@ export type ListEnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'KindOfRate[]'
+ */
+export type ListEnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KindOfRate[]'>
+    
+
+
+/**
+ * Reference to a field of type 'KindOfRate'
+ */
+export type EnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KindOfRate'>
+    
+
+
+/**
  * Reference to a field of type 'Json'
  */
 export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -2633,20 +2731,6 @@ export type EnumOrgFormatModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'OrgFormatMode[]'
  */
 export type ListEnumOrgFormatModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrgFormatMode[]'>
-    
-
-
-/**
- * Reference to a field of type 'KindOfRate[]'
- */
-export type ListEnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KindOfRate[]'>
-    
-
-
-/**
- * Reference to a field of type 'KindOfRate'
- */
-export type EnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KindOfRate'>
     
 
 
@@ -2775,16 +2859,17 @@ export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   event?: Prisma.EventOmit
   eventRequest?: Prisma.EventRequestOmit
+  eventReview?: Prisma.EventReviewOmit
   country?: Prisma.CountryOmit
   city?: Prisma.CityOmit
   alternateName?: Prisma.AlternateNameOmit
   org?: Prisma.OrgOmit
-  eventReview?: Prisma.EventReviewOmit
   role?: Prisma.RoleOmit
   permission?: Prisma.PermissionOmit
   rolePermission?: Prisma.RolePermissionOmit
   session?: Prisma.SessionOmit
   userSubscription?: Prisma.UserSubscriptionOmit
+  eventFavorite?: Prisma.EventFavoriteOmit
   notification?: Prisma.NotificationOmit
   supportTicket?: Prisma.SupportTicketOmit
   supportMessage?: Prisma.SupportMessageOmit

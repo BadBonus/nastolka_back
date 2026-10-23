@@ -18,7 +18,11 @@ import {
 } from '@nestjs/swagger';
 import { SubscriptionService } from './subscription.service';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
-import { MySubscriptionsResponseDto, OrganizerSubscribersResponseDto } from './dto';
+import {
+  MySubscriptionsResponseDto,
+  MyEventFavoritesResponseDto,
+  OrganizerSubscribersResponseDto,
+} from './dto';
 
 @ApiTags('Subscriptions')
 @Controller('subscriptions')
@@ -26,6 +30,49 @@ import { MySubscriptionsResponseDto, OrganizerSubscribersResponseDto } from './d
 @ApiBearerAuth()
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
+
+  @Get('events/my')
+  @ApiOperation({ summary: 'Список ID событий в избранном' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Список ID событий',
+    type: MyEventFavoritesResponseDto,
+  })
+  async getMyEventFavorites(
+    @Req() req: RequestWithUser,
+  ): Promise<MyEventFavoritesResponseDto> {
+    return this.subscriptionService.getMyEventIds(req.user.userId);
+  }
+
+  @Post('events/:eventId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Добавить событие в избранное' })
+  @ApiParam({ name: 'eventId', description: 'ID события (Event.id)' })
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Добавлено в избранное' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Ивент не найден' })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Событие уже в избранном',
+  })
+  async addEventFavorite(
+    @Param('eventId') eventId: string,
+    @Req() req: RequestWithUser,
+  ): Promise<void> {
+    await this.subscriptionService.addEventFavorite(req.user.userId, eventId);
+  }
+
+  @Delete('events/:eventId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Убрать событие из избранного' })
+  @ApiParam({ name: 'eventId', description: 'ID события (Event.id)' })
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Удалено из избранного' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Избранное не найдено' })
+  async removeEventFavorite(
+    @Param('eventId') eventId: string,
+    @Req() req: RequestWithUser,
+  ): Promise<void> {
+    await this.subscriptionService.removeEventFavorite(req.user.userId, eventId);
+  }
 
   @Get('organizers/my')
   @ApiOperation({ summary: 'Список ID организаторов текущей подписки' })

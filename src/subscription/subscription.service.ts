@@ -5,12 +5,70 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '@/prisma/prisma.service';
-import { MySubscriptionsResponseDto, OrganizerSubscribersResponseDto } from './dto';
+import {
+  MySubscriptionsResponseDto,
+  MyEventFavoritesResponseDto,
+  OrganizerSubscribersResponseDto,
+} from './dto';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class SubscriptionService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async addEventFavorite(userId: string, eventId: string): Promise<void> {
+    const event = await this.prisma.event.findUnique({
+      where: { id: eventId },
+      select: { id: true },
+    });
+
+    if (!event) {
+      throw new NotFoundException('Ивент не найден');
+    }
+
+    const existing = await this.prisma.eventFavorite.findUnique({
+      where: {
+        userId_eventId: { userId, eventId },
+      },
+    });
+
+    if (existing) {
+      throw new ConflictException('Событие уже в избранном');
+    }
+
+    await this.prisma.eventFavorite.create({
+      data: { userId, eventId },
+    });
+  }
+
+  async removeEventFavorite(userId: string, eventId: string): Promise<void> {
+    const existing = await this.prisma.eventFavorite.findUnique({
+      where: {
+        userId_eventId: { userId, eventId },
+      },
+    });
+
+    if (!existing) {
+      throw new NotFoundException('Избранное не найдено');
+    }
+
+    await this.prisma.eventFavorite.delete({
+      where: {
+        userId_eventId: { userId, eventId },
+      },
+    });
+  }
+
+  async getMyEventIds(userId: string): Promise<MyEventFavoritesResponseDto> {
+    const rows = await this.prisma.eventFavorite.findMany({
+      where: { userId },
+      select: { eventId: true },
+    });
+
+    return plainToInstance(MyEventFavoritesResponseDto, {
+      eventIds: rows.map((r) => r.eventId),
+    });
+  }
 
   async subscribe(subscriberId: string, organizerId: string): Promise<void> {
     const org = await this.prisma.org.findUnique({
