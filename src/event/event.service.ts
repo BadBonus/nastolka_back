@@ -101,6 +101,13 @@ export class EventService {
     const where: Prisma.EventWhereInput = {};
     where.status = EventStatus.ACTIVE;
 
+    if (filters.q) {
+      where.name = {
+        contains: filters.q,
+        mode: 'insensitive',
+      };
+    }
+
     if (filters.gameSystem) where.gameSystem = filters.gameSystem;
     if (filters.format) where.format = filters.format;
     if (filters.sessionType) where.sessionType = filters.sessionType;

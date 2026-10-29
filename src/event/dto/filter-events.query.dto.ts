@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsInt,
   IsDateString,
+  IsString,
   Max,
   Min,
 } from 'class-validator';
@@ -23,6 +24,13 @@ export enum EventSortBy {
 }
 
 export class FilterEventsDto {
+  @ApiPropertyOptional({
+    description: 'Поиск по названию ивента (полное или частичное совпадение)',
+  })
+  @IsOptional()
+  @IsString()
+  q?: string;
+
   @ApiPropertyOptional({ default: 1 })
   @IsOptional()
   @Type(() => Number)
