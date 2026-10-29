@@ -4,9 +4,10 @@ import { EventService } from './event.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { UploadsModule } from '@/common/modules/uploads/uploads.module';
 import { ImgproxyModule } from '@/common/modules/imgproxy/imgproxy.module';
+import { EventMaterialModule } from '@/event-material/event-material.module';
 
 @Module({
-  imports: [PrismaModule, UploadsModule, ImgproxyModule],
+  imports: [PrismaModule, UploadsModule, ImgproxyModule, EventMaterialModule],
   controllers: [EventController],
   providers: [EventService],
   exports: [EventService],

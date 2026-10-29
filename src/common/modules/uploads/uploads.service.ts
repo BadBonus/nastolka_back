@@ -38,12 +38,25 @@ export class UploadsService {
     format: 'jpeg' | 'png' = 'jpeg',
     pathToSave = process.env.DEFAULT_PATH_UPLOADED_FOLDER,
   ): Promise<{ fileName: string; relativePath: string }> {
+    const extension = format === 'jpeg' ? 'jpg' : 'png';
+    return this.saveBufferToDisk(buffer, extension, pathToSave);
+  }
+
+  async saveBufferToDisk(
+    buffer: Buffer,
+    extension: string,
+    pathToSave = process.env.DEFAULT_PATH_UPLOADED_FOLDER,
+  ): Promise<{ fileName: string; relativePath: string }> {
     if (!pathToSave) throw new Error('Путь для сохранения файла не указан');
+
+    const normalizedExt = extension.replace(/^\./, '').toLowerCase();
+    if (!normalizedExt || normalizedExt.includes('/') || normalizedExt.includes('\\')) {
+      throw new Error('Некорректное расширение файла');
+    }
 
     await fs.mkdir(pathToSave, { recursive: true });
 
-    const extension = format === 'jpeg' ? 'jpg' : 'png';
-    const fileName = `${crypto.randomUUID()}.${extension}`;
+    const fileName = `${crypto.randomUUID()}.${normalizedExt}`;
     const filePath = path.join(pathToSave, fileName);
 
     await fs.writeFile(filePath, buffer);

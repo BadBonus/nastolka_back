@@ -562,6 +562,14 @@ export const RequestStatus = {
 export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 
 
+export const EventMaterialType = {
+  FILE: 'FILE',
+  NOTE: 'NOTE'
+} as const
+
+export type EventMaterialType = (typeof EventMaterialType)[keyof typeof EventMaterialType]
+
+
 export const KindOfRate = {
   CREATIVITY: 'CREATIVITY',
   STORYTELLING: 'STORYTELLING',

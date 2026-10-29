@@ -28,6 +28,11 @@ export type Account = Prisma.AccountModel
  */
 export type Event = Prisma.EventModel
 /**
+ * Model EventMaterial
+ * 
+ */
+export type EventMaterial = Prisma.EventMaterialModel
+/**
  * Model EventRequest
  * 
  */

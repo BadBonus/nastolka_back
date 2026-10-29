@@ -48,6 +48,7 @@ export type EventMinAggregateOutputType = {
   orgId: string | null
   name: string | null
   description: string | null
+  synopsis: string | null
   addInfo: string | null
   preview: string | null
   minUsers: number | null
@@ -59,8 +60,8 @@ export type EventMinAggregateOutputType = {
   costCurrency: $Enums.Currency | null
   format: $Enums.EventFormat | null
   sessionType: $Enums.SessionType | null
-  address: string | null
-  mapUrl: string | null
+  showLocation: boolean | null
+  showMaterials: boolean | null
   status: $Enums.EventStatus | null
   startsAt: Date | null
   endsAt: Date | null
@@ -77,6 +78,7 @@ export type EventMaxAggregateOutputType = {
   orgId: string | null
   name: string | null
   description: string | null
+  synopsis: string | null
   addInfo: string | null
   preview: string | null
   minUsers: number | null
@@ -88,8 +90,8 @@ export type EventMaxAggregateOutputType = {
   costCurrency: $Enums.Currency | null
   format: $Enums.EventFormat | null
   sessionType: $Enums.SessionType | null
-  address: string | null
-  mapUrl: string | null
+  showLocation: boolean | null
+  showMaterials: boolean | null
   status: $Enums.EventStatus | null
   startsAt: Date | null
   endsAt: Date | null
@@ -106,6 +108,7 @@ export type EventCountAggregateOutputType = {
   orgId: number
   name: number
   description: number
+  synopsis: number
   addInfo: number
   preview: number
   minUsers: number
@@ -117,8 +120,9 @@ export type EventCountAggregateOutputType = {
   costCurrency: number
   format: number
   sessionType: number
-  address: number
-  mapUrl: number
+  venue: number
+  showLocation: number
+  showMaterials: number
   status: number
   startsAt: number
   endsAt: number
@@ -153,6 +157,7 @@ export type EventMinAggregateInputType = {
   orgId?: true
   name?: true
   description?: true
+  synopsis?: true
   addInfo?: true
   preview?: true
   minUsers?: true
@@ -164,8 +169,8 @@ export type EventMinAggregateInputType = {
   costCurrency?: true
   format?: true
   sessionType?: true
-  address?: true
-  mapUrl?: true
+  showLocation?: true
+  showMaterials?: true
   status?: true
   startsAt?: true
   endsAt?: true
@@ -182,6 +187,7 @@ export type EventMaxAggregateInputType = {
   orgId?: true
   name?: true
   description?: true
+  synopsis?: true
   addInfo?: true
   preview?: true
   minUsers?: true
@@ -193,8 +199,8 @@ export type EventMaxAggregateInputType = {
   costCurrency?: true
   format?: true
   sessionType?: true
-  address?: true
-  mapUrl?: true
+  showLocation?: true
+  showMaterials?: true
   status?: true
   startsAt?: true
   endsAt?: true
@@ -211,6 +217,7 @@ export type EventCountAggregateInputType = {
   orgId?: true
   name?: true
   description?: true
+  synopsis?: true
   addInfo?: true
   preview?: true
   minUsers?: true
@@ -222,8 +229,9 @@ export type EventCountAggregateInputType = {
   costCurrency?: true
   format?: true
   sessionType?: true
-  address?: true
-  mapUrl?: true
+  venue?: true
+  showLocation?: true
+  showMaterials?: true
   status?: true
   startsAt?: true
   endsAt?: true
@@ -329,6 +337,7 @@ export type EventGroupByOutputType = {
   orgId: string
   name: string
   description: string | null
+  synopsis: string | null
   addInfo: string | null
   preview: string | null
   minUsers: number
@@ -340,8 +349,9 @@ export type EventGroupByOutputType = {
   costCurrency: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address: string | null
-  mapUrl: string | null
+  venue:unknown
+  showLocation: boolean
+  showMaterials: boolean
   status: $Enums.EventStatus
   startsAt: Date
   endsAt: Date
@@ -383,6 +393,7 @@ export type EventWhereInput = {
   orgId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringNullableFilter<"Event"> | string | null
+  synopsis?: Prisma.StringNullableFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableFilter<"Event"> | string | null
   preview?: Prisma.StringNullableFilter<"Event"> | string | null
   minUsers?: Prisma.IntFilter<"Event"> | number
@@ -394,8 +405,9 @@ export type EventWhereInput = {
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFilter<"Event"> | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFilter<"Event"> | $Enums.SessionType
-  address?: Prisma.StringNullableFilter<"Event"> | string | null
-  mapUrl?: Prisma.StringNullableFilter<"Event"> | string | null
+  venue?: Prisma.JsonFilter<"Event">
+  showLocation?: Prisma.BoolFilter<"Event"> | boolean
+  showMaterials?: Prisma.BoolFilter<"Event"> | boolean
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -410,6 +422,7 @@ export type EventWhereInput = {
   requests?: Prisma.EventRequestListRelationFilter
   reviews?: Prisma.EventReviewListRelationFilter
   favorites?: Prisma.EventFavoriteListRelationFilter
+  materials?: Prisma.EventMaterialListRelationFilter
 }
 
 export type EventOrderByWithRelationInput = {
@@ -418,6 +431,7 @@ export type EventOrderByWithRelationInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  synopsis?: Prisma.SortOrderInput | Prisma.SortOrder
   addInfo?: Prisma.SortOrderInput | Prisma.SortOrder
   preview?: Prisma.SortOrderInput | Prisma.SortOrder
   minUsers?: Prisma.SortOrder
@@ -429,8 +443,9 @@ export type EventOrderByWithRelationInput = {
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   format?: Prisma.SortOrder
   sessionType?: Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
-  mapUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  venue?: Prisma.SortOrder
+  showLocation?: Prisma.SortOrder
+  showMaterials?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
@@ -445,6 +460,7 @@ export type EventOrderByWithRelationInput = {
   requests?: Prisma.EventRequestOrderByRelationAggregateInput
   reviews?: Prisma.EventReviewOrderByRelationAggregateInput
   favorites?: Prisma.EventFavoriteOrderByRelationAggregateInput
+  materials?: Prisma.EventMaterialOrderByRelationAggregateInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -456,6 +472,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   orgId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringNullableFilter<"Event"> | string | null
+  synopsis?: Prisma.StringNullableFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableFilter<"Event"> | string | null
   preview?: Prisma.StringNullableFilter<"Event"> | string | null
   minUsers?: Prisma.IntFilter<"Event"> | number
@@ -467,8 +484,9 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFilter<"Event"> | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFilter<"Event"> | $Enums.SessionType
-  address?: Prisma.StringNullableFilter<"Event"> | string | null
-  mapUrl?: Prisma.StringNullableFilter<"Event"> | string | null
+  venue?: Prisma.JsonFilter<"Event">
+  showLocation?: Prisma.BoolFilter<"Event"> | boolean
+  showMaterials?: Prisma.BoolFilter<"Event"> | boolean
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -483,6 +501,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   requests?: Prisma.EventRequestListRelationFilter
   reviews?: Prisma.EventReviewListRelationFilter
   favorites?: Prisma.EventFavoriteListRelationFilter
+  materials?: Prisma.EventMaterialListRelationFilter
 }, "id" | "slug">
 
 export type EventOrderByWithAggregationInput = {
@@ -491,6 +510,7 @@ export type EventOrderByWithAggregationInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  synopsis?: Prisma.SortOrderInput | Prisma.SortOrder
   addInfo?: Prisma.SortOrderInput | Prisma.SortOrder
   preview?: Prisma.SortOrderInput | Prisma.SortOrder
   minUsers?: Prisma.SortOrder
@@ -502,8 +522,9 @@ export type EventOrderByWithAggregationInput = {
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
   format?: Prisma.SortOrder
   sessionType?: Prisma.SortOrder
-  address?: Prisma.SortOrderInput | Prisma.SortOrder
-  mapUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  venue?: Prisma.SortOrder
+  showLocation?: Prisma.SortOrder
+  showMaterials?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
@@ -530,6 +551,7 @@ export type EventScalarWhereWithAggregatesInput = {
   orgId?: Prisma.StringWithAggregatesFilter<"Event"> | string
   name?: Prisma.StringWithAggregatesFilter<"Event"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  synopsis?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   preview?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   minUsers?: Prisma.IntWithAggregatesFilter<"Event"> | number
@@ -541,8 +563,9 @@ export type EventScalarWhereWithAggregatesInput = {
   costCurrency?: Prisma.EnumCurrencyNullableWithAggregatesFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatWithAggregatesFilter<"Event"> | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeWithAggregatesFilter<"Event"> | $Enums.SessionType
-  address?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
-  mapUrl?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  venue?: Prisma.JsonWithAggregatesFilter<"Event">
+  showLocation?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
+  showMaterials?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
   status?: Prisma.EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
   startsAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   endsAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
@@ -560,6 +583,7 @@ export type EventCreateInput = {
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -571,8 +595,9 @@ export type EventCreateInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -587,6 +612,7 @@ export type EventCreateInput = {
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -595,6 +621,7 @@ export type EventUncheckedCreateInput = {
   orgId: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -606,8 +633,9 @@ export type EventUncheckedCreateInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -621,6 +649,7 @@ export type EventUncheckedCreateInput = {
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventUpdateInput = {
@@ -628,6 +657,7 @@ export type EventUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -639,8 +669,9 @@ export type EventUpdateInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -655,6 +686,7 @@ export type EventUpdateInput = {
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -663,6 +695,7 @@ export type EventUncheckedUpdateInput = {
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -674,8 +707,9 @@ export type EventUncheckedUpdateInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -689,6 +723,7 @@ export type EventUncheckedUpdateInput = {
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyInput = {
@@ -697,6 +732,7 @@ export type EventCreateManyInput = {
   orgId: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -708,8 +744,9 @@ export type EventCreateManyInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -727,6 +764,7 @@ export type EventUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -738,8 +776,9 @@ export type EventUpdateManyMutationInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -758,6 +797,7 @@ export type EventUncheckedUpdateManyInput = {
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -769,8 +809,9 @@ export type EventUncheckedUpdateManyInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -805,6 +846,7 @@ export type EventCountOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  synopsis?: Prisma.SortOrder
   addInfo?: Prisma.SortOrder
   preview?: Prisma.SortOrder
   minUsers?: Prisma.SortOrder
@@ -816,8 +858,9 @@ export type EventCountOrderByAggregateInput = {
   costCurrency?: Prisma.SortOrder
   format?: Prisma.SortOrder
   sessionType?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  mapUrl?: Prisma.SortOrder
+  venue?: Prisma.SortOrder
+  showLocation?: Prisma.SortOrder
+  showMaterials?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
@@ -843,6 +886,7 @@ export type EventMaxOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  synopsis?: Prisma.SortOrder
   addInfo?: Prisma.SortOrder
   preview?: Prisma.SortOrder
   minUsers?: Prisma.SortOrder
@@ -854,8 +898,8 @@ export type EventMaxOrderByAggregateInput = {
   costCurrency?: Prisma.SortOrder
   format?: Prisma.SortOrder
   sessionType?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  mapUrl?: Prisma.SortOrder
+  showLocation?: Prisma.SortOrder
+  showMaterials?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
@@ -872,6 +916,7 @@ export type EventMinOrderByAggregateInput = {
   orgId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  synopsis?: Prisma.SortOrder
   addInfo?: Prisma.SortOrder
   preview?: Prisma.SortOrder
   minUsers?: Prisma.SortOrder
@@ -883,8 +928,8 @@ export type EventMinOrderByAggregateInput = {
   costCurrency?: Prisma.SortOrder
   format?: Prisma.SortOrder
   sessionType?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  mapUrl?: Prisma.SortOrder
+  showLocation?: Prisma.SortOrder
+  showMaterials?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
@@ -979,6 +1024,20 @@ export type EnumGameSystemFieldUpdateOperationsInput = {
   set?: $Enums.GameSystem
 }
 
+export type EventCreateNestedOneWithoutMaterialsInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutMaterialsInput, Prisma.EventUncheckedCreateWithoutMaterialsInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutMaterialsInput
+  connect?: Prisma.EventWhereUniqueInput
+}
+
+export type EventUpdateOneRequiredWithoutMaterialsNestedInput = {
+  create?: Prisma.XOR<Prisma.EventCreateWithoutMaterialsInput, Prisma.EventUncheckedCreateWithoutMaterialsInput>
+  connectOrCreate?: Prisma.EventCreateOrConnectWithoutMaterialsInput
+  upsert?: Prisma.EventUpsertWithoutMaterialsInput
+  connect?: Prisma.EventWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutMaterialsInput, Prisma.EventUpdateWithoutMaterialsInput>, Prisma.EventUncheckedUpdateWithoutMaterialsInput>
+}
+
 export type EventCreateNestedOneWithoutRequestsInput = {
   create?: Prisma.XOR<Prisma.EventCreateWithoutRequestsInput, Prisma.EventUncheckedCreateWithoutRequestsInput>
   connectOrCreate?: Prisma.EventCreateOrConnectWithoutRequestsInput
@@ -1063,11 +1122,12 @@ export type EventUpdateOneRequiredWithoutFavoritesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutFavoritesInput, Prisma.EventUpdateWithoutFavoritesInput>, Prisma.EventUncheckedUpdateWithoutFavoritesInput>
 }
 
-export type EventCreateWithoutRequestsInput = {
+export type EventCreateWithoutMaterialsInput = {
   id?: string
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1079,8 +1139,169 @@ export type EventCreateWithoutRequestsInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
+  status?: $Enums.EventStatus
+  startsAt: Date | string
+  endsAt: Date | string
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  genres?: Prisma.EventCreategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventCreateplatformsInput | $Enums.GamePlatform[]
+  gameSystem: $Enums.GameSystem
+  org: Prisma.OrgCreateNestedOneWithoutEventsInput
+  requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
+  reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
+}
+
+export type EventUncheckedCreateWithoutMaterialsInput = {
+  id?: string
+  slug: string
+  orgId: string
+  name: string
+  description?: string | null
+  synopsis?: string | null
+  addInfo?: string | null
+  preview?: string | null
+  minUsers?: number
+  maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
+  format: $Enums.EventFormat
+  sessionType: $Enums.SessionType
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
+  status?: $Enums.EventStatus
+  startsAt: Date | string
+  endsAt: Date | string
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  genres?: Prisma.EventCreategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventCreateplatformsInput | $Enums.GamePlatform[]
+  gameSystem: $Enums.GameSystem
+  requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
+  reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
+  favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
+}
+
+export type EventCreateOrConnectWithoutMaterialsInput = {
+  where: Prisma.EventWhereUniqueInput
+  create: Prisma.XOR<Prisma.EventCreateWithoutMaterialsInput, Prisma.EventUncheckedCreateWithoutMaterialsInput>
+}
+
+export type EventUpsertWithoutMaterialsInput = {
+  update: Prisma.XOR<Prisma.EventUpdateWithoutMaterialsInput, Prisma.EventUncheckedUpdateWithoutMaterialsInput>
+  create: Prisma.XOR<Prisma.EventCreateWithoutMaterialsInput, Prisma.EventUncheckedCreateWithoutMaterialsInput>
+  where?: Prisma.EventWhereInput
+}
+
+export type EventUpdateToOneWithWhereWithoutMaterialsInput = {
+  where?: Prisma.EventWhereInput
+  data: Prisma.XOR<Prisma.EventUpdateWithoutMaterialsInput, Prisma.EventUncheckedUpdateWithoutMaterialsInput>
+}
+
+export type EventUpdateWithoutMaterialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minUsers?: Prisma.IntFieldUpdateOperationsInput | number
+  maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.EventUpdategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventUpdateplatformsInput | $Enums.GamePlatform[]
+  gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
+  org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
+  requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
+}
+
+export type EventUncheckedUpdateWithoutMaterialsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  orgId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  minUsers?: Prisma.IntFieldUpdateOperationsInput | number
+  maxUsers?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isBeginnerFriendly?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ageLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  autoApprove?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
+  sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.EventUpdategenresInput | $Enums.GameGenres[]
+  platforms?: Prisma.EventUpdateplatformsInput | $Enums.GamePlatform[]
+  gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
+  requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
+  favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
+}
+
+export type EventCreateWithoutRequestsInput = {
+  id?: string
+  slug: string
+  name: string
+  description?: string | null
+  synopsis?: string | null
+  addInfo?: string | null
+  preview?: string | null
+  minUsers?: number
+  maxUsers?: number | null
+  isBeginnerFriendly?: boolean
+  ageLimit?: number | null
+  autoApprove?: boolean
+  costValue?: number | null
+  costCurrency?: $Enums.Currency | null
+  format: $Enums.EventFormat
+  sessionType: $Enums.SessionType
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1094,6 +1315,7 @@ export type EventCreateWithoutRequestsInput = {
   org: Prisma.OrgCreateNestedOneWithoutEventsInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutRequestsInput = {
@@ -1102,6 +1324,7 @@ export type EventUncheckedCreateWithoutRequestsInput = {
   orgId: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1113,8 +1336,9 @@ export type EventUncheckedCreateWithoutRequestsInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1127,6 +1351,7 @@ export type EventUncheckedCreateWithoutRequestsInput = {
   gameSystem: $Enums.GameSystem
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutRequestsInput = {
@@ -1150,6 +1375,7 @@ export type EventUpdateWithoutRequestsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1161,8 +1387,9 @@ export type EventUpdateWithoutRequestsInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1176,6 +1403,7 @@ export type EventUpdateWithoutRequestsInput = {
   org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutRequestsInput = {
@@ -1184,6 +1412,7 @@ export type EventUncheckedUpdateWithoutRequestsInput = {
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1195,8 +1424,9 @@ export type EventUncheckedUpdateWithoutRequestsInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1209,6 +1439,7 @@ export type EventUncheckedUpdateWithoutRequestsInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutReviewsInput = {
@@ -1216,6 +1447,7 @@ export type EventCreateWithoutReviewsInput = {
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1227,8 +1459,9 @@ export type EventCreateWithoutReviewsInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1242,6 +1475,7 @@ export type EventCreateWithoutReviewsInput = {
   org: Prisma.OrgCreateNestedOneWithoutEventsInput
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutReviewsInput = {
@@ -1250,6 +1484,7 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   orgId: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1261,8 +1496,9 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1275,6 +1511,7 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   gameSystem: $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutReviewsInput = {
@@ -1298,6 +1535,7 @@ export type EventUpdateWithoutReviewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1309,8 +1547,9 @@ export type EventUpdateWithoutReviewsInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1324,6 +1563,7 @@ export type EventUpdateWithoutReviewsInput = {
   org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutReviewsInput = {
@@ -1332,6 +1572,7 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1343,8 +1584,9 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1357,6 +1599,7 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutOrgInput = {
@@ -1364,6 +1607,7 @@ export type EventCreateWithoutOrgInput = {
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1375,8 +1619,9 @@ export type EventCreateWithoutOrgInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1390,6 +1635,7 @@ export type EventCreateWithoutOrgInput = {
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutOrgInput = {
@@ -1397,6 +1643,7 @@ export type EventUncheckedCreateWithoutOrgInput = {
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1408,8 +1655,9 @@ export type EventUncheckedCreateWithoutOrgInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1423,6 +1671,7 @@ export type EventUncheckedCreateWithoutOrgInput = {
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
   favorites?: Prisma.EventFavoriteUncheckedCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutOrgInput = {
@@ -1460,6 +1709,7 @@ export type EventScalarWhereInput = {
   orgId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   description?: Prisma.StringNullableFilter<"Event"> | string | null
+  synopsis?: Prisma.StringNullableFilter<"Event"> | string | null
   addInfo?: Prisma.StringNullableFilter<"Event"> | string | null
   preview?: Prisma.StringNullableFilter<"Event"> | string | null
   minUsers?: Prisma.IntFilter<"Event"> | number
@@ -1471,8 +1721,9 @@ export type EventScalarWhereInput = {
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Event"> | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFilter<"Event"> | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFilter<"Event"> | $Enums.SessionType
-  address?: Prisma.StringNullableFilter<"Event"> | string | null
-  mapUrl?: Prisma.StringNullableFilter<"Event"> | string | null
+  venue?: Prisma.JsonFilter<"Event">
+  showLocation?: Prisma.BoolFilter<"Event"> | boolean
+  showMaterials?: Prisma.BoolFilter<"Event"> | boolean
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   endsAt?: Prisma.DateTimeFilter<"Event"> | Date | string
@@ -1490,6 +1741,7 @@ export type EventCreateWithoutFavoritesInput = {
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1501,8 +1753,9 @@ export type EventCreateWithoutFavoritesInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1516,6 +1769,7 @@ export type EventCreateWithoutFavoritesInput = {
   org: Prisma.OrgCreateNestedOneWithoutEventsInput
   requests?: Prisma.EventRequestCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutFavoritesInput = {
@@ -1524,6 +1778,7 @@ export type EventUncheckedCreateWithoutFavoritesInput = {
   orgId: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1535,8 +1790,9 @@ export type EventUncheckedCreateWithoutFavoritesInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1549,6 +1805,7 @@ export type EventUncheckedCreateWithoutFavoritesInput = {
   gameSystem: $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.EventReviewUncheckedCreateNestedManyWithoutEventInput
+  materials?: Prisma.EventMaterialUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutFavoritesInput = {
@@ -1572,6 +1829,7 @@ export type EventUpdateWithoutFavoritesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1583,8 +1841,9 @@ export type EventUpdateWithoutFavoritesInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1598,6 +1857,7 @@ export type EventUpdateWithoutFavoritesInput = {
   org?: Prisma.OrgUpdateOneRequiredWithoutEventsNestedInput
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutFavoritesInput = {
@@ -1606,6 +1866,7 @@ export type EventUncheckedUpdateWithoutFavoritesInput = {
   orgId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1617,8 +1878,9 @@ export type EventUncheckedUpdateWithoutFavoritesInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1631,6 +1893,7 @@ export type EventUncheckedUpdateWithoutFavoritesInput = {
   gameSystem?: Prisma.EnumGameSystemFieldUpdateOperationsInput | $Enums.GameSystem
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyOrgInput = {
@@ -1638,6 +1901,7 @@ export type EventCreateManyOrgInput = {
   slug: string
   name: string
   description?: string | null
+  synopsis?: string | null
   addInfo?: string | null
   preview?: string | null
   minUsers?: number
@@ -1649,8 +1913,9 @@ export type EventCreateManyOrgInput = {
   costCurrency?: $Enums.Currency | null
   format: $Enums.EventFormat
   sessionType: $Enums.SessionType
-  address?: string | null
-  mapUrl?: string | null
+  venue:unknown
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: $Enums.EventStatus
   startsAt: Date | string
   endsAt: Date | string
@@ -1668,6 +1933,7 @@ export type EventUpdateWithoutOrgInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1679,8 +1945,9 @@ export type EventUpdateWithoutOrgInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1694,6 +1961,7 @@ export type EventUpdateWithoutOrgInput = {
   requests?: Prisma.EventRequestUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutOrgInput = {
@@ -1701,6 +1969,7 @@ export type EventUncheckedUpdateWithoutOrgInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1712,8 +1981,9 @@ export type EventUncheckedUpdateWithoutOrgInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1727,6 +1997,7 @@ export type EventUncheckedUpdateWithoutOrgInput = {
   requests?: Prisma.EventRequestUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.EventReviewUncheckedUpdateManyWithoutEventNestedInput
   favorites?: Prisma.EventFavoriteUncheckedUpdateManyWithoutEventNestedInput
+  materials?: Prisma.EventMaterialUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutOrgInput = {
@@ -1734,6 +2005,7 @@ export type EventUncheckedUpdateManyWithoutOrgInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  synopsis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preview?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minUsers?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1745,8 +2017,9 @@ export type EventUncheckedUpdateManyWithoutOrgInput = {
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
   format?: Prisma.EnumEventFormatFieldUpdateOperationsInput | $Enums.EventFormat
   sessionType?: Prisma.EnumSessionTypeFieldUpdateOperationsInput | $Enums.SessionType
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mapUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  venue?:unknown
+  showLocation?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  showMaterials?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
   startsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endsAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1768,12 +2041,14 @@ export type EventCountOutputType = {
   requests: number
   reviews: number
   favorites: number
+  materials: number
 }
 
 export type EventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requests?: boolean | EventCountOutputTypeCountRequestsArgs
   reviews?: boolean | EventCountOutputTypeCountReviewsArgs
   favorites?: boolean | EventCountOutputTypeCountFavoritesArgs
+  materials?: boolean | EventCountOutputTypeCountMaterialsArgs
 }
 
 /**
@@ -1807,6 +2082,13 @@ export type EventCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types
   where?: Prisma.EventFavoriteWhereInput
 }
 
+/**
+ * EventCountOutputType without action
+ */
+export type EventCountOutputTypeCountMaterialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventMaterialWhereInput
+}
+
 
 export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1814,6 +2096,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   orgId?: boolean
   name?: boolean
   description?: boolean
+  synopsis?: boolean
   addInfo?: boolean
   preview?: boolean
   minUsers?: boolean
@@ -1825,8 +2108,9 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   costCurrency?: boolean
   format?: boolean
   sessionType?: boolean
-  address?: boolean
-  mapUrl?: boolean
+  venue?: boolean
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: boolean
   startsAt?: boolean
   endsAt?: boolean
@@ -1841,6 +2125,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   requests?: boolean | Prisma.Event$requestsArgs<ExtArgs>
   reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
   favorites?: boolean | Prisma.Event$favoritesArgs<ExtArgs>
+  materials?: boolean | Prisma.Event$materialsArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -1850,6 +2135,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   orgId?: boolean
   name?: boolean
   description?: boolean
+  synopsis?: boolean
   addInfo?: boolean
   preview?: boolean
   minUsers?: boolean
@@ -1861,8 +2147,9 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   costCurrency?: boolean
   format?: boolean
   sessionType?: boolean
-  address?: boolean
-  mapUrl?: boolean
+  venue?: boolean
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: boolean
   startsAt?: boolean
   endsAt?: boolean
@@ -1882,6 +2169,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   orgId?: boolean
   name?: boolean
   description?: boolean
+  synopsis?: boolean
   addInfo?: boolean
   preview?: boolean
   minUsers?: boolean
@@ -1893,8 +2181,9 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   costCurrency?: boolean
   format?: boolean
   sessionType?: boolean
-  address?: boolean
-  mapUrl?: boolean
+  venue?: boolean
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: boolean
   startsAt?: boolean
   endsAt?: boolean
@@ -1914,6 +2203,7 @@ export type EventSelectScalar = {
   orgId?: boolean
   name?: boolean
   description?: boolean
+  synopsis?: boolean
   addInfo?: boolean
   preview?: boolean
   minUsers?: boolean
@@ -1925,8 +2215,9 @@ export type EventSelectScalar = {
   costCurrency?: boolean
   format?: boolean
   sessionType?: boolean
-  address?: boolean
-  mapUrl?: boolean
+  venue?: boolean
+  showLocation?: boolean
+  showMaterials?: boolean
   status?: boolean
   startsAt?: boolean
   endsAt?: boolean
@@ -1939,12 +2230,13 @@ export type EventSelectScalar = {
   gameSystem?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "orgId" | "name" | "description" | "addInfo" | "preview" | "minUsers" | "maxUsers" | "isBeginnerFriendly" | "ageLimit" | "autoApprove" | "costValue" | "costCurrency" | "format" | "sessionType" | "address" | "mapUrl" | "status" | "startsAt" | "endsAt" | "canceledAt" | "cancelReason" | "createdAt" | "updatedAt" | "genres" | "platforms" | "gameSystem", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "orgId" | "name" | "description" | "synopsis" | "addInfo" | "preview" | "minUsers" | "maxUsers" | "isBeginnerFriendly" | "ageLimit" | "autoApprove" | "costValue" | "costCurrency" | "format" | "sessionType" | "venue" | "showLocation" | "showMaterials" | "status" | "startsAt" | "endsAt" | "canceledAt" | "cancelReason" | "createdAt" | "updatedAt" | "genres" | "platforms" | "gameSystem", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   org?: boolean | Prisma.OrgDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Event$requestsArgs<ExtArgs>
   reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
   favorites?: boolean | Prisma.Event$favoritesArgs<ExtArgs>
+  materials?: boolean | Prisma.Event$materialsArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1961,6 +2253,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     requests: Prisma.$EventRequestPayload<ExtArgs>[]
     reviews: Prisma.$EventReviewPayload<ExtArgs>[]
     favorites: Prisma.$EventFavoritePayload<ExtArgs>[]
+    materials: Prisma.$EventMaterialPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1968,6 +2261,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     orgId: string
     name: string
     description: string | null
+    synopsis: string | null
     addInfo: string | null
     preview: string | null
     minUsers: number
@@ -1979,8 +2273,12 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     costCurrency: $Enums.Currency | null
     format: $Enums.EventFormat
     sessionType: $Enums.SessionType
-    address: string | null
-    mapUrl: string | null
+    /**
+     * ONLINE: { type, links[] } | OFFLINE: { type, address, lat, lng, mapUrl? }
+     */
+    venue:unknown
+    showLocation: boolean
+    showMaterials: boolean
     status: $Enums.EventStatus
     startsAt: Date
     endsAt: Date
@@ -2389,6 +2687,7 @@ export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Ty
   requests<T extends Prisma.Event$requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Event$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.Event$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  materials<T extends Prisma.Event$materialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventMaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2423,6 +2722,7 @@ export interface EventFieldRefs {
   readonly orgId: Prisma.FieldRef<"Event", 'String'>
   readonly name: Prisma.FieldRef<"Event", 'String'>
   readonly description: Prisma.FieldRef<"Event", 'String'>
+  readonly synopsis: Prisma.FieldRef<"Event", 'String'>
   readonly addInfo: Prisma.FieldRef<"Event", 'String'>
   readonly preview: Prisma.FieldRef<"Event", 'String'>
   readonly minUsers: Prisma.FieldRef<"Event", 'Int'>
@@ -2434,8 +2734,9 @@ export interface EventFieldRefs {
   readonly costCurrency: Prisma.FieldRef<"Event", 'Currency'>
   readonly format: Prisma.FieldRef<"Event", 'EventFormat'>
   readonly sessionType: Prisma.FieldRef<"Event", 'SessionType'>
-  readonly address: Prisma.FieldRef<"Event", 'String'>
-  readonly mapUrl: Prisma.FieldRef<"Event", 'String'>
+  readonly venue: Prisma.FieldRef<"Event", 'Json'>
+  readonly showLocation: Prisma.FieldRef<"Event", 'Boolean'>
+  readonly showMaterials: Prisma.FieldRef<"Event", 'Boolean'>
   readonly status: Prisma.FieldRef<"Event", 'EventStatus'>
   readonly startsAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly endsAt: Prisma.FieldRef<"Event", 'DateTime'>
@@ -2911,6 +3212,30 @@ export type Event$favoritesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.EventFavoriteScalarFieldEnum | Prisma.EventFavoriteScalarFieldEnum[]
+}
+
+/**
+ * Event.materials
+ */
+export type Event$materialsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventMaterial
+   */
+  select?: Prisma.EventMaterialSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventMaterial
+   */
+  omit?: Prisma.EventMaterialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventMaterialInclude<ExtArgs> | null
+  where?: Prisma.EventMaterialWhereInput
+  orderBy?: Prisma.EventMaterialOrderByWithRelationInput | Prisma.EventMaterialOrderByWithRelationInput[]
+  cursor?: Prisma.EventMaterialWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventMaterialScalarFieldEnum | Prisma.EventMaterialScalarFieldEnum[]
 }
 
 /**

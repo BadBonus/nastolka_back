@@ -22,6 +22,7 @@ model Event {
 
   name               String
   description        String?        @db.Text
+  synopsis           String?        @db.Text
   addInfo            String?        @map("add_info") @db.Text
   preview            String?        @map("preview_url")
 
@@ -38,8 +39,11 @@ model Event {
   format             EventFormat
   sessionType        SessionType    @map("session_type")
 
-  address            String?
-  mapUrl             String?        @map("map_url")
+  /// ONLINE: { type, links[] } | OFFLINE: { type, address, lat, lng, mapUrl? }
+  venue              Json
+
+  showLocation       Boolean        @default(true) @map("show_location")
+  showMaterials      Boolean        @default(true) @map("show_materials")
 
   status             EventStatus    @default(PREPARE)
 
@@ -54,6 +58,7 @@ model Event {
   requests           EventRequest[]
   reviews            EventReview[]
   favorites          EventFavorite[]
+  materials          EventMaterial[]
 
   genres             GameGenres[]
   platforms          GamePlatform[]
@@ -62,6 +67,36 @@ model Event {
   @@index([slug])
   @@index([status, startsAt])
   @@map("events")
+}
+
+enum EventMaterialType {
+  FILE
+  NOTE
+}
+
+model EventMaterial {
+  id           String            @id @default(uuid())
+  eventId      String            @map("event_id")
+  event        Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  type         EventMaterialType
+  title        String            @db.VarChar(120)
+  sortOrder    Int               @default(0) @map("sort_order")
+  isPublic     Boolean           @default(true) @map("is_public")
+
+  storageKey   String?           @map("storage_key") @db.VarChar(512)
+  originalName String?           @map("original_name") @db.VarChar(255)
+  mimeType     String?           @map("mime_type") @db.VarChar(120)
+  sizeBytes    Int?              @map("size_bytes")
+  checksum     String?           @db.VarChar(64)
+
+  body         String?           @db.Text
+
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  @@index([eventId, sortOrder])
+  @@map("event_materials")
 }
 
 model EventRequest {

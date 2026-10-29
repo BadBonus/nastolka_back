@@ -3,6 +3,7 @@ export const STORAGE_FOLDERS = {
   avatars: 'uploads/avatars',
   events_preview: 'uploads/events_preview',
   org_avatars: 'uploads/org/avatars',
+  events_materials: 'uploads/events_materials',
 } as const;
 
 export type TStorageFolder = keyof typeof STORAGE_FOLDERS;

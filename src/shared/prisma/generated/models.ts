@@ -10,6 +10,7 @@
  */
 export type * from './models/Account'
 export type * from './models/Event'
+export type * from './models/EventMaterial'
 export type * from './models/EventRequest'
 export type * from './models/EventReview'
 export type * from './models/Country'

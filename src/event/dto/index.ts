@@ -1,5 +1,7 @@
 export * from './paginated-events.response.dto';
 export * from './event.response.dto';
+export * from './event-detail-org.response.dto';
+export * from './event-venue.dto';
 export * from './create-event.query.dto';
 export * from './update-event.query.dto';
 export * from './filter-events.query.dto';

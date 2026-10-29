@@ -17,6 +17,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import { NotificationModule } from './notification/notification.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { EventReviewModule } from './event-review/event-review.module';
+import { EventMaterialModule } from './event-material/event-material.module';
 import { getRedisConnectionOptions } from '@/shared/redis/redis-connection';
 
 @Module({
@@ -46,6 +47,7 @@ import { getRedisConnectionOptions } from '@/shared/redis/redis-connection';
     NotificationModule,
     TelegramModule,
     EventReviewModule,
+    EventMaterialModule,
     // SupportModule,
   ],
 })

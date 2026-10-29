@@ -1,5 +1,10 @@
 import { Exclude, Expose, Type } from 'class-transformer';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  ApiExtraModels,
+  ApiProperty,
+  ApiPropertyOptional,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import {
   EventFormat,
   SessionType,
@@ -9,8 +14,25 @@ import {
   GameSystem,
   EventStatus,
 } from '@pGen/client';
-import { EventOrgResponseDto } from './paginated-events.response.dto';
+import {
+  EventMaterialFileResponseDto,
+  EventMaterialNoteResponseDto,
+  EventMaterialResponseDto,
+} from '@/event-material/dto';
+import { EventResponseDto } from './paginated-events.response.dto';
+import { EventDetailOrgResponseDto } from './event-detail-org.response.dto';
+import {
+  EventVenueOfflineDto,
+  EventVenueOnlineDto,
+} from './event-venue.dto';
 
+@ApiExtraModels(
+  EventMaterialFileResponseDto,
+  EventMaterialNoteResponseDto,
+  EventVenueOnlineDto,
+  EventVenueOfflineDto,
+  EventResponseDto,
+)
 @Exclude()
 export class EventDetailResponseDto {
   @ApiProperty()
@@ -32,6 +54,13 @@ export class EventDetailResponseDto {
   @ApiPropertyOptional({ nullable: true })
   @Expose()
   description!: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    description: 'Краткий синопсис события',
+  })
+  @Expose()
+  synopsis!: string | null;
 
   @ApiPropertyOptional({ nullable: true })
   @Expose()
@@ -73,13 +102,38 @@ export class EventDetailResponseDto {
   @Expose()
   sessionType!: SessionType;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiPropertyOptional({
+    nullable: true,
+    description:
+      'Место проведения (ONLINE links | OFFLINE geo). null если showLocation=false и зритель не записан/не владелец',
+    oneOf: [
+      { $ref: getSchemaPath(EventVenueOnlineDto) },
+      { $ref: getSchemaPath(EventVenueOfflineDto) },
+    ],
+    discriminator: {
+      propertyName: 'type',
+      mapping: {
+        ONLINE: getSchemaPath(EventVenueOnlineDto),
+        OFFLINE: getSchemaPath(EventVenueOfflineDto),
+      },
+    },
+  })
   @Expose()
-  address!: string | null;
+  venue!: EventVenueOnlineDto | EventVenueOfflineDto | null;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiProperty({
+    description:
+      'Показывать блок места незаписанным посетителям (владелец и CONFIRMED видят venue всегда)',
+  })
   @Expose()
-  mapUrl!: string | null;
+  showLocation!: boolean;
+
+  @ApiProperty({
+    description:
+      'Показывать блок материалов. false → materials всегда []',
+  })
+  @Expose()
+  showMaterials!: boolean;
 
   @ApiProperty({ enum: EventStatus })
   @Expose()
@@ -97,7 +151,11 @@ export class EventDetailResponseDto {
   @Expose()
   genres!: GameGenres[];
 
-  @ApiProperty({ enum: GamePlatform, isArray: true })
+  @ApiProperty({
+    enum: GamePlatform,
+    isArray: true,
+    description: 'Теги платформ (не путать с venue.links)',
+  })
   @Expose()
   platforms!: GamePlatform[];
 
@@ -105,14 +163,38 @@ export class EventDetailResponseDto {
   @Expose()
   gameSystem!: GameSystem;
 
-  @ApiProperty({ type: EventOrgResponseDto })
+  @ApiProperty({ type: EventDetailOrgResponseDto })
   @Expose()
-  @Type(() => EventOrgResponseDto)
-  org!: EventOrgResponseDto;
+  @Type(() => EventDetailOrgResponseDto)
+  org!: EventDetailOrgResponseDto;
 
   @ApiProperty({
     description: 'В избранном у текущего пользователя (для гостя всегда false)',
   })
   @Expose()
   isFavorite!: boolean;
+
+  @ApiProperty({
+    description:
+      'Материалы для игроков. Приватные (isPublic=false) видны только записанным (CONFIRMED) и организатору',
+    type: 'array',
+    items: {
+      oneOf: [
+        { $ref: getSchemaPath(EventMaterialFileResponseDto) },
+        { $ref: getSchemaPath(EventMaterialNoteResponseDto) },
+      ],
+    },
+  })
+  @Expose()
+  @Type(() => EventMaterialResponseDto)
+  materials!: EventMaterialResponseDto[];
+
+  @ApiProperty({
+    type: [EventResponseDto],
+    maxItems: 3,
+    description: 'Похожие ACTIVE ивенты (до 3)',
+  })
+  @Expose()
+  @Type(() => EventResponseDto)
+  similar!: EventResponseDto[];
 }

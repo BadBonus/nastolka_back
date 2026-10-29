@@ -112,8 +112,38 @@ export async function seedMocks(prisma: PrismaClient) {
     const randomOrg =
       createdOrgs[Math.floor(Math.random() * createdOrgs.length)];
     const eventName = faker.lorem.words({ min: 2, max: 4 });
-    const startsAt = faker.date.future();
+    const format = getRandomEnum(EventFormat);
+    const platforms = getRandomEnums(GamePlatform, 1);
+    const status = faker.helpers.arrayElement([
+      EventStatus.PREPARE,
+      EventStatus.ACTIVE,
+      EventStatus.ACTIVE,
+      EventStatus.FINISHED,
+    ]);
+
+    const startsAt =
+      status === EventStatus.FINISHED
+        ? faker.date.past()
+        : faker.date.future();
     const endsAt = new Date(startsAt.getTime() + 3 * 60 * 60 * 1000);
+
+    const venue =
+      format === EventFormat.ONLINE
+        ? {
+            type: 'ONLINE' as const,
+            links: platforms.map((platform) => ({
+              platform,
+              label: platform,
+              url: faker.internet.url(),
+            })),
+          }
+        : {
+            type: 'OFFLINE' as const,
+            address: faker.location.streetAddress(),
+            lat: Number(faker.location.latitude()),
+            lng: Number(faker.location.longitude()),
+            mapUrl: faker.internet.url(),
+          };
 
     await prisma.event.create({
       data: {
@@ -121,6 +151,7 @@ export async function seedMocks(prisma: PrismaClient) {
         name: eventName,
         slug: createUniqueSlug(eventName),
         description: faker.lorem.paragraphs(2),
+        synopsis: faker.lorem.sentence(),
         addInfo: faker.lorem.sentence(),
         minUsers: 2,
         maxUsers: faker.number.int({ min: 4, max: 8 }),
@@ -129,14 +160,15 @@ export async function seedMocks(prisma: PrismaClient) {
         autoApprove: faker.datatype.boolean(),
         costValue: faker.number.int({ min: 500, max: 3000 }),
         costCurrency: Currency.RUB,
-        format: getRandomEnum(EventFormat),
+        format,
         sessionType: getRandomEnum(SessionType),
-        status: EventStatus.PREPARE,
+        status,
         startsAt,
         endsAt,
         gameSystem: getRandomEnum(GameSystem),
         genres: getRandomEnums(GameGenres, 2),
-        platforms: getRandomEnums(GamePlatform, 1),
+        platforms,
+        venue,
       },
     });
   }

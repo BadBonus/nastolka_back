@@ -29,9 +29,14 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  // терь error будет чисто стринг
+  // Один pipe: transform нужен для query (limit/page как number), иначе @IsInt падает на строках
   app.useGlobalPipes(
     new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+      stopAtFirstError: false,
       exceptionFactory: (errors) => {
         const messages = errors.map((error) => {
           return Object.values(error.constraints || {}).join(', ');
@@ -43,13 +48,6 @@ async function bootstrap() {
           error: 'Bad Request',
         });
       },
-      stopAtFirstError: false,
-    }),
-
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
     }),
   );
   app.use(cookieParser());

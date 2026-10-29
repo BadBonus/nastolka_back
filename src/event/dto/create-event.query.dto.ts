@@ -7,8 +7,10 @@ import {
   IsEnum,
   IsDateString,
   IsArray,
+  ValidateNested,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
 import {
   EventFormat,
   SessionType,
@@ -18,6 +20,7 @@ import {
   GameSystem,
 } from '@pGen/client';
 import { EVENT_PREVIEW_IMAGE_SIZE } from './../event.constants';
+import { EventVenueDto } from './event-venue.dto';
 
 export class CreateEventDtoReq {
   @ApiProperty()
@@ -32,6 +35,13 @@ export class CreateEventDtoReq {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @ApiPropertyOptional({
+    description: 'Краткий синопсис события (отдаётся только в detail by slug)',
+  })
+  @IsOptional()
+  @IsString()
+  synopsis?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -98,15 +108,24 @@ export class CreateEventDtoReq {
   @IsEnum(SessionType)
   sessionType!: SessionType;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  address?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  mapUrl?: string;
+  @ApiProperty({
+    type: EventVenueDto,
+    description:
+      'Место проведения. type должен совпадать с format: ONLINE → links[]; OFFLINE → address, lat, lng, mapUrl?',
+  })
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value) as unknown;
+      } catch {
+        return value;
+      }
+    }
+    return value;
+  })
+  @ValidateNested()
+  @Type(() => EventVenueDto)
+  venue!: EventVenueDto;
 
   @ApiProperty()
   @IsDateString()
@@ -131,4 +150,21 @@ export class CreateEventDtoReq {
   @ApiProperty({ enum: GameSystem })
   @IsEnum(GameSystem)
   gameSystem!: GameSystem;
+
+  @ApiPropertyOptional({
+    default: true,
+    description:
+      'Показывать блок места / онлайн-площадок незаписанным посетителям',
+  })
+  @IsOptional()
+  @IsBoolean()
+  showLocation?: boolean;
+
+  @ApiPropertyOptional({
+    default: true,
+    description: 'Показывать блок материалов для игроков',
+  })
+  @IsOptional()
+  @IsBoolean()
+  showMaterials?: boolean;
 }

@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Account: 'Account',
   Event: 'Event',
+  EventMaterial: 'EventMaterial',
   EventRequest: 'EventRequest',
   EventReview: 'EventReview',
   Country: 'Country',
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "account" | "event" | "eventRequest" | "eventReview" | "country" | "city" | "alternateName" | "org" | "role" | "permission" | "rolePermission" | "session" | "userSubscription" | "eventFavorite" | "notification" | "supportTicket" | "supportMessage" | "telegramAccount" | "eventTelegramMessage" | "user" | "userSchedule" | "verificationCode" | "passwordResetToken"
+    modelProps: "account" | "event" | "eventMaterial" | "eventRequest" | "eventReview" | "country" | "city" | "alternateName" | "org" | "role" | "permission" | "rolePermission" | "session" | "userSubscription" | "eventFavorite" | "notification" | "supportTicket" | "supportMessage" | "telegramAccount" | "eventTelegramMessage" | "user" | "userSchedule" | "verificationCode" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -571,6 +572,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EventCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EventCountAggregateOutputType> | number
+        }
+      }
+    }
+    EventMaterial: {
+      payload: Prisma.$EventMaterialPayload<ExtArgs>
+      fields: Prisma.EventMaterialFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EventMaterialFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EventMaterialFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>
+        }
+        findFirst: {
+          args: Prisma.EventMaterialFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EventMaterialFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>
+        }
+        findMany: {
+          args: Prisma.EventMaterialFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>[]
+        }
+        create: {
+          args: Prisma.EventMaterialCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>
+        }
+        createMany: {
+          args: Prisma.EventMaterialCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EventMaterialCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>[]
+        }
+        delete: {
+          args: Prisma.EventMaterialDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>
+        }
+        update: {
+          args: Prisma.EventMaterialUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>
+        }
+        deleteMany: {
+          args: Prisma.EventMaterialDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EventMaterialUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EventMaterialUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>[]
+        }
+        upsert: {
+          args: Prisma.EventMaterialUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EventMaterialPayload>
+        }
+        aggregate: {
+          args: Prisma.EventMaterialAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEventMaterial>
+        }
+        groupBy: {
+          args: Prisma.EventMaterialGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventMaterialGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EventMaterialCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EventMaterialCountAggregateOutputType> | number
         }
       }
     }
@@ -2185,6 +2260,7 @@ export const EventScalarFieldEnum = {
   orgId: 'orgId',
   name: 'name',
   description: 'description',
+  synopsis: 'synopsis',
   addInfo: 'addInfo',
   preview: 'preview',
   minUsers: 'minUsers',
@@ -2196,8 +2272,9 @@ export const EventScalarFieldEnum = {
   costCurrency: 'costCurrency',
   format: 'format',
   sessionType: 'sessionType',
-  address: 'address',
-  mapUrl: 'mapUrl',
+  venue: 'venue',
+  showLocation: 'showLocation',
+  showMaterials: 'showMaterials',
   status: 'status',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
@@ -2211,6 +2288,26 @@ export const EventScalarFieldEnum = {
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const EventMaterialScalarFieldEnum = {
+  id: 'id',
+  eventId: 'eventId',
+  type: 'type',
+  title: 'title',
+  sortOrder: 'sortOrder',
+  isPublic: 'isPublic',
+  storageKey: 'storageKey',
+  originalName: 'originalName',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  checksum: 'checksum',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventMaterialScalarFieldEnum = (typeof EventMaterialScalarFieldEnum)[keyof typeof EventMaterialScalarFieldEnum]
 
 
 export const EventRequestScalarFieldEnum = {
@@ -2471,19 +2568,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -2623,6 +2720,20 @@ export type ListEnumSessionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
  * Reference to a field of type 'EventStatus'
  */
 export type EnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus'>
@@ -2679,6 +2790,20 @@ export type ListEnumGameSystemFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'EventMaterialType'
+ */
+export type EnumEventMaterialTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventMaterialType'>
+    
+
+
+/**
+ * Reference to a field of type 'EventMaterialType[]'
+ */
+export type ListEnumEventMaterialTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventMaterialType[]'>
+    
+
+
+/**
  * Reference to a field of type 'RequestStatus'
  */
 export type EnumRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequestStatus'>
@@ -2703,20 +2828,6 @@ export type ListEnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'KindOfRate'
  */
 export type EnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KindOfRate'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -2858,6 +2969,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   event?: Prisma.EventOmit
+  eventMaterial?: Prisma.EventMaterialOmit
   eventRequest?: Prisma.EventRequestOmit
   eventReview?: Prisma.EventReviewOmit
   country?: Prisma.CountryOmit
