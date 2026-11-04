@@ -9,6 +9,7 @@ export const permissions: Partial<Record<ERole, AppPermission[]>> = {
     permission.EVENT_USER_MANAGE,
   ],
   [ERole.USER]: [],
+  [ERole.MODERATOR]: [],
 };
 
 export { AppPermission };

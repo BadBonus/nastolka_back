@@ -10,7 +10,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { SessionService } from '@/shared/session/session.service';
 import { MailService } from '@/auth/mail/mail.service';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
-import { ERole } from '@/common/enums/roles.enum';
+import { ERole, mapRoleSlugsToApi } from '@/common/enums/roles.enum';
 import {
   RegisterDto,
   LoginDto,
@@ -18,13 +18,20 @@ import {
   ResetPasswordDto,
 } from './dto/auth.query.dto';
 import { Prisma } from '@pGen/client';
-import type { User } from '@pGenTypes';
 import type { TUser } from '@shared/types';
 import * as argon2 from 'argon2';
 import slugify from 'slugify';
 import { randomBytes } from 'node:crypto';
 import { buildImagePath } from '@/utils/pathToImg';
 import { createUniqueSlug } from '@/common/utils/createUniqueSlug';
+
+const authUserSelect = {
+  id: true,
+  email: true,
+  nickname: true,
+  avatar: true,
+  roles: { select: { slug: true } },
+} as const;
 
 @Injectable()
 export class AuthService {
@@ -35,9 +42,33 @@ export class AuthService {
     private readonly imgproxyService: ImgproxyService,
   ) {}
 
+  private toAuthUser(user: {
+    id: string;
+    email: string;
+    nickname: string;
+    avatar: string | null;
+    roles: { slug: string }[];
+  }): TUser {
+    let avatar = user.avatar;
+    if (avatar) {
+      avatar = this.imgproxyService.generateSignedUrl(
+        buildImagePath('avatars') + avatar,
+        'avatar',
+      );
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+      avatar,
+      roles: mapRoleSlugsToApi(user.roles),
+    };
+  }
+
   async login(
     dto: LoginDto,
-  ): Promise<{ user: User; accessToken: string; refreshToken: string }> {
+  ): Promise<{ user: TUser; accessToken: string; refreshToken: string }> {
     const account = await this.prisma.account.findFirst({
       where: {
         provider: 'EMAIL',
@@ -45,17 +76,7 @@ export class AuthService {
       },
       include: {
         user: {
-          include: {
-            roles: {
-              include: {
-                permissions: {
-                  include: {
-                    permission: true,
-                  },
-                },
-              },
-            },
-          },
+          select: authUserSelect,
         },
       },
     });
@@ -73,14 +94,7 @@ export class AuthService {
       throw new UnauthorizedException('Неверный логин или пароль');
     }
 
-    const user = account.user;
-
-    if (user.avatar) {
-      user.avatar = this.imgproxyService.generateSignedUrl(
-        buildImagePath('avatars') + user.avatar,
-        'avatar',
-      );
-    }
+    const user = this.toAuthUser(account.user);
 
     const { accessToken, refreshToken } =
       await this.sessionService.createSession({
@@ -110,29 +124,17 @@ export class AuthService {
     });
   }
 
-  async me(userId: string) {
+  async me(userId: string): Promise<TUser> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        nickname: true,
-        avatar: true,
-      },
+      select: authUserSelect,
     });
-
-    if (user?.avatar) {
-      user.avatar = this.imgproxyService.generateSignedUrl(
-        buildImagePath('avatars') + user.avatar,
-        'avatar',
-      );
-    }
 
     if (!user) {
       throw new UnauthorizedException('Пользователь не найден');
     }
 
-    return user;
+    return this.toAuthUser(user);
   }
 
   async refreshTokens(oldRefreshToken: string): Promise<{
@@ -143,27 +145,19 @@ export class AuthService {
     const { accessToken, refreshToken, userId } =
       await this.sessionService.refreshTokens(oldRefreshToken);
 
-    const user = (await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        nickname: true,
-        avatar: true,
-      },
-    })) as TUser;
+      select: authUserSelect,
+    });
 
-    if (user?.avatar) {
-      user.avatar = this.imgproxyService.generateSignedUrl(
-        buildImagePath('avatars') + user.avatar,
-        'avatar',
-      );
+    if (!user) {
+      throw new UnauthorizedException('Пользователь не найден');
     }
 
     return {
       accessToken,
       refreshToken,
-      user,
+      user: this.toAuthUser(user),
     };
   }
 

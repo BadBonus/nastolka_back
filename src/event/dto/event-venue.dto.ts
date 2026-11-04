@@ -22,7 +22,7 @@ export enum EventVenueType {
 }
 
 export class EventVenueLinkDto {
-  @ApiProperty({ enum: GamePlatform })
+  @ApiProperty({ enum: GamePlatform, enumName: 'GamePlatform' })
   @IsEnum(GamePlatform)
   platform!: GamePlatform;
 

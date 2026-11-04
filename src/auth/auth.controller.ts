@@ -99,9 +99,9 @@ export class AuthController {
     description: 'Получения ограниченных минимальных данных юзера',
     type: User,
   })
-  async getMe(@Req() req: RequestWithUser) {
+  async getMe(@Req() req: RequestWithUser): Promise<User> {
     const userId = req.user.userId;
-    return await this.authService.me(userId);
+    return plainToInstance(User, await this.authService.me(userId));
   }
 
   @Post('logout')
@@ -154,7 +154,10 @@ export class AuthController {
         ...COOKIE_OPTIONS,
       });
 
-      return { accessToken, user };
+      return {
+        accessToken,
+        user: plainToInstance(User, user),
+      };
     } catch (error) {
       res.clearCookie(REFRESH_TOKEN_NAME, { ...COOKIE_OPTIONS, path: '/' });
       throw new UnauthorizedException('Session expired');

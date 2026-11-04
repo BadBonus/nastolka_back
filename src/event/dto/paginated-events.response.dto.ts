@@ -53,13 +53,13 @@ export class EventResponseDto implements TEventResponse {
   @ApiProperty({ nullable: true, type: String })
   preview!: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ enum: GameSystem, enumName: 'GameSystem' })
   gameSystem!: GameSystem;
 
-  @ApiProperty()
+  @ApiProperty({ enum: EventFormat, enumName: 'EventFormat' })
   format!: EventFormat;
 
-  @ApiProperty()
+  @ApiProperty({ enum: SessionType, enumName: 'SessionType' })
   sessionType!: SessionType;
 
   @ApiProperty()
@@ -86,7 +86,7 @@ export class EventResponseDto implements TEventResponse {
   @ApiProperty()
   endsAt!: Date;
 
-  @ApiProperty()
+  @ApiProperty({ enum: GameGenres, enumName: 'GameGenres', isArray: true })
   genres!: GameGenres[];
 
   @ApiProperty()
@@ -97,6 +97,9 @@ export class EventResponseDto implements TEventResponse {
   })
   isFavorite!: boolean;
 
+  @ApiProperty({
+    description: 'Число игроков с заявкой CONFIRMED',
+  })
   @Expose()
   @Transform(({ obj }) => obj._count?.requests ?? 0)
   currentCountOfPlayers!: number;

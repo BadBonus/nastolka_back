@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import type { TActiveUser } from '@/auth/types/active-user';
 import type { ESocLinks } from '@pGen/enums';
+import type { EApiUserRole } from '@/common/enums/roles.enum';
 
 declare global {
   interface RequestWithUser extends Request {
@@ -24,4 +25,5 @@ export type TUser = {
   email: string;
   id: string;
   avatar?: string | null;
+  roles: EApiUserRole[];
 };

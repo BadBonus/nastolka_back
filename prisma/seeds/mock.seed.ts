@@ -108,23 +108,27 @@ export async function seedMocks(prisma: PrismaClient) {
     }
   }
 
-  for (let i = 0; i < 50; i++) {
+  const demoRangeFrom = new Date('2026-10-01T00:00:00.000Z');
+  const demoRangeTo = new Date('2026-12-31T23:59:59.999Z');
+  const eventCount = 220;
+
+  for (let i = 0; i < eventCount; i++) {
     const randomOrg =
       createdOrgs[Math.floor(Math.random() * createdOrgs.length)];
     const eventName = faker.lorem.words({ min: 2, max: 4 });
     const format = getRandomEnum(EventFormat);
     const platforms = getRandomEnums(GamePlatform, 1);
-    const status = faker.helpers.arrayElement([
-      EventStatus.PREPARE,
-      EventStatus.ACTIVE,
-      EventStatus.ACTIVE,
-      EventStatus.FINISHED,
+    // Плотная лента/календарь: в основном ACTIVE
+    const status = faker.helpers.weightedArrayElement([
+      { value: EventStatus.ACTIVE, weight: 8 },
+      { value: EventStatus.PREPARE, weight: 1 },
+      { value: EventStatus.FINISHED, weight: 1 },
     ]);
 
-    const startsAt =
-      status === EventStatus.FINISHED
-        ? faker.date.past()
-        : faker.date.future();
+    const startsAt = faker.date.between({
+      from: demoRangeFrom,
+      to: demoRangeTo,
+    });
     const endsAt = new Date(startsAt.getTime() + 3 * 60 * 60 * 1000);
 
     const venue =

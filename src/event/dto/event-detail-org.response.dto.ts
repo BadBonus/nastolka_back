@@ -35,11 +35,11 @@ export class EventDetailOrgResponseDto {
   @Type(() => OrgCountryDto)
   country!: OrgCountryDto;
 
-  @ApiProperty({ enum: GameSystem, isArray: true })
+  @ApiProperty({ enum: GameSystem, enumName: 'GameSystem', isArray: true })
   @Expose()
   preferredSystems!: GameSystem[];
 
-  @ApiProperty({ enum: GameGenres, isArray: true })
+  @ApiProperty({ enum: GameGenres, enumName: 'GameGenres', isArray: true })
   @Expose()
   preferredGenres!: GameGenres[];
 

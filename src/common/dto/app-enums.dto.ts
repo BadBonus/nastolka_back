@@ -12,6 +12,7 @@ import {
   KindOfRate,
   ESocLinks,
 } from '@shared/prisma/generated/client';
+import { EApiUserRole } from '@/common/enums/roles.enum';
 
 enum EtypesSort {
   'ASC' = 'asc',
@@ -54,4 +55,7 @@ export class AppEnumsDto {
 
   @ApiProperty({ enum: EtypesSort, enumName: 'EtypesSort' })
   typesOfSort!: EtypesSort;
+
+  @ApiProperty({ enum: EApiUserRole, enumName: 'EApiUserRole' })
+  apiUserRole!: EApiUserRole;
 }

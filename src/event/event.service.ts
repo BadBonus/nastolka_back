@@ -332,6 +332,11 @@ export class EventService {
             },
           },
         },
+        _count: {
+          select: {
+            requests: { where: { status: RequestStatus.CONFIRMED } },
+          },
+        },
       },
     });
 
@@ -364,11 +369,12 @@ export class EventService {
         ? null
         : maskVenueForViewer(parseEventVenue(event.venue), canSeePrivate);
 
-    const { org, venue: _venue, ...eventData } = event;
+    const { org, venue: _venue, _count, ...eventData } = event;
 
     return plainToInstance(EventDetailResponseDto, {
       ...eventData,
       venue,
+      currentCountOfPlayers: _count.requests,
       org: {
         id: org.id,
         nickname: org.nickname,

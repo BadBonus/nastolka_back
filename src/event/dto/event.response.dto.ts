@@ -78,6 +78,12 @@ export class EventDetailResponseDto {
   @Expose()
   maxUsers!: number | null;
 
+  @ApiProperty({
+    description: 'Число игроков с заявкой CONFIRMED',
+  })
+  @Expose()
+  currentCountOfPlayers!: number;
+
   @ApiProperty()
   @Expose()
   isBeginnerFriendly!: boolean;
@@ -90,15 +96,19 @@ export class EventDetailResponseDto {
   @Expose()
   costValue!: number | null;
 
-  @ApiPropertyOptional({ enum: Currency, nullable: true })
+  @ApiPropertyOptional({
+    enum: Currency,
+    enumName: 'Currency',
+    nullable: true,
+  })
   @Expose()
   costCurrency!: Currency | null;
 
-  @ApiProperty({ enum: EventFormat })
+  @ApiProperty({ enum: EventFormat, enumName: 'EventFormat' })
   @Expose()
   format!: EventFormat;
 
-  @ApiProperty({ enum: SessionType })
+  @ApiProperty({ enum: SessionType, enumName: 'SessionType' })
   @Expose()
   sessionType!: SessionType;
 
@@ -135,7 +145,7 @@ export class EventDetailResponseDto {
   @Expose()
   showMaterials!: boolean;
 
-  @ApiProperty({ enum: EventStatus })
+  @ApiProperty({ enum: EventStatus, enumName: 'EventStatus' })
   @Expose()
   status!: EventStatus;
 
@@ -147,19 +157,20 @@ export class EventDetailResponseDto {
   @Expose()
   endsAt!: Date;
 
-  @ApiProperty({ enum: GameGenres, isArray: true })
+  @ApiProperty({ enum: GameGenres, enumName: 'GameGenres', isArray: true })
   @Expose()
   genres!: GameGenres[];
 
   @ApiProperty({
     enum: GamePlatform,
+    enumName: 'GamePlatform',
     isArray: true,
     description: 'Теги платформ (не путать с venue.links)',
   })
   @Expose()
   platforms!: GamePlatform[];
 
-  @ApiProperty({ enum: GameSystem })
+  @ApiProperty({ enum: GameSystem, enumName: 'GameSystem' })
   @Expose()
   gameSystem!: GameSystem;
 
