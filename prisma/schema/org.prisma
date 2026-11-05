@@ -4,6 +4,11 @@ enum OrgFormatMode {
   OFFLINE
 }
 
+enum CostFormat {
+  payment
+  donate
+}
+
 model Org {
   id          String   @id @default(uuid())
   userId      String   @unique @map("user_id")
@@ -15,8 +20,9 @@ model Org {
   previewDescr   String?  @map("preview_descr")
   gameStyleDescr String?  @map("game_style_descr")
 
-  costValue    Int?      @map("cost_value")
-  costCurrency Currency? @map("cost_currency")
+  costValue    Int?       @map("cost_value")
+  costCurrency Currency?  @map("cost_currency")
+  costFormat   CostFormat @default(payment) @map("cost_format")
 
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -24,6 +30,7 @@ model Org {
   timezone           String?             @default("UTC") @db.VarChar(100)
   soclinks           Json?
   gameHistory        Json                @default("[]")
+  schedules          Json                @default("[]")
   email              String              @unique
   reviews           EventReview[]
   events            Event[]

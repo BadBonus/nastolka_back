@@ -389,6 +389,13 @@ export type EnumRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumRequestStatusFilter<$PrismaModel>
 }
 
+export type EnumCostFormatFilter<$PrismaModel = never> = {
+  equals?: $Enums.CostFormat | Prisma.EnumCostFormatFieldRefInput<$PrismaModel>
+  in?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCostFormatFilter<$PrismaModel> | $Enums.CostFormat
+}
+
 export type JsonNullableFilter<$PrismaModel = never> =
 | Prisma.PatchUndefined<
     Prisma.Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -418,6 +425,16 @@ export type EnumOrgFormatModeFilter<$PrismaModel = never> = {
   in?: $Enums.OrgFormatMode[] | Prisma.ListEnumOrgFormatModeFieldRefInput<$PrismaModel>
   notIn?: $Enums.OrgFormatMode[] | Prisma.ListEnumOrgFormatModeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumOrgFormatModeFilter<$PrismaModel> | $Enums.OrgFormatMode
+}
+
+export type EnumCostFormatWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CostFormat | Prisma.EnumCostFormatFieldRefInput<$PrismaModel>
+  in?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCostFormatWithAggregatesFilter<$PrismaModel> | $Enums.CostFormat
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCostFormatFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCostFormatFilter<$PrismaModel>
 }
 
 export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
@@ -835,11 +852,28 @@ export type NestedEnumRequestStatusWithAggregatesFilter<$PrismaModel = never> = 
   _max?: Prisma.NestedEnumRequestStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumCostFormatFilter<$PrismaModel = never> = {
+  equals?: $Enums.CostFormat | Prisma.EnumCostFormatFieldRefInput<$PrismaModel>
+  in?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCostFormatFilter<$PrismaModel> | $Enums.CostFormat
+}
+
 export type NestedEnumOrgFormatModeFilter<$PrismaModel = never> = {
   equals?: $Enums.OrgFormatMode | Prisma.EnumOrgFormatModeFieldRefInput<$PrismaModel>
   in?: $Enums.OrgFormatMode[] | Prisma.ListEnumOrgFormatModeFieldRefInput<$PrismaModel>
   notIn?: $Enums.OrgFormatMode[] | Prisma.ListEnumOrgFormatModeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumOrgFormatModeFilter<$PrismaModel> | $Enums.OrgFormatMode
+}
+
+export type NestedEnumCostFormatWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CostFormat | Prisma.EnumCostFormatFieldRefInput<$PrismaModel>
+  in?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CostFormat[] | Prisma.ListEnumCostFormatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCostFormatWithAggregatesFilter<$PrismaModel> | $Enums.CostFormat
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCostFormatFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCostFormatFilter<$PrismaModel>
 }
 
 export type NestedJsonNullableFilter<$PrismaModel = never> =

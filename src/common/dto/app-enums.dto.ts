@@ -3,6 +3,7 @@ import {
   EventFormat,
   SessionType,
   Currency,
+  CostFormat,
   GameGenres,
   GameSystem,
   GamePlatform,
@@ -22,6 +23,9 @@ enum EtypesSort {
 export class AppEnumsDto {
   @ApiProperty({ enum: Currency, enumName: 'Currency' })
   currency!: Currency;
+
+  @ApiProperty({ enum: CostFormat, enumName: 'CostFormat' })
+  costFormat!: CostFormat;
 
   @ApiProperty({ enum: EventFormat, enumName: 'EventFormat' })
   eventFormat!: EventFormat;

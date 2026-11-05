@@ -50,6 +50,7 @@ export type OrgMinAggregateOutputType = {
   gameStyleDescr: string | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
+  costFormat: $Enums.CostFormat | null
   createdAt: Date | null
   updatedAt: Date | null
   avatar: string | null
@@ -71,6 +72,7 @@ export type OrgMaxAggregateOutputType = {
   gameStyleDescr: string | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
+  costFormat: $Enums.CostFormat | null
   createdAt: Date | null
   updatedAt: Date | null
   avatar: string | null
@@ -92,12 +94,14 @@ export type OrgCountAggregateOutputType = {
   gameStyleDescr: number
   costValue: number
   costCurrency: number
+  costFormat: number
   createdAt: number
   updatedAt: number
   avatar: number
   timezone: number
   soclinks: number
   gameHistory: number
+  schedules: number
   email: number
   isBanned: number
   preferredSystems: number
@@ -131,6 +135,7 @@ export type OrgMinAggregateInputType = {
   gameStyleDescr?: true
   costValue?: true
   costCurrency?: true
+  costFormat?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
@@ -152,6 +157,7 @@ export type OrgMaxAggregateInputType = {
   gameStyleDescr?: true
   costValue?: true
   costCurrency?: true
+  costFormat?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
@@ -173,12 +179,14 @@ export type OrgCountAggregateInputType = {
   gameStyleDescr?: true
   costValue?: true
   costCurrency?: true
+  costFormat?: true
   createdAt?: true
   updatedAt?: true
   avatar?: true
   timezone?: true
   soclinks?: true
   gameHistory?: true
+  schedules?: true
   email?: true
   isBanned?: true
   preferredSystems?: true
@@ -285,12 +293,14 @@ export type OrgGroupByOutputType = {
   gameStyleDescr: string | null
   costValue: number | null
   costCurrency: $Enums.Currency | null
+  costFormat: $Enums.CostFormat
   createdAt: Date
   updatedAt: Date
   avatar: string | null
   timezone: string | null
   soclinks:unknown | null
   gameHistory:unknown
+  schedules:unknown
   email: string
   isBanned: boolean
   preferredSystems: $Enums.GameSystem[]
@@ -333,12 +343,14 @@ export type OrgWhereInput = {
   gameStyleDescr?: Prisma.StringNullableFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFilter<"Org"> | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
   timezone?: Prisma.StringNullableFilter<"Org"> | string | null
   soclinks?: Prisma.JsonNullableFilter<"Org">
   gameHistory?: Prisma.JsonFilter<"Org">
+  schedules?: Prisma.JsonFilter<"Org">
   email?: Prisma.StringFilter<"Org"> | string
   isBanned?: Prisma.BoolFilter<"Org"> | boolean
   preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
@@ -363,12 +375,14 @@ export type OrgOrderByWithRelationInput = {
   gameStyleDescr?: Prisma.SortOrderInput | Prisma.SortOrder
   costValue?: Prisma.SortOrderInput | Prisma.SortOrder
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
+  costFormat?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  schedules?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   preferredSystems?: Prisma.SortOrder
@@ -397,12 +411,14 @@ export type OrgWhereUniqueInput = Prisma.AtLeast<{
   gameStyleDescr?: Prisma.StringNullableFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFilter<"Org"> | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
   timezone?: Prisma.StringNullableFilter<"Org"> | string | null
   soclinks?: Prisma.JsonNullableFilter<"Org">
   gameHistory?: Prisma.JsonFilter<"Org">
+  schedules?: Prisma.JsonFilter<"Org">
   isBanned?: Prisma.BoolFilter<"Org"> | boolean
   preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
   preferredGenres?: Prisma.EnumGameGenresNullableListFilter<"Org">
@@ -426,12 +442,14 @@ export type OrgOrderByWithAggregationInput = {
   gameStyleDescr?: Prisma.SortOrderInput | Prisma.SortOrder
   costValue?: Prisma.SortOrderInput | Prisma.SortOrder
   costCurrency?: Prisma.SortOrderInput | Prisma.SortOrder
+  costFormat?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrderInput | Prisma.SortOrder
   soclinks?: Prisma.SortOrderInput | Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  schedules?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   preferredSystems?: Prisma.SortOrder
@@ -459,12 +477,14 @@ export type OrgScalarWhereWithAggregatesInput = {
   gameStyleDescr?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableWithAggregatesFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableWithAggregatesFilter<"Org"> | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatWithAggregatesFilter<"Org"> | $Enums.CostFormat
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
   timezone?: Prisma.StringNullableWithAggregatesFilter<"Org"> | string | null
   soclinks?: Prisma.JsonNullableWithAggregatesFilter<"Org">
   gameHistory?: Prisma.JsonWithAggregatesFilter<"Org">
+  schedules?: Prisma.JsonWithAggregatesFilter<"Org">
   email?: Prisma.StringWithAggregatesFilter<"Org"> | string
   isBanned?: Prisma.BoolWithAggregatesFilter<"Org"> | boolean
   preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
@@ -483,12 +503,14 @@ export type OrgCreateInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -511,12 +533,14 @@ export type OrgUncheckedCreateInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -537,12 +561,14 @@ export type OrgUpdateInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -565,12 +591,14 @@ export type OrgUncheckedUpdateInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -592,12 +620,14 @@ export type OrgCreateManyInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -616,12 +646,14 @@ export type OrgUpdateManyMutationInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -639,12 +671,14 @@ export type OrgUncheckedUpdateManyInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -687,12 +721,14 @@ export type OrgCountOrderByAggregateInput = {
   gameStyleDescr?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
+  costFormat?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   soclinks?: Prisma.SortOrder
   gameHistory?: Prisma.SortOrder
+  schedules?: Prisma.SortOrder
   email?: Prisma.SortOrder
   isBanned?: Prisma.SortOrder
   preferredSystems?: Prisma.SortOrder
@@ -718,6 +754,7 @@ export type OrgMaxOrderByAggregateInput = {
   gameStyleDescr?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
+  costFormat?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -739,6 +776,7 @@ export type OrgMinOrderByAggregateInput = {
   gameStyleDescr?: Prisma.SortOrder
   costValue?: Prisma.SortOrder
   costCurrency?: Prisma.SortOrder
+  costFormat?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -881,6 +919,10 @@ export type OrgCreatepreferredGenresInput = {
   set: $Enums.GameGenres[]
 }
 
+export type EnumCostFormatFieldUpdateOperationsInput = {
+  set?: $Enums.CostFormat
+}
+
 export type OrgUpdatepreferredSystemsInput = {
   set?: $Enums.GameSystem[]
   push?: $Enums.GameSystem | $Enums.GameSystem[]
@@ -936,12 +978,14 @@ export type OrgCreateWithoutEventsInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -963,12 +1007,14 @@ export type OrgUncheckedCreateWithoutEventsInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1004,12 +1050,14 @@ export type OrgUpdateWithoutEventsInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1031,12 +1079,14 @@ export type OrgUncheckedUpdateWithoutEventsInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1056,12 +1106,14 @@ export type OrgCreateWithoutReviewsInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1083,12 +1135,14 @@ export type OrgUncheckedCreateWithoutReviewsInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1124,12 +1178,14 @@ export type OrgUpdateWithoutReviewsInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1151,12 +1207,14 @@ export type OrgUncheckedUpdateWithoutReviewsInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1176,12 +1234,14 @@ export type OrgCreateWithoutCountryInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1203,12 +1263,14 @@ export type OrgUncheckedCreateWithoutCountryInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1258,12 +1320,14 @@ export type OrgScalarWhereInput = {
   gameStyleDescr?: Prisma.StringNullableFilter<"Org"> | string | null
   costValue?: Prisma.IntNullableFilter<"Org"> | number | null
   costCurrency?: Prisma.EnumCurrencyNullableFilter<"Org"> | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFilter<"Org"> | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Org"> | Date | string
   avatar?: Prisma.StringNullableFilter<"Org"> | string | null
   timezone?: Prisma.StringNullableFilter<"Org"> | string | null
   soclinks?: Prisma.JsonNullableFilter<"Org">
   gameHistory?: Prisma.JsonFilter<"Org">
+  schedules?: Prisma.JsonFilter<"Org">
   email?: Prisma.StringFilter<"Org"> | string
   isBanned?: Prisma.BoolFilter<"Org"> | boolean
   preferredSystems?: Prisma.EnumGameSystemNullableListFilter<"Org">
@@ -1282,12 +1346,14 @@ export type OrgCreateWithoutCityInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1309,12 +1375,14 @@ export type OrgUncheckedCreateWithoutCityInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1360,12 +1428,14 @@ export type OrgCreateWithoutUserInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1386,12 +1456,14 @@ export type OrgUncheckedCreateWithoutUserInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1428,12 +1500,14 @@ export type OrgUpdateWithoutUserInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1454,12 +1528,14 @@ export type OrgUncheckedUpdateWithoutUserInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1481,12 +1557,14 @@ export type OrgCreateManyCountryInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1504,12 +1582,14 @@ export type OrgUpdateWithoutCountryInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1531,12 +1611,14 @@ export type OrgUncheckedUpdateWithoutCountryInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1557,12 +1639,14 @@ export type OrgUncheckedUpdateManyWithoutCountryInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1581,12 +1665,14 @@ export type OrgCreateManyCityInput = {
   gameStyleDescr?: string | null
   costValue?: number | null
   costCurrency?: $Enums.Currency | null
+  costFormat?: $Enums.CostFormat
   createdAt?: Date | string
   updatedAt?: Date | string
   avatar?: string | null
   timezone?: string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email: string
   isBanned?: boolean
   preferredSystems?: Prisma.OrgCreatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1604,12 +1690,14 @@ export type OrgUpdateWithoutCityInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1631,12 +1719,14 @@ export type OrgUncheckedUpdateWithoutCityInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1657,12 +1747,14 @@ export type OrgUncheckedUpdateManyWithoutCityInput = {
   gameStyleDescr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   costValue?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   costCurrency?: Prisma.NullableEnumCurrencyFieldUpdateOperationsInput | $Enums.Currency | null
+  costFormat?: Prisma.EnumCostFormatFieldUpdateOperationsInput | $Enums.CostFormat
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   soclinks?:unknown | Prisma.NullableJsonNullValueInput
   gameHistory?:unknown
+  schedules?:unknown
   email?: Prisma.StringFieldUpdateOperationsInput | string
   isBanned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   preferredSystems?: Prisma.OrgUpdatepreferredSystemsInput | $Enums.GameSystem[]
@@ -1721,12 +1813,14 @@ export type OrgSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
+  costFormat?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  schedules?: boolean
   email?: boolean
   isBanned?: boolean
   preferredSystems?: boolean
@@ -1752,12 +1846,14 @@ export type OrgSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
+  costFormat?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  schedules?: boolean
   email?: boolean
   isBanned?: boolean
   preferredSystems?: boolean
@@ -1780,12 +1876,14 @@ export type OrgSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
+  costFormat?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  schedules?: boolean
   email?: boolean
   isBanned?: boolean
   preferredSystems?: boolean
@@ -1808,12 +1906,14 @@ export type OrgSelectScalar = {
   gameStyleDescr?: boolean
   costValue?: boolean
   costCurrency?: boolean
+  costFormat?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   avatar?: boolean
   timezone?: boolean
   soclinks?: boolean
   gameHistory?: boolean
+  schedules?: boolean
   email?: boolean
   isBanned?: boolean
   preferredSystems?: boolean
@@ -1823,7 +1923,7 @@ export type OrgSelectScalar = {
   cityId?: boolean
 }
 
-export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "previewDescr" | "gameStyleDescr" | "costValue" | "costCurrency" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "formatMode" | "countryId" | "cityId", ExtArgs["result"]["org"]>
+export type OrgOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "nickname" | "description" | "previewDescr" | "gameStyleDescr" | "costValue" | "costCurrency" | "costFormat" | "createdAt" | "updatedAt" | "avatar" | "timezone" | "soclinks" | "gameHistory" | "schedules" | "email" | "isBanned" | "preferredSystems" | "preferredGenres" | "formatMode" | "countryId" | "cityId", ExtArgs["result"]["org"]>
 export type OrgInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviews?: boolean | Prisma.Org$reviewsArgs<ExtArgs>
@@ -1862,12 +1962,14 @@ export type $OrgPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     gameStyleDescr: string | null
     costValue: number | null
     costCurrency: $Enums.Currency | null
+    costFormat: $Enums.CostFormat
     createdAt: Date
     updatedAt: Date
     avatar: string | null
     timezone: string | null
     soclinks:unknown | null
     gameHistory:unknown
+    schedules:unknown
     email: string
     isBanned: boolean
     preferredSystems: $Enums.GameSystem[]
@@ -2312,12 +2414,14 @@ export interface OrgFieldRefs {
   readonly gameStyleDescr: Prisma.FieldRef<"Org", 'String'>
   readonly costValue: Prisma.FieldRef<"Org", 'Int'>
   readonly costCurrency: Prisma.FieldRef<"Org", 'Currency'>
+  readonly costFormat: Prisma.FieldRef<"Org", 'CostFormat'>
   readonly createdAt: Prisma.FieldRef<"Org", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Org", 'DateTime'>
   readonly avatar: Prisma.FieldRef<"Org", 'String'>
   readonly timezone: Prisma.FieldRef<"Org", 'String'>
   readonly soclinks: Prisma.FieldRef<"Org", 'Json'>
   readonly gameHistory: Prisma.FieldRef<"Org", 'Json'>
+  readonly schedules: Prisma.FieldRef<"Org", 'Json'>
   readonly email: Prisma.FieldRef<"Org", 'String'>
   readonly isBanned: Prisma.FieldRef<"Org", 'Boolean'>
   readonly preferredSystems: Prisma.FieldRef<"Org", 'GameSystem[]'>

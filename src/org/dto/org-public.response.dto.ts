@@ -1,6 +1,14 @@
 import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Currency, GameGenres, GameSystem, OrgFormatMode } from '@pGen/client';
+import {
+  CostFormat,
+  Currency,
+  GameGenres,
+  GameSystem,
+  OrgFormatMode,
+} from '@pGen/client';
+import { EventResponseDto } from '@/event/dto/paginated-events.response.dto';
+import { ScheduleIntervalEntity } from '@/profile/dto/profile-user.response.dto';
 import { OrgCityDto, OrgCountryDto } from './org-me.response.dto';
 
 @Exclude()
@@ -56,6 +64,14 @@ export class OrgPublicResponseDto {
   @Expose()
   costCurrency!: Currency | null;
 
+  @ApiProperty({
+    enum: CostFormat,
+    enumName: 'CostFormat',
+    example: CostFormat.payment,
+  })
+  @Expose()
+  costFormat!: CostFormat;
+
   @ApiPropertyOptional({ nullable: true, type: String })
   @Expose()
   avatar!: string | null;
@@ -71,6 +87,14 @@ export class OrgPublicResponseDto {
   @ApiProperty()
   @Expose()
   gameHistory!: unknown;
+
+  @ApiProperty({
+    type: () => [ScheduleIntervalEntity],
+    description: 'Интервалы доступности организатора для игр',
+  })
+  @Type(() => ScheduleIntervalEntity)
+  @Expose()
+  schedules!: ScheduleIntervalEntity[];
 
   @ApiProperty({ enum: GameSystem, isArray: true })
   @Expose()
@@ -104,4 +128,12 @@ export class OrgPublicResponseDto {
   })
   @Expose()
   isSubscribed!: boolean;
+
+  @ApiProperty({
+    type: [EventResponseDto],
+    description: 'Ближайшие опубликованные ивенты организатора',
+  })
+  @Expose()
+  @Type(() => EventResponseDto)
+  upcomingEvents!: EventResponseDto[];
 }

@@ -589,6 +589,14 @@ export const OrgFormatMode = {
 export type OrgFormatMode = (typeof OrgFormatMode)[keyof typeof OrgFormatMode]
 
 
+export const CostFormat = {
+  payment: 'payment',
+  donate: 'donate'
+} as const
+
+export type CostFormat = (typeof CostFormat)[keyof typeof CostFormat]
+
+
 export const SupportTicketStatus = {
   OPEN: 'OPEN',
   IN_PROGRESS: 'IN_PROGRESS',

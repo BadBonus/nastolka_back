@@ -1,12 +1,14 @@
 import { Exclude, Expose, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  CostFormat,
   Currency,
   EventReview,
   GameGenres,
   GameSystem,
   OrgFormatMode,
 } from '@pGen/client';
+import { ScheduleIntervalEntity } from '@/profile/dto/profile-user.response.dto';
 
 export class OrgCountryDto {
   @ApiProperty({ example: 630336 })
@@ -52,6 +54,14 @@ export class OrgListResponseDto {
   @ApiPropertyOptional({ enum: Currency, nullable: true })
   @Expose()
   costCurrency!: Currency | null;
+
+  @ApiProperty({
+    enum: CostFormat,
+    enumName: 'CostFormat',
+    example: CostFormat.payment,
+  })
+  @Expose()
+  costFormat!: CostFormat;
 
   @ApiPropertyOptional({ nullable: true, type: String })
   @Expose()
@@ -120,6 +130,14 @@ export class OrgMeResponseDto {
   @Expose()
   costCurrency!: Currency | null;
 
+  @ApiProperty({
+    enum: CostFormat,
+    enumName: 'CostFormat',
+    example: CostFormat.payment,
+  })
+  @Expose()
+  costFormat!: CostFormat;
+
   @ApiPropertyOptional({ nullable: true, type: String })
   @Expose()
   avatar!: string | null;
@@ -135,6 +153,14 @@ export class OrgMeResponseDto {
   @ApiProperty()
   @Expose()
   gameHistory!: unknown;
+
+  @ApiProperty({
+    type: () => [ScheduleIntervalEntity],
+    description: 'Интервалы доступности организатора для игр',
+  })
+  @Type(() => ScheduleIntervalEntity)
+  @Expose()
+  schedules!: ScheduleIntervalEntity[];
 
   @ApiProperty({ example: 'org@example.com' })
   @Expose()

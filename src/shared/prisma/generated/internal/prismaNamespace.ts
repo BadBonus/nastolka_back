@@ -2377,12 +2377,14 @@ export const OrgScalarFieldEnum = {
   gameStyleDescr: 'gameStyleDescr',
   costValue: 'costValue',
   costCurrency: 'costCurrency',
+  costFormat: 'costFormat',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   avatar: 'avatar',
   timezone: 'timezone',
   soclinks: 'soclinks',
   gameHistory: 'gameHistory',
+  schedules: 'schedules',
   email: 'email',
   isBanned: 'isBanned',
   preferredSystems: 'preferredSystems',
@@ -2828,6 +2830,20 @@ export type ListEnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'KindOfRate'
  */
 export type EnumKindOfRateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KindOfRate'>
+    
+
+
+/**
+ * Reference to a field of type 'CostFormat'
+ */
+export type EnumCostFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CostFormat'>
+    
+
+
+/**
+ * Reference to a field of type 'CostFormat[]'
+ */
+export type ListEnumCostFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CostFormat[]'>
     
 
 

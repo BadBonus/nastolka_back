@@ -8,7 +8,12 @@ import {
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateOrgDtoReq } from './dto/create-org.query.dto';
 import { UpdateOrgDto } from './dto/update-org.query.dto';
-import { Prisma, OrgFormatMode } from '@pGen/client';
+import {
+  Prisma,
+  OrgFormatMode,
+  EventStatus,
+  RequestStatus,
+} from '@pGen/client';
 import { KindOfRate } from '@pGen/enums';
 import { UploadsService } from '@/common/modules/uploads/uploads.service';
 import { ImgproxyService } from '@/common/modules/imgproxy/imgproxy.service';
@@ -281,7 +286,6 @@ export class OrgService {
       where: { slug },
       include: {
         ...orgGeoInclude,
-        events: true,
         reviews: {
           select: {
             rates: true,
@@ -309,15 +313,81 @@ export class OrgService {
       });
     });
 
-    const { reviews: _reviews, events: _events, ...orgData } = org;
+    const { reviews: _reviews, ...orgData } = org;
     const mapped = this.mapOrgResponse(orgData);
-    const isSubscribed = await this.isSubscribedToOrg(userId, mapped.id);
+    const [isSubscribed, upcomingEvents] = await Promise.all([
+      this.isSubscribedToOrg(userId, mapped.id),
+      this.findUpcomingPublicEvents(mapped.id, userId),
+    ]);
 
     return plainToInstance(OrgPublicResponseDto, {
       ...mapped,
       ratings: ratingSummary,
       isSubscribed,
+      upcomingEvents,
     });
+  }
+
+  private async findUpcomingPublicEvents(orgId: string, userId?: string) {
+    const events = await this.prisma.event.findMany({
+      where: {
+        orgId,
+        status: EventStatus.ACTIVE,
+        startsAt: { gte: new Date() },
+      },
+      orderBy: { startsAt: 'asc' },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        preview: true,
+        gameSystem: true,
+        format: true,
+        sessionType: true,
+        isBeginnerFriendly: true,
+        addInfo: true,
+        costValue: true,
+        startsAt: true,
+        maxUsers: true,
+        ageLimit: true,
+        endsAt: true,
+        genres: true,
+        minUsers: true,
+        org: {
+          select: {
+            nickname: true,
+            slug: true,
+            avatar: true,
+          },
+        },
+        _count: {
+          select: {
+            requests: { where: { status: RequestStatus.CONFIRMED } },
+          },
+        },
+      },
+    });
+
+    const favoriteIds = new Set<string>();
+
+    if (userId && events.length > 0) {
+      const favorites = await this.prisma.eventFavorite.findMany({
+        where: {
+          userId,
+          eventId: { in: events.map((event) => event.id) },
+        },
+        select: { eventId: true },
+      });
+
+      for (const row of favorites) {
+        favoriteIds.add(row.eventId);
+      }
+    }
+
+    return events.map((event) => ({
+      ...event,
+      isFavorite: favoriteIds.has(event.id),
+    }));
   }
 
   async updateMe(
@@ -342,6 +412,7 @@ export class OrgService {
       formatMode: _fm,
       countryId: _co,
       cityId: _ci,
+      schedules,
       ...rest
     } = dto;
 
@@ -350,6 +421,13 @@ export class OrgService {
       ...(dto.formatMode !== undefined && { formatMode: dto.formatMode }),
       ...(dto.countryId !== undefined && { countryId: dto.countryId }),
       ...(dto.cityId !== undefined && { cityId: dto.cityId }),
+      ...(schedules !== undefined && {
+        schedules: schedules.map(({ dayOfWeek, startTime, endTime }) => ({
+          dayOfWeek,
+          startTime,
+          endTime,
+        })),
+      }),
     };
 
     const previousAvatar = org.avatar;
@@ -472,10 +550,18 @@ export class OrgService {
   }
 
   private mapOrgResponse<T extends OrgWithGeo>(org: T) {
-    const { country, city, countryId: _c, cityId: _ci, ...rest } = org;
+    const {
+      country,
+      city,
+      countryId: _c,
+      cityId: _ci,
+      schedules,
+      ...rest
+    } = org;
 
     return this.withSignedAvatar({
       ...rest,
+      schedules: Array.isArray(schedules) ? schedules : [],
       country: {
         geonameId: country.geonameId,
         isoCode: country.isoCode,
@@ -503,6 +589,7 @@ export class OrgService {
       previewDescr: mapped.previewDescr,
       costValue: mapped.costValue,
       costCurrency: mapped.costCurrency,
+      costFormat: mapped.costFormat,
       avatar: mapped.avatar,
       timezone: mapped.timezone,
       preferredSystems: mapped.preferredSystems,
