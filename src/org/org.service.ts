@@ -8,6 +8,7 @@ import {
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateOrgDtoReq } from './dto/create-org.query.dto';
 import { UpdateOrgDto } from './dto/update-org.query.dto';
+import { UpdateOrgByAdminDto } from './dto/update-org-by-admin.query.dto';
 import {
   Prisma,
   OrgFormatMode,
@@ -396,59 +397,16 @@ export class OrgService {
     file?: Express.Multer.File,
   ) {
     const org = await this.findOrgByUserIdOrThrow(userId);
+    return this.applyOrgUpdate(org, dto, file);
+  }
 
-    const formatMode = dto.formatMode ?? org.formatMode;
-    const countryId = dto.countryId ?? org.countryId;
-    const cityId = dto.cityId !== undefined ? dto.cityId : org.cityId;
-
-    await this.assertOrgLocation({
-      formatMode,
-      countryId,
-      cityId,
-    });
-
-    const {
-      avatar: _avatar,
-      formatMode: _fm,
-      countryId: _co,
-      cityId: _ci,
-      schedules,
-      ...rest
-    } = dto;
-
-    const data: Prisma.OrgUncheckedUpdateInput = {
-      ...rest,
-      ...(dto.formatMode !== undefined && { formatMode: dto.formatMode }),
-      ...(dto.countryId !== undefined && { countryId: dto.countryId }),
-      ...(dto.cityId !== undefined && { cityId: dto.cityId }),
-      ...(schedules !== undefined && {
-        schedules: schedules.map(({ dayOfWeek, startTime, endTime }) => ({
-          dayOfWeek,
-          startTime,
-          endTime,
-        })),
-      }),
-    };
-
-    const previousAvatar = org.avatar;
-
-    if (file?.buffer) {
-      data.avatar = await this.handleAvatarUpload(file);
-    }
-
-    const updated = await this.prisma.org.update({
-      where: { id: org.id },
-      data,
-      include: orgGeoInclude,
-    });
-
-    if (file?.buffer && previousAvatar && previousAvatar !== updated.avatar) {
-      await this.uploadsService
-        .deleteFromDisk(previousAvatar, PATH_UPLOADED_AVATARS)
-        .catch(() => undefined);
-    }
-
-    return this.mapOrgResponse(updated);
+  async updateByAdmin(
+    id: string,
+    dto: UpdateOrgByAdminDto,
+    file?: Express.Multer.File,
+  ) {
+    const org = await this.findOrgByIdOrThrow(id);
+    return this.applyOrgUpdate(org, dto, file);
   }
 
   async deleteMe(userId: string) {
@@ -598,6 +556,71 @@ export class OrgService {
       city: mapped.city,
       isSubscribed,
     };
+  }
+
+  private async applyOrgUpdate(
+    org: {
+      id: string;
+      avatar: string | null;
+      formatMode: OrgFormatMode;
+      countryId: number;
+      cityId: number | null;
+    },
+    dto: UpdateOrgDto | UpdateOrgByAdminDto,
+    file?: Express.Multer.File,
+  ) {
+    const formatMode = dto.formatMode ?? org.formatMode;
+    const countryId = dto.countryId ?? org.countryId;
+    const cityId = dto.cityId !== undefined ? dto.cityId : org.cityId;
+
+    await this.assertOrgLocation({
+      formatMode,
+      countryId,
+      cityId,
+    });
+
+    const {
+      avatar: _avatar,
+      formatMode: _fm,
+      countryId: _co,
+      cityId: _ci,
+      schedules,
+      ...rest
+    } = dto;
+
+    const data: Prisma.OrgUncheckedUpdateInput = {
+      ...rest,
+      ...(dto.formatMode !== undefined && { formatMode: dto.formatMode }),
+      ...(dto.countryId !== undefined && { countryId: dto.countryId }),
+      ...(dto.cityId !== undefined && { cityId: dto.cityId }),
+      ...(schedules !== undefined && {
+        schedules: schedules.map(({ dayOfWeek, startTime, endTime }) => ({
+          dayOfWeek,
+          startTime,
+          endTime,
+        })),
+      }),
+    };
+
+    const previousAvatar = org.avatar;
+
+    if (file?.buffer) {
+      data.avatar = await this.handleAvatarUpload(file);
+    }
+
+    const updated = await this.prisma.org.update({
+      where: { id: org.id },
+      data,
+      include: orgGeoInclude,
+    });
+
+    if (file?.buffer && previousAvatar && previousAvatar !== updated.avatar) {
+      await this.uploadsService
+        .deleteFromDisk(previousAvatar, PATH_UPLOADED_AVATARS)
+        .catch(() => undefined);
+    }
+
+    return this.mapOrgResponse(updated);
   }
 
   private async setBanned(id: string, isBanned: boolean) {

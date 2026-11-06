@@ -18,11 +18,12 @@ import { Request } from 'express';
 import { OrgService } from './org.service';
 import { CreateOrgDtoReq } from './dto/create-org.query.dto';
 import { UpdateOrgDto } from './dto/update-org.query.dto';
+import { UpdateOrgByAdminDto } from './dto/update-org-by-admin.query.dto';
 import { JwtAuthGuard } from '@/auth/jwt/jwt-auth.guard';
 import { OptionalJwtAuthGuard } from '@/auth/jwt/optional-jwt-auth.guard';
-// import { PermissionsGuard } from '@/common/guards/permissions.guard';
-// import { RequirePermissions } from '@/common/decorators/require-permissions.decorator';
-// import { permission } from '@/common/enums/permissions.enum';
+import { PermissionsGuard } from '@/common/guards/permissions.guard';
+import { RequirePermissions } from '@/common/decorators/require-permissions.decorator';
+import { permission } from '@/common/enums/permissions.enum';
 import { AVERAGE_PAGES_LIMIT } from '@/common/constants/index';
 import {
   ApiTags,
@@ -167,6 +168,44 @@ export class OrgController {
   //   return this.orgService.unban(id);
   // }
 
+  @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('avatar'))
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions(permission.ORG_EDIT_ANY)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Редактирование организатора администратором',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Идентификатор организатора (UUID)',
+  })
+  @ApiBody({ type: UpdateOrgByAdminDto })
+  @ApiOkResponse({
+    description: 'Обновлённые данные организатора',
+    type: OrgMeResponseDto,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Недостаточно прав для выполнения операции',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Организатор не найден',
+  })
+  updateByAdmin(
+    @Param('id') id: string,
+    @Body() dto: UpdateOrgByAdminDto,
+    @UploadedFile(
+      new ImageValidationPipe(true),
+      new ImageDimensionsPipe([PROFILE_AVATAR_SIZE], true),
+    )
+    file?: Express.Multer.File,
+  ) {
+    return this.orgService.updateByAdmin(id, dto, file);
+  }
+
   @Get(':slug')
   @UseGuards(OptionalJwtAuthGuard)
   @ApiBearerAuth()
@@ -192,16 +231,9 @@ export class OrgController {
     return this.orgService.findOne(slug, req.user?.userId);
   }
 
-  // @Patch(':id')
-  // @UseGuards(JwtAuthGuard, PermissionsGuard)
-  // @RequirePermissions(Permissions.ORG_EDIT_ANY)
-  // updateByAdmin(@Param('id') id: string, @Body() dto: UpdateOrgDto) {
-  //   return this.orgService.updateByAdmin(id, dto);
-  // }
-
   // @Delete(':id')
   // @UseGuards(JwtAuthGuard, PermissionsGuard)
-  // @RequirePermissions(Permissions.ORG_DELETE_ANY)
+  // @RequirePermissions(permission.ORG_DELETE_ANY)
   // deleteByAdmin(@Param('id') id: string) {
   //   return this.orgService.deleteByAdmin(id);
   // }

@@ -4,6 +4,7 @@ import { Pool } from 'pg';
 import { seedPermissions } from './seeds/permissions.seed';
 import { seedMocks } from './seeds/mock.seed';
 import { seedTestUser } from './seeds/test-user.seed';
+import { seedOrgUser } from './seeds/org-user.seed';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -17,6 +18,7 @@ async function main() {
   }
 
   await seedTestUser(prisma);
+  await seedOrgUser(prisma);
 }
 
 main()

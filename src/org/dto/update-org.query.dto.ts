@@ -7,7 +7,7 @@ import {
   Prisma,
 } from '@pGen/client';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
+import { plainToInstance, Transform, Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -22,9 +22,19 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { IsSoclinks } from '@/utils/decorators/is-soclinks.decorator';
+import { IsOrgRichHtml } from '@/utils/decorators/is-org-rich-html.decorator';
 import { ScheduleIntervalDto } from '@/profile/dto/update-profile.query.dto';
-import { ORG_AVATAR_SIZE } from '../org.contants';
+import { ORG_AVATAR_SIZE, ORG_RICH_TEXT_MAX_VISIBLE } from '../org.contants';
 import { IsOrgScheduleSlots } from '../is-org-schedule-slots.decorator';
+
+const ORG_RICH_HTML_DESCRIPTION =
+  `HTML-текст. Разрешены теги: p, h1–h4, ul, ol, li, hr, strong, em, s, mark ` +
+  `(mark только со style background-color:#ffe42b). ` +
+  `Видимый текст — не более ${ORG_RICH_TEXT_MAX_VISIBLE} символов. ` +
+  `Пустое значение сохраняется как null.`;
+
+const ORG_RICH_HTML_EXAMPLE =
+  '<p>Привет</p><mark style="background-color:#ffe42b">важно</mark>';
 
 function parseFormEnumList(value: unknown): unknown {
   if (typeof value !== 'string') {
@@ -67,9 +77,14 @@ export class UpdateOrgDto {
   @IsNotEmpty()
   email!: string;
 
-  @ApiPropertyOptional({ description: 'Описание организатора', nullable: true })
+  @ApiPropertyOptional({
+    description: `Описание организатора. ${ORG_RICH_HTML_DESCRIPTION}`,
+    example: ORG_RICH_HTML_EXAMPLE,
+    nullable: true,
+  })
   @IsString()
   @IsOptional()
+  @IsOrgRichHtml()
   description!: string | null;
 
   @ApiPropertyOptional({
@@ -81,11 +96,13 @@ export class UpdateOrgDto {
   previewDescr?: string | null;
 
   @ApiPropertyOptional({
-    description: 'Описание стиля игры',
+    description: `Описание стиля игры. ${ORG_RICH_HTML_DESCRIPTION}`,
+    example: ORG_RICH_HTML_EXAMPLE,
     nullable: true,
   })
   @IsString()
   @IsOptional()
+  @IsOrgRichHtml()
   gameStyleDescr?: string | null;
 
   @ApiPropertyOptional({
@@ -236,11 +253,18 @@ export class UpdateOrgDto {
   @Transform(({ value }): unknown => {
     if (typeof value === 'string') {
       try {
-        return JSON.parse(value) as unknown;
+        value = JSON.parse(value) as unknown;
       } catch {
         return value;
       }
     }
+
+    // После JSON.parse нужны инстансы DTO: иначе @Type не применяется
+    // и ValidateNested падает с unknownValue на plain-объектах.
+    if (Array.isArray(value)) {
+      return plainToInstance(ScheduleIntervalDto, value);
+    }
+
     return value;
   })
   @ValidateIf((_, value) => value !== undefined)

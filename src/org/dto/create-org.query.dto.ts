@@ -12,7 +12,8 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsSoclinks } from '@/utils/decorators/is-soclinks.decorator';
-import { ORG_AVATAR_SIZE } from '../org.contants';
+import { IsOrgRichHtml } from '@/utils/decorators/is-org-rich-html.decorator';
+import { ORG_AVATAR_SIZE, ORG_RICH_TEXT_MAX_VISIBLE } from '../org.contants';
 
 type CreateOrgFields = Pick<
   Org,
@@ -38,9 +39,18 @@ export class CreateOrgDtoReq implements CreateOrgFields {
   @IsNotEmpty()
   email!: string;
 
-  @ApiPropertyOptional({ description: 'Описание организатора', nullable: true })
+  @ApiPropertyOptional({
+    description:
+      `Описание организатора. HTML-текст. Разрешены теги: p, h1–h4, ul, ol, li, hr, strong, em, s, mark ` +
+      `(mark только со style background-color:#ffe42b). ` +
+      `Видимый текст — не более ${ORG_RICH_TEXT_MAX_VISIBLE} символов. ` +
+      `Пустое значение сохраняется как null.`,
+    example: '<p>Привет</p><mark style="background-color:#ffe42b">важно</mark>',
+    nullable: true,
+  })
   @IsString()
   @IsOptional()
+  @IsOrgRichHtml()
   description!: string | null;
 
   @ApiPropertyOptional({

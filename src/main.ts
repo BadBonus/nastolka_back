@@ -38,13 +38,29 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
       stopAtFirstError: false,
       exceptionFactory: (errors) => {
-        const messages = errors.map((error) => {
-          return Object.values(error.constraints || {}).join(', ');
-        });
+        const flatten = (
+          validationErrors: typeof errors,
+          parent?: string,
+        ): string[] =>
+          validationErrors.flatMap((error) => {
+            const path = parent
+              ? `${parent}.${error.property}`
+              : error.property;
+            const own = Object.values(error.constraints || {}).map(
+              (message) => `${path}: ${message}`,
+            );
+            const nested = error.children?.length
+              ? flatten(error.children, path)
+              : [];
+
+            return [...own, ...nested];
+          });
+
+        const messages = flatten(errors);
 
         return new BadRequestException({
           statusCode: 400,
-          message: messages.join('; '),
+          message: messages.join('; ') || 'Ошибка валидации',
           error: 'Bad Request',
         });
       },

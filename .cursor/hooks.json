@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/mark-dto-change.mjs"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node .cursor/hooks/openapi-on-stop.mjs",
+        "loop_limit": 1
+      }
+    ]
+  }
+}

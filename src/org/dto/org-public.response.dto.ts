@@ -44,7 +44,12 @@ export class OrgPublicResponseDto {
   @Expose()
   nickname!: string;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiPropertyOptional({
+    description:
+      'HTML-описание организатора (санитизированный allowlist: p, h1–h4, ul, ol, li, hr, strong, em, s, mark)',
+    example: '<p>Привет</p><mark style="background-color:#ffe42b">важно</mark>',
+    nullable: true,
+  })
   @Expose()
   description!: string | null;
 
@@ -52,7 +57,12 @@ export class OrgPublicResponseDto {
   @Expose()
   previewDescr!: string | null;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiPropertyOptional({
+    description:
+      'HTML-описание стиля игры (санитизированный allowlist: p, h1–h4, ul, ol, li, hr, strong, em, s, mark)',
+    example: '<p>Привет</p><mark style="background-color:#ffe42b">важно</mark>',
+    nullable: true,
+  })
   @Expose()
   gameStyleDescr!: string | null;
 

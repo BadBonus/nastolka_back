@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
+import { plainToInstance, Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsDateString,
@@ -103,14 +103,22 @@ export class UpdateProfileDto {
   @Transform(({ value }) => {
     if (typeof value === 'string') {
       try {
-        return JSON.parse(value);
+        value = JSON.parse(value);
       } catch {
         return value;
       }
     }
+
     if (Array.isArray(value) && value.length === 0) {
       return undefined;
     }
+
+    // После JSON.parse нужны инстансы DTO: иначе @Type не применяется
+    // и ValidateNested падает с unknownValue на plain-объектах.
+    if (Array.isArray(value)) {
+      return plainToInstance(ScheduleIntervalDto, value);
+    }
+
     return value;
   })
   @IsOptional()
